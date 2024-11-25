@@ -1,15 +1,15 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
-    <!-- Scripts 
+    <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
     <div class="min-h-screen bg-yellow-100">
-        <!-- header 
+        <!-- header -->
         <header class="text-gray-600 body-font">
             <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
                 <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
@@ -31,9 +31,9 @@
                 </button>
             </div>
         </header>
-        <!-- end header 
+        <!-- end header -->
 
-        <!-- body content 
+        <!-- body content -->
         <section class="text-gray-600 body-font">
             <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
                 <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
@@ -59,7 +59,7 @@
             </div>
         </section>
 
-        <!-- ecommerce display 
+        <!-- ecommerce display -->
         <section class="text-gray-600 body-font">
             <div class="container px-5 py-24 mx-auto">
                 <div class="flex flex-col text-center w-full mb-20">
@@ -152,11 +152,11 @@
                         </div>
                     </div>
 
-                    <!-- Our Features 
+                    <!-- Our Features -->
                     <div class="container mx-auto flex px-5 md:flex-row flex-col items-center">
-                        <!-- Konten (Kiri) 
+                        <!-- Konten (Kiri) -->
                         <div class="lg:w-1/2 w-full flex flex-col space-y-10">
-                            <!-- Fitur 1 
+                            <!-- Fitur 1 -->
                             <div class="flex items-center border-b pb-6 mb-6 border-gray-200">
                                 <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-yellow-100 text-yellow-500 flex-shrink-0">
                                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
@@ -174,7 +174,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <!-- Fitur 2 
+                            <!-- Fitur 2 -->
                             <div class="flex items-center border-b pb-6 mb-6 border-gray-200">
                                 <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-yellow-100 text-yellow-500 flex-shrink-0">
                                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
@@ -208,7 +208,7 @@
                         </div>
                         <!-- Konten (Kanan) -->
                         <div class="lg:w-1/2 w-full flex flex-col space-y-10 ml-20 mt-16">
-                            <!-- Fitur 3 
+                            <!-- Fitur 3 -->
                             <div class="flex items-center border-b pb-6 mb-6 border-gray-200">
                                 <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-yellow-100 text-yellow-500 flex-shrink-0">
                                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
@@ -226,7 +226,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <!-- Fitur 4 
+                            <!-- Fitur 4 -->
                             <div class="flex items-center border-b pb-6 mb-6 border-gray-200">
                                 <div class="w-20 h-20 inline-flex items-center justify-center rounded-full bg-yellow-100 text-yellow-500 flex-shrink-0">
                                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-10 h-10" viewBox="0 0 24 24">
@@ -250,7 +250,7 @@
                     </div>
                 </section>
 
-               <!-- contact us 
+               <!-- contact us -->
                 <section class="text-gray-600 body-font">
                     <div class="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
                         <div class="text-center lg:w-2/3 w-full">
@@ -260,7 +260,7 @@
                         <img class="lg:w-2/6 md:w-3/6 w-5/6 object-cover object-center rounded" alt="hero" src="https://dummyimage.com/720x600">
                     </div>
                     <div class="flex flex-wrap justify-center -m-4">
-                        <!-- Contact Email 
+                        <!-- Contact Email -->
                         <div class="p-4 md:w-1/3">
                             <div class="flex flex-col items-center rounded-lg bg-gray-100 p-8">
                                 <div class="w-16 h-16 mb-4 inline-flex items-center justify-center rounded-full bg-yellow-500 text-white">
@@ -272,7 +272,7 @@
                                 <p class="leading-relaxed text-base text-yellow-500">team@zentech.com</p>
                             </div>
                         </div>
-                        <!-- Telegram 
+                        <!-- Telegram -->
                         <div class="p-4 md:w-1/3">
                             <div class="flex flex-col items-center rounded-lg bg-gray-100 p-8">
                                 <div class="w-16 h-16 mb-4 inline-flex items-center justify-center rounded-full bg-yellow-500 text-white">
@@ -282,7 +282,7 @@
                                 <p class="leading-relaxed text-base text-yellow-500">@zentech_com</p>
                             </div>
                         </div>
-                        <!-- Telegram Group 
+                        <!-- Telegram Group -->
                         <div class="p-4 md:w-1/3">
                             <div class="flex flex-col items-center rounded-lg bg-gray-100 p-8">
                                 <div class="w-16 h-16 mb-4 inline-flex items-center justify-center rounded-full bg-yellow-500 text-white">
@@ -297,9 +297,9 @@
 
             </div>
         </section>
-        <!-- end body content 
+        <!-- end body content -->
 
-        <!-- footer 
+        <!-- footer -->
         <footer class="text-gray-600 body-font">
             <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
                 <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
@@ -338,7 +338,7 @@
                 </span>
             </div>
         </footer>
-        <!-- end footer 
+        <!-- end footer -->
     </div>
 </body>
-</html> -->
+</html>
