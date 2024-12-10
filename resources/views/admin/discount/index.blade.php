@@ -4,11 +4,6 @@
     <div class="container-fluid">
         <div class="container">
             <div class="card w-100">
-                @if (session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
                 <div class="py-12">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <h5 class="card-title fw-semibold mb-4">Promo Diskon</h5>
@@ -67,12 +62,11 @@
                                                         Edit
                                                     </button>
 
-                                                    <form action="{{ route('admin.discount.destroy', $code->id) }}"
-                                                        method="POST" class="d-inline-block">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#hapusmodal{{ $code->id }}">
+                                                        Hapus
+                                                    </button>
                                                 </td>
                                             </tr>
 
@@ -130,6 +124,36 @@
                                                                     <button type="submit" class="btn btn-primary">Simpan
                                                                         Perubahan</button>
                                                                 </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal Hapus -->
+                                            <div class="modal fade" id="hapusmodal{{ $code->id }}" tabindex="-1"
+                                                aria-labelledby="hapusModalLabel{{ $code->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title"
+                                                                id="hapusModalLabel{{ $code->id }}">Hapus Diskon</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Apakah Anda yakin ingin menghapus diskon
+                                                                <strong>{{ $code->code }}</strong>?
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Kembali</button>
+                                                            <form action="{{ route('admin.discount.destroy', $code->id) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-danger">Hapus</button>
                                                             </form>
                                                         </div>
                                                     </div>
