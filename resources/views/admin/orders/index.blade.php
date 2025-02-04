@@ -151,8 +151,7 @@
 
                                                 <!-- Sortir berdasarkan tanggal -->
                                                 <div>
-                                                    <label for="created_at_sort"
-                                                        class="block font-medium">Urutkan</label>
+                                                    <label for="created_at_sort" class="block font-medium">Urutkan</label>
                                                     <select name="created_at_sort" class="form-select">
                                                         <option value="">Pilih</option>
                                                         <option value="asc"
