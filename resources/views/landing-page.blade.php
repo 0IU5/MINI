@@ -685,7 +685,7 @@
                                 </div>
                                 <div>
                                     <span
-                                        class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct1->product_orders_count ?? 0 }}
+                                        class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct1->sold_count ?? 0 }}
                                         terjual</span>
                                 </div>
 
@@ -786,7 +786,7 @@
                     </div>
                     <div>
                         <span
-                            class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct2->product_orders_count ?? 0 }}
+                            class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct2->sold_count ?? 0 }}
                             terjual</span>
                     </div>
 
@@ -882,7 +882,7 @@
                     </div>
                     <div>
                         <span
-                            class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct3->product_orders_count ?? 0 }}
+                            class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct3->sold_count ?? 0 }}
                             terjual</span>
                     </div>
 
