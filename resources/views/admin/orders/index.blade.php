@@ -91,6 +91,12 @@
                                                 aria-label="Close">&times;</button>
                                         </div>
                                         <div class="modal-body">
+                                            @if (session('error'))
+                                                <div class="alert alert-danger">
+                                                    {{ session('error') }}
+                                                </div>
+                                            @endif
+
                                             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
 
                                                 <!-- Filter Harga -->
@@ -186,6 +192,15 @@
                                     </div>
                                 </div>
                             </div>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function () {
+                                    @if (session('error'))
+                                        var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+                                        filterModal.show();
+                                    @endif
+                                });
+                            </script>
+
                         </form>
 
                     </div>

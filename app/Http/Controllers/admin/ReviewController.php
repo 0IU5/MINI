@@ -24,6 +24,13 @@ class ReviewController extends Controller
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
+        // Validasi jika tanggal akhir kurang dari tanggal awal
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            if ($request->start_date > $request->end_date) {
+                return redirect()->back()->withInput()->with('error', 'Tanggal akhir tidak boleh kurang dari tanggal awal.');
+            }
+        }
+
         // Mengambil semua ulasan dengan filter pencarian, produk, rating, dan tanggal
         $reviews = Review::with(['product', 'user'])
             ->when($search, function ($query, $search) {

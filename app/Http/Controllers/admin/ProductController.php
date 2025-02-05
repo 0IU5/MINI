@@ -16,73 +16,74 @@ class ProductController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-{
-    // Mendapatkan semua kategori dan merek untuk dropdown
-    $categories = Category::all();
-    $brands = Brand::all();
+    {
+        // Validasi jika tanggal akhir kurang dari tanggal awal
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            if ($request->start_date > $request->end_date) {
+                return redirect()->back()->withInput()->with('error', 'Tanggal akhir tidak boleh kurang dari tanggal awal.');
+            }
+        }
 
-    // Mulai query produk dengan relasi
-    $products = Product::with('category', 'brand')
-        ->when($request->input('search'), function ($query, $search) {
-            // Filter berdasarkan nama produk, kategori, dan merek
-            $query->where('name_product', 'like', '%' . $search . '%')
-                ->orWhereHas('category', function ($q) use ($search) {
-                    $q->where('name_category', 'like', '%' . $search . '%');
-                })
-                ->orWhereHas('brand', function ($q) use ($search) {
-                    $q->where('name_brand', 'like', '%' . $search . '%');
+        // Mendapatkan semua kategori dan merek untuk dropdown
+        $categories = Category::all();
+        $brands = Brand::all();
+
+        // Mulai query produk dengan relasi
+        $products = Product::with('category', 'brand')
+            ->when($request->input('search'), function ($query, $search) {
+                $query->where('name_product', 'like', '%' . $search . '%')
+                    ->orWhereHas('category', function ($q) use ($search) {
+                        $q->where('name_category', 'like', '%' . $search . '%');
+                    })
+                    ->orWhereHas('brand', function ($q) use ($search) {
+                        $q->where('name_brand', 'like', '%' . $search . '%');
+                    });
+            })
+            ->when($request->input('category_id'), function ($query, $category_id) {
+                $query->where('category_id', $category_id);
+            })
+            ->when(isset($request->stock_product), function ($query) use ($request) {
+                if ($request->stock_product == '1') {
+                    $query->where('stock_product', '>', 0);
+                } elseif ($request->stock_product == '0') {
+                    $query->where('stock_product', '=', 0);
+                }
+            })
+            ->when($request->input('price_product'), function ($query, $price_product) {
+                if ($price_product == 'asc') {
+                    $query->orderBy('price_product', 'asc');
+                } elseif ($price_product == 'desc') {
+                    $query->orderBy('price_product', 'desc');
+                }
+            })
+            ->when($request->input('brand_id'), function ($query, $brand_id) {
+                $query->where('brand_id', $brand_id);
+            })
+            ->when($request->input('created_at'), function ($query, $created_at) {
+                if ($created_at == 'asc') {
+                    $query->orderBy('created_at', 'asc');
+                } elseif ($created_at == 'desc') {
+                    $query->orderBy('created_at', 'desc');
+                }
+            })
+            ->when($request->input('rating'), function ($query, $rating) {
+                $query->whereHas('reviews', function ($q) use ($rating) {
+                    $q->selectRaw('AVG(rating) as avg_rating')
+                        ->groupBy('product_id')
+                        ->havingRaw('AVG(rating) >= ? AND AVG(rating) < ?', [$rating, $rating + 1]);
                 });
-        })
-        ->when($request->input('category_id'), function ($query, $category_id) {
-            // Filter berdasarkan kategori
-            $query->where('category_id', $category_id);
-        })
-        ->when(isset($request->stock_product), function ($query) use ($request) {
-            if ($request->stock_product == '1') {
-                $query->where('stock_product', '>', 0); // Produk dengan stok ada
-            } elseif ($request->stock_product == '0') {
-                $query->where('stock_product', '=', 0); // Produk dengan stok habis
-            }
-        })
-        ->when($request->input('price_product'), function ($query, $price_product) {
-            // Filter berdasarkan harga (terendah ke tertinggi atau sebaliknya)
-            if ($price_product == 'asc') {
-                $query->orderBy('price_product', 'asc');  // Urutkan harga dari yang terendah ke tertinggi
-            } elseif ($price_product == 'desc') {
-                $query->orderBy('price_product', 'desc');  // Urutkan harga dari yang tertinggi ke terendah
-            }
-        })
-        ->when($request->input('brand_id'), function ($query, $brand_id) {
-            // Filter berdasarkan merek
-            $query->where('brand_id', $brand_id);
-        })
-        ->when($request->input('created_at'), function ($query, $created_at) {
-            // Filter berdasarkan tanggal (lama atau terbaru)
-            if ($created_at == 'asc') {
-                $query->orderBy('created_at', 'asc');  // Urutkan berdasarkan tanggal pembuatan yang lebih lama
-            } elseif ($created_at == 'desc') {
-                $query->orderBy('created_at', 'desc');  // Urutkan berdasarkan tanggal pembuatan yang lebih baru
-            }
-        })
-        ->when($request->input('rating'), function ($query, $rating) {
-            $query->whereHas('reviews', function ($q) use ($rating) {
-                $q->selectRaw('AVG(rating) as avg_rating') // Hitung rata-rata rating
-                    ->groupBy('product_id')                // Kelompokkan per produk
-                    ->havingRaw('AVG(rating) >= ? AND AVG(rating) < ?', [$rating, $rating + 1]);
-            });
-        })
-        // Filter berdasarkan tanggal mulai dan tanggal akhir
-        ->when($request->input('start_date'), function ($query, $start_date) {
-            $query->whereDate('created_at', '>=', $start_date);
-        })
-        ->when($request->input('end_date'), function ($query, $end_date) {
-            $query->whereDate('created_at', '<=', $end_date);
-        })
-        ->paginate(5);  // Menampilkan 5 produk per halaman
+            })
+            // Filter berdasarkan tanggal
+            ->when($request->input('start_date'), function ($query, $start_date) {
+                $query->whereDate('created_at', '>=', $start_date);
+            })
+            ->when($request->input('end_date'), function ($query, $end_date) {
+                $query->whereDate('created_at', '<=', $end_date);
+            })
+            ->paginate(5);
 
-    // Mengirim data ke view
-    return view('admin.products.index', compact('products', 'categories', 'brands'));
-}
+        return view('admin.products.index', compact('products', 'categories', 'brands'));
+    }
 
 
 
