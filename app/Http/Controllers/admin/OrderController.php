@@ -25,6 +25,11 @@ class OrderController extends Controller
         $sortDirection = $request->input('sort_direction', 'desc'); // Arah sorting (asc/desc)
         $createdAtSort = $request->input('created_at_sort'); // Filter sortir berdasarkan tanggal
 
+        // Validasi tanggal: Tanggal akhir tidak boleh kurang dari tanggal awal
+        if ($startDate && $endDate && $endDate < $startDate) {
+            return redirect()->back()->with('error', 'Tanggal akhir tidak boleh lebih kecil dari tanggal awal.');
+        }
+
         // Ambil notifikasi yang belum dibaca
         $unreadNotifications = OrderNotification::with(['order.user', 'order.productOrders.product'])
             ->where('is_read', false)
@@ -119,6 +124,7 @@ class OrderController extends Controller
         // Mengembalikan tampilan
         return view('admin.orders.index', compact('orders', 'products', 'paymentStatuses', 'unreadNotifications', 'sortBy', 'sortDirection'));
     }
+
 
     /**
      * Show the form for creating a new resource.
