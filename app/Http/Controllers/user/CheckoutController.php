@@ -228,7 +228,7 @@ class CheckoutController extends Controller
 
         Payment::create([
             'order_id' => $order->id,
-            'status' => 'pending',
+            'status' => 'success',
         ]);
 
         return response()->json(['status' => 'success', 'snap_token' => $snapToken]);
@@ -236,5 +236,5 @@ class CheckoutController extends Controller
         // Redirect ke halaman pesanan dengan pesan sukses
         return redirect()->route('user.orders.index')->with('success', 'Checkout berhasil! Pesanan Anda telah dibuat.');
     }
-    
+
 }

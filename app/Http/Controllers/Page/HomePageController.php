@@ -51,7 +51,7 @@ class HomePageController extends Controller
         $mostOrderedProducts = Product::withCount(['productOrders', 'reviews']) // Tambahkan reviews count
             ->withAvg('reviews as average_rating', 'rating')
             ->withSum('productOrders as sold_count', 'quantity') // Tambahkan jumlah produk terjual
-            ->orderByDesc('product_orders_count')
+            ->orderByDesc('sold_count')
             ->take(3)
             ->get();
 
