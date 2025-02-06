@@ -43,6 +43,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
         'update'  => 'admin.users.update',
         'destroy' => 'admin.users.destroy',
     ]);
+    Route::put('/admin/users/{id}/password', [AdminUserController::class, 'changePassword'])->name('admin.users.changePassword');
+
 
     Route::resource('products', AdminProductController::class)->names([
         'index'   => 'admin.products.index',

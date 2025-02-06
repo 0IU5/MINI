@@ -14,15 +14,15 @@
 
             <div class="flex">
                 <span
-                    class="px-3 py-1 rounded-full text-sm font-semibold 
-                @if ($order->status_order === 'completed') bg-green-200 text-green-600 
-                @elseif ($order->status_order === 'processing') 
-                    bg-yellow-200 text-yellow-600 
-                @elseif ($order->status_order === 'pending') 
-                    bg-blue-200 text-blue-600 
-                @elseif ($order->status_order === 'shipping') 
+                    class="px-3 py-1 rounded-full text-sm font-semibold
+                @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                @elseif ($order->status_order === 'processing')
+                    bg-yellow-200 text-yellow-600
+                @elseif ($order->status_order === 'pending')
+                    bg-blue-200 text-blue-600
+                @elseif ($order->status_order === 'shipping')
                     bg-orange-200 text-orange-600
-                @else 
+                @else
                     bg-gray-200 text-gray-600 @endif">
                     {{ ucfirst($order->status_order_label) }}
                 </span>
@@ -36,7 +36,7 @@
                 <!-- Progress Line for Desktop -->
                 <div class="hidden md:block absolute left-0 right-0 top-1/2 h-0.5 bg-gray-200 -translate-y-1/2 ">
                     <div
-                        class="h-[3px] 
+                        class="h-[3px]
                         @if ($order->status_order == 'pending') w-[45%] bg-blue-500
                         @elseif($order->status_order == 'processing')
                             w-[65%] bg-blue-500
@@ -52,7 +52,7 @@
                 <div class="flex flex-col items-center relative mb-8 md:mb-0">
                     <div class="md:hidden absolute h-full w-0.5 bg-green-500 top-10 left-1/2 -translate-x-1/2"></div>
                     <div
-                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px] 
+                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px]
                         @if (
                             $order->status_order == 'pending' ||
                                 $order->status_order == 'processing' ||
@@ -76,7 +76,7 @@
                 <div class="flex flex-col items-center relative mb-8 md:mb-0">
                     <div class="md:hidden absolute h-full w-0.5 bg-green-500 top-10 left-1/2 -translate-x-1/2"></div>
                     <div
-                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px] 
+                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px]
                         @if (
                             $order->status_order == 'pending' ||
                                 $order->status_order == 'processing' ||
@@ -101,7 +101,7 @@
                 <div class="flex flex-col items-center relative mb-8 md:mb-0">
                     <div class="md:hidden absolute h-full w-0.5 bg-green-500 top-10 left-1/2 -translate-x-1/2"></div>
                     <div
-                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px] 
+                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px]
                         @if ($order->status_order == 'processing' || $order->status_order == 'shipping' || $order->status_order == 'completed') border-blue-500 text-blue-500
                         @else
                             border-gray-300 text-gray-300 @endif
@@ -122,7 +122,7 @@
                 <div class="flex flex-col items-center relative mb-8 md:mb-0">
                     <div class="md:hidden absolute h-full w-0.5 bg-green-500 top-10 left-1/2 -translate-x-1/2"></div>
                     <div
-                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px] 
+                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px]
                         @if ($order->status_order == 'shipping' || $order->status_order == 'completed') border-blue-500 text-blue-500
                         @else
                             border-gray-300 text-gray-300 @endif
@@ -143,7 +143,7 @@
                 <div class="flex flex-col items-center relative mb-8 md:mb-0">
                     <div class="md:hidden absolute h-full w-0.5 bg-green-500 top-10 left-1/2 -translate-x-1/2"></div>
                     <div
-                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px] 
+                        class="w-12 h-12 rounded-full flex items-center justify-center z-10 border-[3px]
                         @if ($order->status_order == 'completed') border-blue-500 text-blue-500
                         @else
                             border-gray-300 text-gray-300 @endif
@@ -329,10 +329,10 @@
                                     {{ ucwords(str_replace('_', ' ', $order->payment->payment_method)) }},
                                     <span
                                         class="py-1 rounded-full text-sm font-semibold
-                                    @if ($order->payment->status === 'success') text-green-600 
-                                    @elseif ($order->payment->status === 'pending') text-blue-600 
-                                    @elseif ($order->payment->status === 'failed') text-red-600 
-                                    @elseif ($order->payment->status === 'expired') text-gray-600 
+                                    @if ($order->payment->status === 'success') text-green-600
+                                    @elseif ($order->payment->status === 'pending') text-blue-600
+                                    @elseif ($order->payment->status === 'failed') text-red-600
+                                    @elseif ($order->payment->status === 'expired') text-gray-600
                                     @else text-gray-600 @endif">
                                         {{ ucfirst($order->payment->status) }}
                                     </span>
@@ -481,39 +481,44 @@
         </div>
     </div>
     <div id="createReviewModal"
-        class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden z-50 flex justify-center items-center">
-        <div class="bg-white rounded-lg shadow-lg w-96 p-6">
+        class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 {{ $errors->any() ? 'flex' : 'hidden' }} z-50">
+        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6">
             <div class="modal-header flex justify-between items-center mb-4">
                 <h5 class="text-lg font-semibold">Buat Ulasan</h5>
-                <button type="button" class="text-gray-500" onclick="closeModal()">&times;</button>
+                <button type="button" class="text-gray-500 text-xl" onclick="closeModal()">&times;</button>
             </div>
             <form id="createReviewForm" method="POST" action="{{ route('user.orders.addRiview') }}">
                 @csrf
-                <input type="hidden" name="order_id" id="order_id">
-                <input type="hidden" name="product_id" id="product_id">
+                <input type="hidden" name="order_id" id="order_id" value="{{ old('order_id') }}">
+                <input type="hidden" name="product_id" id="product_id" value="{{ old('product_id') }}">
 
                 <!-- Rating -->
                 <div class="mb-5 flex gap-1" id="star-rating">
                     @for ($i = 1; $i <= 5; $i++)
-                        <label for="star_{{ $i }}">
-                            <input type="radio" name="rating" id="star_{{ $i }}"
-                                value="{{ $i }}" class="hidden" required />
+                        <label for="star_{{ $i }}" class="cursor-pointer">
+                            <input type="radio" name="rating" id="star_{{ $i }}" value="{{ $i }}"
+                                class="hidden" required {{ old('rating') == $i ? 'checked' : '' }} />
                             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                class="w-5 h-5 star-icon text-gray-300" data-star="{{ $i }}"
-                                viewBox="0 0 24 24" stroke="none">
-                                <path
-                                    d="M12 17.75l-6.16 3.24a1 1 0 0 1-1.45-1.05l1.17-7.23L1.31 8.7a1 1 0 0 1 .56-1.72l7.29-.61L12 .25l3.03 6.12 7.29.61a1 1 0 0 1 .56 1.72l-4.74 4.24 1.17 7.23a1 1 0 0 1-1.45 1.05L12 17.75z">
-                                </path>
+                                class="w-5 h-5 star-icon transition-all duration-200 cursor-pointer
+                                {{ old('rating') >= $i ? 'text-yellow-500' : 'text-gray-300' }}"
+                                data-star="{{ $i }}" viewBox="0 0 24 24" stroke="none">
+                                <path d="M12 17.75l-6.16 3.24a1 1 0 0 1-1.45-1.05l1.17-7.23L1.31 8.7a1 1 0 0 1 .56-1.72l7.29-.61L12 .25l3.03 6.12 7.29.61a1 1 0 0 1 .56 1.72l-4.74 4.24 1.17 7.23a1 1 0 0 1-1.45 1.05L12 17.75z"></path>
                             </svg>
                         </label>
                     @endfor
+                    @error('rating')
+                        <p class="text-red-500 text-xs">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Komentar -->
                 <div class="mb-4">
                     <label for="comment" class="block text-sm font-medium text-gray-700">Komentar</label>
                     <textarea name="comment" id="comment" rows="3"
-                        class="form-control mt-1 block w-full border border-gray-300 rounded-md p-2"></textarea>
+                        class="form-control mt-1 block w-full border border-gray-300 rounded-md p-2">{{ old('comment') }}</textarea>
+                    @error('comment')
+                        <p class="text-red-500 text-xs">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div class="modal-footer flex justify-end gap-2">
@@ -524,6 +529,16 @@
             </form>
         </div>
     </div>
+
+    <script>
+        // Pastikan modal tetap terbuka jika ada error
+        window.onload = function() {
+            @if ($errors->any())
+                document.getElementById('createReviewModal').classList.remove('hidden');
+            @endif
+        };
+    </script>
+
 
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ $clientKey }}"></script>
 
@@ -666,6 +681,31 @@
             });
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Menampilkan SweetAlert jika ada session 'success'
+        window.onload = function() {
+            @if (session('success'))
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    iconColor: '#3b82f6',
+                    title: '{{ session('success') }}',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                    background: '#eff6ff',
+                });
+            @endif
+
+            // Pastikan modal tetap terbuka jika ada error
+            @if ($errors->any())
+                document.getElementById('createReviewModal').classList.remove('hidden');
+            @endif
+        };
+    </script>
+
 @endsection
 
 

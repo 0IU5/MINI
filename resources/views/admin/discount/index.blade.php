@@ -51,7 +51,7 @@
                             <div class="flex justify-between items-center mb-4">
                                 <div class="d-flex align-items-center">
                                     <!-- Pencarian -->
-                                    <input type="text" name="search" class="form-control me-2 border-lg border-[#5d85fa]" placeholder="Cari produk"
+                                    <input type="text" name="search" class="form-control me-2 border-lg border-[#5d85fa]" placeholder="Cari"
                                         value="{{ request('search') }}" style="width: 200px;">
                                     <button type="submit" class="btn btn-primary">Cari</button>
                                 </div>
@@ -322,54 +322,65 @@
                             @csrf
                             @method('PUT')
                             <input type="hidden" name="code_id" value="{{ $code->id }}">
+
+                            <!-- Kode Voucher -->
                             <div class="mb-3">
-                                <label for="code{{ $code->id }}" class="form-label">Kode
-                                    Vocher</label>
-                                <input type="text" name="code" class="form-control" value="{{ $code->code }}"
-                                    id="code{{ $code->id }}">
+                                <label for="code{{ $code->id }}" class="form-label">Kode Voucher</label>
+                                <input type="text" name="code" class="form-control" value="{{ $code->code }}" id="code{{ $code->id }}">
                                 @if (old('code_id') == $code->id)
                                     @error('code')
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 @endif
                             </div>
+
+                            <!-- Jumlah Diskon -->
                             <div class="mb-3">
                                 <label for="discount_amount{{ $code->id }}" class="form-label">Jumlah Diskon</label>
-                                <input type="number" name="discount_amount" class="form-control"
-                                    value="{{ $code->discount_amount }}" id="discount_amount{{ $code->id }}">
+                                <div class="input-group">
+                                    <span class="input-group-text">Rp</span>
+                                    <input type="number" name="discount_amount" class="form-control"
+                                        value="{{ $code->discount_amount }}" id="discount_amount{{ $code->id }}">
+                                </div>
                                 @if (old('code_id') == $code->id)
                                     @error('discount_amount')
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 @endif
                             </div>
+
+                            <!-- Kuantitas -->
                             <div class="mb-3">
                                 <label for="quantity{{ $code->id }}" class="form-label">Kuantitas</label>
-                                <input type="number" name="quantity" class="form-control"
-                                    value="{{ $code->quantity }}" id="quantity{{ $code->id }}">
+                                <input type="number" name="quantity" class="form-control" value="{{ $code->quantity }}" id="quantity{{ $code->id }}">
                                 @if (old('code_id') == $code->id)
                                     @error('quantity')
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 @endif
                             </div>
+
+                            <!-- Minimal Pembelian -->
                             <div class="mb-3">
-                                <label for="minimum_purchase{{ $code->id }}" class="form-label">Minimal
-                                    Pembelian</label>
-                                <input type="number" name="minimum_purchase" class="form-control"
-                                    value="{{ $code->minimum_purchase }}" id="minimum_purchase{{ $code->id }}">
+                                <label for="minimum_purchase{{ $code->id }}" class="form-label">Minimal Pembelian</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">Rp</span>
+                                    <input type="number" name="minimum_purchase" class="form-control"
+                                        value="{{ $code->minimum_purchase }}" id="minimum_purchase{{ $code->id }}">
+                                </div>
                                 @if (old('code_id') == $code->id)
                                     @error('minimum_purchase')
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 @endif
                             </div>
+
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kembali</button>
-                                <button type="submit" class="btn btn-primary">Simpan
-                                    Perubahan</button>
+                                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -404,8 +415,11 @@
                         <!-- Jumlah Diskon -->
                         <div class="mb-3">
                             <label for="discount_amount" class="form-label">Jumlah Diskon</label>
-                            <input type="number" name="discount_amount" class="form-control" id="discount_amount"
-                                placeholder="Jumlah Diskon" value="{{ !old('code_id') ? old('discount_amount') : '' }}">
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" name="discount_amount" class="form-control" id="discount_amount"
+                                    placeholder="Jumlah Diskon" value="{{ !old('code_id') ? old('discount_amount') : '' }}">
+                            </div>
                             @if (!old('code_id'))
                                 @error('discount_amount')
                                     <div class="text-danger mt-1">{{ $message }}</div>
@@ -428,9 +442,11 @@
                         <!-- Minimal Pembelian -->
                         <div class="mb-3">
                             <label for="minimum_purchase" class="form-label">Minimal Pembelian</label>
-                            <input type="number" name="minimum_purchase" class="form-control" id="minimum_purchase"
-                                placeholder="Minimal Pembelian"
-                                value="{{ !old('code_id') ? old('minimum_purchase') : '' }}">
+                            <div class="input-group">
+                                <span class="input-group-text">Rp</span>
+                                <input type="number" name="minimum_purchase" class="form-control" id="minimum_purchase"
+                                    placeholder="Minimal Pembelian" value="{{ !old('code_id') ? old('minimum_purchase') : '' }}">
+                            </div>
                             @if (!old('code_id'))
                                 @error('minimum_purchase')
                                     <div class="text-danger mt-1">{{ $message }}</div>

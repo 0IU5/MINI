@@ -31,13 +31,7 @@ class ProductController extends Controller
         // Mulai query produk dengan relasi
         $products = Product::with('category', 'brand')
             ->when($request->input('search'), function ($query, $search) {
-                $query->where('name_product', 'like', '%' . $search . '%')
-                    ->orWhereHas('category', function ($q) use ($search) {
-                        $q->where('name_category', 'like', '%' . $search . '%');
-                    })
-                    ->orWhereHas('brand', function ($q) use ($search) {
-                        $q->where('name_brand', 'like', '%' . $search . '%');
-                    });
+                $query->where('name_product', 'like', '%' . $search . '%');
             })
             ->when($request->input('category_id'), function ($query, $category_id) {
                 $query->where('category_id', $category_id);

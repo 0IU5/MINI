@@ -37,18 +37,30 @@ class CarouselController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'desktop_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'tablet_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'mobile_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'desktop_image' => 'required|image|mimes:jpeg,png,jpg|max:2048|dimensions:width=1920,height=600',
+            'tablet_image' => 'required|image|mimes:jpeg,png,jpg|max:2048|dimensions:width=1280,height=500',
+            'mobile_image' => 'required|image|mimes:jpeg,png,jpg|max:2048|dimensions:width=768,height=400',
         ],[
-            'title.required' => 'Judul wajib diisi',
-            'desktop_image.required' => 'Gambar wajib diisi.',
-            'desktop_image.required' => 'Gambar wajib format jpeg, png dan jpg.',
-            'tablet_image.required' => 'Gambar wajib diisi.',
-            'tablet_image.required' => 'Gambar wajib format jpeg, png dan jpg.',
-            'mobile.required' => 'Gambar wajib diisi.',
-            'mobile_image.required' => 'Gambar wajib format jpeg, png dan jpg.',
+            'title.required' => 'Judul wajib diisi.',
+            'desktop_image.required' => 'Gambar desktop wajib diisi.',
+            'desktop_image.image' => 'File harus berupa gambar.',
+            'desktop_image.mimes' => 'Gambar wajib format jpeg, png, atau jpg.',
+            'desktop_image.max' => 'Ukuran gambar maksimal 2MB.',
+            'desktop_image.dimensions' => 'Ukuran gambar desktop harus 1920x600 piksel.',
+
+            'tablet_image.required' => 'Gambar tablet wajib diisi.',
+            'tablet_image.image' => 'File harus berupa gambar.',
+            'tablet_image.mimes' => 'Gambar wajib format jpeg, png, atau jpg.',
+            'tablet_image.max' => 'Ukuran gambar maksimal 2MB.',
+            'tablet_image.dimensions' => 'Ukuran gambar tablet harus 1280x500 piksel.',
+
+            'mobile_image.required' => 'Gambar mobile wajib diisi.',
+            'mobile_image.image' => 'File harus berupa gambar.',
+            'mobile_image.mimes' => 'Gambar wajib format jpeg, png, atau jpg.',
+            'mobile_image.max' => 'Ukuran gambar maksimal 2MB.',
+            'mobile_image.dimensions' => 'Ukuran gambar mobile harus 768x400 piksel.',
         ]);
+
 
         $desktop = $request->file('desktop_image')->store('carousel/desktop', 'public');
         $tablet = $request->file('tablet_image')->store('carousel/tablet', 'public');
