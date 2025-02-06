@@ -481,89 +481,99 @@
         <div class="relative w-full overflow-hidden">
             <!-- Slides -->
             <div id="carouselSlides" class="flex transition-transform duration-700">
-                <!-- First Slide - Voucher Display -->
-                <div class="w-full flex-shrink-0 relative">
-                    <div
-                        class="relative w-full h-full bg-gradient-to-r from-blue-50 to-blue-100 p-6 md:p-8 rounded-lg shadow-md">
-                        <div class="absolute inset-0 flex justify-between items-center px-4 md:px-10">
-                            <span class="text-blue-200 text-2xl md:text-4xl">❄</span>
-                            <span class="text-blue-200 text-2xl md:text-3xl">⛄</span>
-                            <span class="text-blue-200 text-2xl md:text-4xl">🎿</span>
-                            <span class="text-blue-200 text-2xl md:text-4xl">🧊</span>
-                        </div>
-
-                        <div class="relative z-10 max-w-3xl mx-auto text-center">
-                            <h2 class="text-lg md:text-xl font-semibold text-gray-800">Voucher Promo Tersedia</h2>
-                            <div class="space-y-4 mt-4">
-                                @foreach ($promoCodes as $voucher)
-                                    <div
-                                        class="bg-white rounded-lg p-3 md:p-4 shadow-md hover:shadow-lg flex flex-col md:flex-row justify-between items-center">
-                                        <div class="flex items-center space-x-3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500"
-                                                viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd"
-                                                    d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                            <span
-                                                class="font-mono text-sm md:text-lg font-semibold text-gray-700">Kode:
-                                                {{ $voucher->code }}</span>
-                                        </div>
-                                        <button
-                                            class="px-3 py-1 md:px-4 md:py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-xs md:text-sm"
-                                            onclick="copyToClipboard('{{ $voucher->code }}')">Salin</button>
-                                    </div>
-                                @endforeach
+                <!-- Cek jika ada voucher yang belum digunakan -->
+                @if ($promoCodes->isNotEmpty() && $promoCodes->where('used', false)->count() > 0)
+                    <div class="w-full flex-shrink-0 relative">
+                        <div
+                            class="relative w-full h-full bg-gradient-to-r from-blue-50 to-blue-100 p-6 md:p-8 rounded-lg shadow-md">
+                            <div class="absolute inset-0 flex justify-between items-center px-4 md:px-10">
+                                <span class="text-blue-200 text-2xl md:text-4xl">❄</span>
+                                <span class="text-blue-200 text-2xl md:text-3xl">⛄</span>
+                                <span class="text-blue-200 text-2xl md:text-4xl">🎿</span>
+                                <span class="text-blue-200 text-2xl md:text-4xl">🧊</span>
                             </div>
 
-                            <div class="text-center mt-6">
-                                <p class="text-md md:text-lg font-semibold text-gray-700">Jangan lewatkan kesempatan
-                                    emas!</p>
-                                <p class="text-gray-600 text-sm md:text-base">Klaim voucher spesialmu sekarang sebelum
-                                    habis.</p>
+                            <div class="relative z-10 max-w-3xl mx-auto text-center">
+                                <h2 class="text-lg md:text-xl font-semibold text-gray-800">Voucher Promo Tersedia</h2>
+                                <div class="space-y-4 mt-4 lg:mt-6">
+                                    @foreach ($promoCodes as $voucher)
+                                        @if (!$voucher->used)
+                                            <!-- Memastikan voucher belum digunakan -->
+                                            <div
+                                                class="bg-white rounded-lg p-3 md:p-4 shadow-md hover:shadow-lg flex items-center justify-between">
+                                                <div class="flex items-center space-x-3 flex-grow">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="h-5 w-5 text-blue-500" viewBox="0 0 20 20"
+                                                        fill="currentColor">
+                                                        <path fill-rule="evenodd"
+                                                            d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                    <span
+                                                        class="font-mono text-sm md:text-lg font-semibold text-gray-700 w-full">
+                                                        Kode: {{ $voucher->code }}
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    class="px-3 py-1 md:px-4 md:py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors text-xs md:text-sm whitespace-nowrap"
+                                                    onclick="copyToClipboard('{{ $voucher->code }}')">
+                                                    Salin
+                                                </button>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+
+                                <div class="text-center mt-6">
+                                    <p class="text-md md:text-lg font-semibold text-gray-700">Jangan lewatkan
+                                        kesempatan emas!</p>
+                                    <p class="text-gray-600 text-sm md:text-base">Klaim voucher spesialmu sekarang
+                                        sebelum habis.</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- Second Slide - Carousel Images -->
-                @if ($carousel->isNotEmpty())
-                    <div class="w-full flex-shrink-0 relative">
-                        <picture>
-                            <source srcset="{{ asset('storage/' . $carousel[0]->mobile_image) }}"
-                                media="(max-width: 768px)">
-                            <source srcset="{{ asset('storage/' . $carousel[0]->tablet_image) }}"
-                                media="(max-width: 1024px)">
-                            <img src="{{ asset('storage/' . $carousel[0]->desktop_image) }}"
-                                class="w-full h-auto object-cover" alt="Promo 1">
-                        </picture>
-                    </div>
-                @endif
-
-                <!-- Third Slide - Carousel Images -->
-                @if (isset($carousel[1]))
-                    <div class="w-full flex-shrink-0 relative">
-                        <picture>
-                            <source srcset="{{ asset('storage/' . $carousel[1]->mobile_image) }}"
-                                media="(max-width: 768px)">
-                            <source srcset="{{ asset('storage/' . $carousel[1]->tablet_image) }}"
-                                media="(max-width: 1024px)">
-                            <img src="{{ asset('storage/' . $carousel[1]->desktop_image) }}"
-                                class="w-full h-auto object-cover" alt="Promo 2">
-                        </picture>
                     </div>
                 @endif
             </div>
 
-            <!-- Controls -->
-            <button id="prevSlide"
-                class="absolute top-1/2 left-3 md:left-5 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600">
-                &#10094;
-            </button>
-            <button id="nextSlide"
-                class="absolute top-1/2 right-3 md:right-5 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600">
-                &#10095;
-            </button>
+            <!-- Second Slide - Carousel Images -->
+            @if ($carousel->isNotEmpty())
+                <div class="w-full flex-shrink-0 relative">
+                    <picture>
+                        <source srcset="{{ asset('storage/' . $carousel[0]->mobile_image) }}"
+                            media="(max-width: 768px)">
+                        <source srcset="{{ asset('storage/' . $carousel[0]->tablet_image) }}"
+                            media="(max-width: 1024px)">
+                        <img src="{{ asset('storage/' . $carousel[0]->desktop_image) }}"
+                            class="w-full h-auto object-cover" alt="Promo 1">
+                    </picture>
+                </div>
+            @endif
+
+            <!-- Third Slide - Carousel Images -->
+            @if (isset($carousel[1]))
+                <div class="w-full flex-shrink-0 relative">
+                    <picture>
+                        <source srcset="{{ asset('storage/' . $carousel[1]->mobile_image) }}"
+                            media="(max-width: 768px)">
+                        <source srcset="{{ asset('storage/' . $carousel[1]->tablet_image) }}"
+                            media="(max-width: 1024px)">
+                        <img src="{{ asset('storage/' . $carousel[1]->desktop_image) }}"
+                            class="w-full h-auto object-cover" alt="Promo 2">
+                    </picture>
+                </div>
+            @endif
+        </div>
+
+        <!-- Controls -->
+        <button id="prevSlide"
+            class="absolute top-1/2 left-3 md:left-5 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600">
+            &#10094;
+        </button>
+        <button id="nextSlide"
+            class="absolute top-1/2 right-3 md:right-5 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600">
+            &#10095;
+        </button>
         </div>
     </section>
 
@@ -649,8 +659,14 @@
                     @if ($mostPopularProduct1)
                         <a href="{{ route('page.productshow', $mostPopularProduct1->slug) }}"
                             class="w-32 h-32 flex justify-center items-center bg-center bg-cover overflow-hidden mx-auto">
-                            <img src="{{ asset('storage/' . $mostPopularProduct1->image_product) }}"
-                                alt="Hp" />
+                            <!-- Memeriksa apakah ada gambar produk -->
+                            @if ($mostPopularProduct1->image_product)
+                                <img src="{{ asset('storage/' . $mostPopularProduct1->image_product) }}"
+                                    alt="Hp" />
+                            @else
+                                <!-- Jika tidak ada gambar, tampilkan gambar default -->
+                                <img src="{{ asset('img/laptop.jpg') }}" alt="Default Image" />
+                            @endif
                         </a>
 
                         <div class="flex flex-col justify-between">
@@ -755,8 +771,16 @@
                 @if ($mostPopularProduct2)
                     <a href="{{ route('page.productshow', $mostPopularProduct2->slug) }}"
                         class="w-32 h-32 flex justify-center items-center bg-center bg-cover overflow-hidden mx-auto">
-                        <img src="{{ asset('storage/' . $mostPopularProduct2->image_product) }}" alt="Hp" />
+                        <!-- Memeriksa apakah ada gambar produk -->
+                        @if ($mostPopularProduct2->image_product)
+                            <img src="{{ asset('storage/' . $mostPopularProduct2->image_product) }}"
+                                alt="Hp" />
+                        @else
+                            <!-- Jika tidak ada gambar, tampilkan gambar default -->
+                            <img src="{{ asset('img/laptop.jpg') }}" alt="Default Image" />
+                        @endif
                     </a>
+
                     <a href="{{ route('page.productshow', $mostPopularProduct2->slug) }}"
                         class="text-sm text-slate-700 mb-4">
                         {{ $mostPopularProduct2->name_product }}
@@ -785,8 +809,7 @@
                         </span>
                     </div>
                     <div>
-                        <span
-                            class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct2->sold_count ?? 0 }}
+                        <span class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct2->sold_count ?? 0 }}
                             terjual</span>
                     </div>
 
@@ -851,8 +874,16 @@
                 @if ($mostPopularProduct3)
                     <a href="{{ route('page.productshow', $mostPopularProduct3->slug) }}"
                         class="w-32 h-32 flex justify-center items-center bg-center bg-cover overflow-hidden mx-auto">
-                        <img src="{{ asset('storage/' . $mostPopularProduct3->image_product) }}" alt="Hp" />
+                        <!-- Memeriksa apakah ada gambar produk -->
+                        @if ($mostPopularProduct3->image_product)
+                            <img src="{{ asset('storage/' . $mostPopularProduct3->image_product) }}"
+                                alt="Hp" />
+                        @else
+                            <!-- Jika tidak ada gambar, tampilkan gambar default -->
+                            <img src="{{ asset('img/laptop.jpg') }}" alt="Default Image" />
+                        @endif
                     </a>
+
                     <a href="{{ route('page.productshow', $mostPopularProduct3->slug) }}"
                         class="text-sm text-slate-700 mb-4">
                         {{ $mostPopularProduct3->name_product }}
@@ -881,8 +912,7 @@
                         </span>
                     </div>
                     <div>
-                        <span
-                            class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct3->sold_count ?? 0 }}
+                        <span class="space-x-2 text-sm text-slate-600">{{ $mostPopularProduct3->sold_count ?? 0 }}
                             terjual</span>
                     </div>
 
@@ -957,7 +987,7 @@
                             <img src="{{ asset('storage/' . $category->image_category) }}" alt="Gambar Brand"
                                 class="img-thumbnail" style="width: 100px; height: auto;">
                         @else
-                            <span class="text-gray-500">Tidak ada gambar</span>
+                            <img src="{{ asset('img/laptop.jpg') }}" alt="Default Image" />
                         @endif
                     </div>
 
@@ -987,8 +1017,7 @@
                                 <img src="{{ asset('storage/' . $product->image_product) }}" alt="Product Image"
                                     class="object-cover w-32 h-32" />
                             @else
-                                <img src="{{ asset('img/img-carousel-promo/laptop.jpg') }}" alt="Default Image"
-                                    class="object-cover w-32 h-32" />
+                                <img src="{{ asset('img/laptop.jpg') }}" alt="Default Image" />
                             @endif
                         </a>
                         <div class="flex items-center space-x-1 mb-2">
@@ -1116,8 +1145,15 @@
                     <!-- Gambar dibungkus dengan tag <a> untuk mengarah ke halaman produk -->
                     <a href="{{ route('page.productshow', $produkbaru1->slug) }}"
                         class="w-32 h-32 flex justify-center items-center bg-center bg-cover overflow-hidden mx-auto">
-                        <img src="{{ asset('storage/' . $produkbaru1->image_product) }}" alt="Hp" />
+                        <!-- Memeriksa apakah ada gambar produk -->
+                        @if ($produkbaru1->image_product)
+                            <img src="{{ asset('storage/' . $produkbaru1->image_product) }}" alt="Hp" />
+                        @else
+                            <!-- Jika tidak ada gambar, tampilkan gambar default -->
+                            <img src="{{ asset('img/laptop.jpg') }}" alt="Default Image" />
+                        @endif
                     </a>
+
 
                     <a href="{{ route('page.productshow', $produkbaru1->slug) }}"
                         class="text-sm text-slate-700 mb-4">
@@ -1204,8 +1240,16 @@
                 @if ($produkbaru2)
                     <a href="{{ route('page.productshow', $produkbaru2->slug) }}"
                         class="w-32 h-32 flex justify-center items-center bg-center bg-cover overflow-hidden mx-auto">
-                        <img src="{{ asset('storage/' . $produkbaru2->image_product) }}" alt="Hp" />
+                        <!-- Memeriksa apakah ada gambar produk -->
+                        @if ($produkbaru2->image_product)
+                            <img src="{{ asset('storage/' . $produkbaru2->image_product) }}"
+                                alt="Hp" />
+                        @else
+                            <!-- Jika tidak ada gambar, tampilkan gambar default -->
+                            <img src="{{ asset('img/laptop.jpg') }}" alt="Default Image" />
+                        @endif
                     </a>
+
 
                     <a href="{{ route('page.productshow', $produkbaru2->slug) }}"
                         class="text-sm text-slate-700 mb-4">
@@ -1365,6 +1409,21 @@
 
 
     <x-list-cart-script />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const carousel = document.getElementById("carouselSlides");
+            const slides = carousel.children;
+            const prevButton = document.getElementById("prevSlide");
+            const nextButton = document.getElementById("nextSlide");
+
+            // Mengecek jika hanya ada 1 slide
+            if (slides.length === 1) {
+                prevButton.style.display = "none"; // Sembunyikan tombol prev
+                nextButton.style.display = "none"; // Sembunyikan tombol next
+            }
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
