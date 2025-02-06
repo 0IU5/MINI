@@ -38,12 +38,9 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'roles'));
     }
 
-
     /**
-     * Show the form for editing the specified user.
+     * Store a newly created user in storage.
      */
-
-
     public function store(Request $request)
     {
         // Validasi input
@@ -66,7 +63,9 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Pengguna berhasil ditambahkan dengan role Admin.');
     }
 
-
+    /**
+     * Show the form for editing the specified user.
+     */
     public function edit(string $id) {}
 
     /**
@@ -86,6 +85,9 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Pengguna berhasil dihapus.');
     }
 
+    /**
+     * Handle multiple user deletions.
+     */
     public function deleteMultiple(Request $request)
     {
         $userIds = $request->input('selected_users');
@@ -95,5 +97,30 @@ class UserController extends Controller
         }
 
         return redirect()->route('admin.users.index')->with('error', 'No users selected for deletion.');
+    }
+
+    /**
+     * Change the password of a specified user.
+     */
+    public function changePassword(Request $request, $id)
+    {
+        // Find the user by ID
+        $user = User::findOrFail($id);
+
+        // Check if the user has the 'admin' role
+        if (!$user->hasRole('admin')) {
+            return redirect()->route('admin.users.index')->with('error', 'Only users with admin role can change the password.');
+        }
+
+        // Validate the new password
+        $request->validate([
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        // Update the user's password
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('admin.users.index')->with('success', 'Password pengguna berhasil diperbarui.');
     }
 }

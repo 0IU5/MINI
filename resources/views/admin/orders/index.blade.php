@@ -56,7 +56,7 @@
                                 <div class="d-flex align-items-center">
                                     <!-- Pencarian -->
                                     <input type="text" name="search"
-                                        class="form-control me-2 border-lg border-[#5d85fa]" placeholder="Cari produk"
+                                        class="form-control me-2 border-lg border-[#5d85fa]" placeholder="Cari"
                                         value="{{ request('search') }}" style="width: 200px;">
                                     <button type="submit" class="btn btn-primary">Cari</button>
                                 </div>
@@ -64,7 +64,7 @@
                                     <button type="button"
                                         class="btn btn-secondary text-white py-2 px-4 rounded-lg w-full md:w-auto"
                                         data-bs-toggle="modal" data-bs-target="#filterModal">
-                                        Filter Produk
+                                        Filter
                                     </button>
                                     <!-- Filter Kategori -->
                                     <select name="product_id"
@@ -188,20 +188,33 @@
                                             <button type="submit" class="btn btn-primary">Terapkan Filter</button>
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Batal</button>
+                                            <!-- Reset Filter Button -->
+                                            <a href="{{ route('admin.orders.index') }}?reset=true"
+                                                class="btn btn-warning">Reset Filter</a>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                             <script>
-                                document.addEventListener("DOMContentLoaded", function () {
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    // Jika session 'error' ada, modal akan muncul
                                     @if (session('error'))
                                         var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
                                         filterModal.show();
                                     @endif
+
+                                    // Jika parameter 'reset' ada di URL, modal akan muncul
+                                    const urlParams = new URLSearchParams(window.location.search);
+                                    if (urlParams.has('reset') && urlParams.get('reset') === 'true') {
+                                        var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+                                        filterModal.show();
+                                    }
                                 });
                             </script>
-
                         </form>
+
 
                     </div>
 

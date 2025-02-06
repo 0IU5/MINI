@@ -15,20 +15,20 @@
                     <div class=" flex justify-between items-center p-2 ">
                         <div class="flex items-center justify-center gap-2">
                             <h1 class="text-2xl font-bold text-center">Detail Pesanan</h1>
-                            {{-- <span class="text-lg font-normal text-gray-500 text-center">({{ $order->order_code ?? 'kosong' }})</span> --}}
-                        </div>                        
+                            <span class="text-lg font-normal text-gray-500 text-center">({{ $order->order_code ?? 'kosong' }})</span>
+                        </div>
 
                         <div class="flex items-center justify-center text-center gap-2 ">
                             <span class="text-md font-semibold">{{ $order->created_at->translatedFormat('d F Y') }}</span>
                             <div class="h-[25px] w-[2px] bg-gray-300"></div> <!-- Garis Vertikal -->
                             <span
-                                class="px-3 py-1 rounded-full text-sm font-semibold 
-                                    @if ($order->status_order === 'completed') bg-green-200 text-green-600 
-                                    @elseif ($order->status_order === 'processing') 
-                                        bg-yellow-200 text-yellow-600 
-                                    @elseif ($order->status_order === 'pending') 
-                                        bg-blue-200 text-blue-600 
-                                    @else 
+                                class="px-3 py-1 rounded-full text-sm font-semibold
+                                    @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                    @elseif ($order->status_order === 'processing')
+                                        bg-yellow-200 text-yellow-600
+                                    @elseif ($order->status_order === 'pending')
+                                        bg-blue-200 text-blue-600
+                                    @else
                                         bg-gray-200 text-gray-600 @endif">
                                 {{ ucfirst($order->status_order_label) }}
                             </span>
@@ -97,14 +97,14 @@
                             <div class="mb-2 ml-3">
                                 <span
                                     class="px-3 py-1 rounded-full text-sm font-semibold
-                                        @if ($order->payment->status === 'success') bg-green-200 text-green-600 
-                                        @elseif ($order->payment->status === 'pending') 
-                                            bg-blue-200 text-blue-600 
-                                        @elseif ($order->payment->status === 'failed') 
-                                            bg-red-200 text-red-600 
-                                        @elseif ($order->payment->status === 'expired') 
-                                            bg-gray-200 text-gray-600 
-                                        @else 
+                                        @if ($order->payment->status === 'success') bg-green-200 text-green-600
+                                        @elseif ($order->payment->status === 'pending')
+                                            bg-blue-200 text-blue-600
+                                        @elseif ($order->payment->status === 'failed')
+                                            bg-red-200 text-red-600
+                                        @elseif ($order->payment->status === 'expired')
+                                            bg-gray-200 text-gray-600
+                                        @else
                                             bg-gray-200 text-gray-600 @endif">
                                     {{ ucfirst($order->payment->status) }}
                                 </span>
@@ -162,7 +162,7 @@
                                     <tr class="py-1">
                                         <td class="px-1 py-2">Diskon</td>
                                         <td class="px-1 py-2">:</td>
-                                        <td class="px-1 py-2">- Rp. 
+                                        <td class="px-1 py-2">- Rp.
                                             {{ $order->promoCode?->discount_amount ? number_format($order->promoCode->discount_amount, 0, ',', '.') : '' }}
                                         </td>
                                     </tr>
@@ -175,7 +175,7 @@
                             </table>
                         </div>
                     </div>
-                    
+
                 </div>
 
             </div>

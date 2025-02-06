@@ -245,7 +245,7 @@
                                     <input type="hidden" name="sort_by_date" value="{{ request('sort_by_date') }}">
                                     <div class="d-flex align-items-center">
                                         <input type="text" name="search"
-                                            class="form-control me-2 border-lg border-[#5d85fa]" placeholder="Cari produk"
+                                            class="form-control me-2 border-lg border-[#5d85fa]" placeholder="Cari"
                                             value="{{ request('search') }}" style="width: 200px;">
                                         <button type="submit" class="btn btn-primary">Cari</button>
                                     </div>

@@ -52,7 +52,7 @@
                                     <!-- Pencarian -->
                                     <input type="text" name="search"
                                         class="form-control me-2 border-lg border-[#5d85fa]"
-                                        placeholder="Cari produk atau komentar" value="{{ request('search') }}"
+                                        placeholder="Cari" value="{{ request('search') }}"
                                         style="width: 200px;">
                                     <button type="submit" class="btn btn-primary">Cari</button>
                                 </div>
@@ -149,16 +149,26 @@
                                             <button type="submit" class="btn btn-primary">Terapkan Filter</button>
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Batal</button>
+                                            <a href="{{ route('admin.reviews.index') }}?reset=true"
+                                                class="btn btn-warning">Reset Filter</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <script>
                                 document.addEventListener("DOMContentLoaded", function() {
+                                    // Jika session 'error' ada, modal akan muncul
                                     @if (session('error'))
                                         var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
                                         filterModal.show();
                                     @endif
+
+                                    // Jika parameter 'reset' ada di URL, modal akan muncul
+                                    const urlParams = new URLSearchParams(window.location.search);
+                                    if (urlParams.has('reset') && urlParams.get('reset') === 'true') {
+                                        var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+                                        filterModal.show();
+                                    }
                                 });
                             </script>
 
@@ -187,16 +197,21 @@
                                         <td class="px-4 py-2 flex items-center">{{ $review->user->name }}</td>
                                         <td class="px-4 py-2">{{ $review->product->name_product }}</td>
                                         <td class="px-4 py-2">{{ $review->rating }}</td>
-                                        <td class="px-4 py-2">{{ $review->comment }}</td>
+                                        <td class="px-4 py-2">
+                                            @if (strlen($review->comment) > 50)
+                                                <span>{{ substr($review->comment, 0, 50) }}...</span>
+                                                <button class="text-blue-500 hover:underline" onclick="showCommentModal('{{ $review->comment }}')">Lihat</button>
+                                            @else
+                                                {{ $review->comment }}
+                                            @endif
+                                        </td>
                                         <td class="px-4 py-2">{{ $review->created_at->format('d F Y') ?? 'kosong' }}</td>
                                     </tr>
                                 @empty
                                     <tr>
                                         <td colspan="6" class="h-64">
-                                            <div
-                                                class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
-                                                <img src="{{ asset('img/empty-data.png') }}" alt=" Tidak Ditemukan"
-                                                    class="w-64 h-64">
+                                            <div class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
+                                                <img src="{{ asset('img/empty-data.png') }}" alt=" Tidak Ditemukan" class="w-64 h-64">
                                                 <p class="text-lg text-gray-600 font-medium">Tidak ada ulasan</p>
                                             </div>
                                         </td>
@@ -208,6 +223,29 @@
                             {{ $reviews->links() }}
                         </div>
                     </div>
+
+                    <!-- Modal -->
+                    <div id="commentModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+                            <h2 class="text-xl font-bold mb-4">Komentar Lengkap</h2>
+                            <p id="fullComment" class="text-gray-700"></p>
+                            <div class="mt-4 flex justify-end">
+                                <button onclick="closeModal()" class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Tutup</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function showCommentModal(comment) {
+                            document.getElementById("fullComment").innerText = comment;
+                            document.getElementById("commentModal").classList.remove("hidden");
+                        }
+
+                        function closeModal() {
+                            document.getElementById("commentModal").classList.add("hidden");
+                        }
+                    </script>
+
 
 
                 </div>

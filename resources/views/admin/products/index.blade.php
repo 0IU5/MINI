@@ -60,7 +60,7 @@
                                 <div class="flex items-center w-full">
                                     <input type="text" name="search"
                                         class="form-control me-2 border-lg border-[#5d85fa] w-full"
-                                        placeholder="Cari produk" value="{{ request('search') }}">
+                                        placeholder="Cari" value="{{ request('search') }}">
                                     <button type="submit"
                                         class="btn btn-primary md:mt-0 md:ml-2 px-4 py-2 md:w-auto">Cari</button>
                                 </div>
@@ -72,7 +72,7 @@
                                 <button type="button"
                                     class="btn btn-secondary text-white py-2 px-4 rounded-lg w-full md:w-auto"
                                     data-bs-toggle="modal" data-bs-target="#filterModal">
-                                    Filter Produk
+                                    Filter
                                 </button>
 
                                 <!-- Tombol Tambah Produk -->
@@ -208,16 +208,28 @@
                                         <button type="submit" class="btn btn-primary">Terapkan Filter</button>
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Batal</button>
+                                        <!-- Tombol Reset -->
+                                        <a href="{{ route('admin.products.index') }}?reset=true"
+                                            class="btn btn-warning">Reset Filter</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <script>
                             document.addEventListener("DOMContentLoaded", function() {
+                                // Jika session 'error' ada, modal akan muncul
                                 @if (session('error'))
                                     var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
                                     filterModal.show();
                                 @endif
+
+                                // Jika parameter 'reset' ada di URL, modal akan muncul
+                                const urlParams = new URLSearchParams(window.location.search);
+                                if (urlParams.has('reset') && urlParams.get('reset') === 'true') {
+                                    var filterModal = new bootstrap.Modal(document.getElementById('filterModal'));
+                                    filterModal.show();
+                                }
                             });
                         </script>
 

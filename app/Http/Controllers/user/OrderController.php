@@ -122,6 +122,9 @@ class OrderController extends Controller
             'product_id' => 'required|exists:products,id',
             'rating' => 'required|in:1,2,3,4,5',
             'comment' => 'required|string|max:500',
+        ],[
+            'rating.required' => 'Rating wajib diisi',
+            'comment.required' => 'Komentar wajib diisi',
         ]);
 
         $hasReview = Review::where('order_id', $request->order_id)

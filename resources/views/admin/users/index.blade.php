@@ -32,7 +32,6 @@
                     <div class="flex flex-col items-center">
                         <!-- Ikon di atas dengan latar belakang putih dan tinggi penuh -->
                         <div class="bg-white p-4 rounded-md h-16 w-16 flex justify-center items-center w-full">
-
                             <i class="fa-solid fa-users text-3xl text-blue-600"></i>
                         </div>
                         <!-- Keterangan di bawah ikon -->
@@ -44,7 +43,6 @@
                 </div>
             </div>
             <div class="card w-full">
-
                 <div class="card-body p-4">
                     <div>
                         <div class="flex justify-between items-center mb-4">
@@ -66,90 +64,98 @@
                                 </button>
                                 <!-- Filter Kategori -->
                                 <form id="filterForm" action="{{ route('admin.users.index') }}" method="GET">
-                                    <div class="d-flex align-items-center ">
+                                    <div class="d-flex align-items-center">
                                         <select name="role" id="role"
                                             class="bg-[#5d85fa] text-white border border-gray-600 rounded-lg py-2 px-3 w-full"
                                             style="width: 200px;"
                                             onchange="document.getElementById('filterForm').submit();">
                                             <option value="">Semua Peran</option>
                                             @foreach ($roles as $role)
-                                                <option value="{{ $role->name }}"
-                                                    {{ request('role') == $role->name ? 'selected' : '' }}>
+                                                <option value="{{ $role->name }}"{{
+                                                    request('role') == $role->name ? 'selected' : '' }}>
                                                     {{ $role->name }}
                                                 </option>
                                             @endforeach
-
                                         </select>
                                     </div>
                                 </form>
                             </div>
                         </div>
-                        <div class="grid grid-cols-4 gap-4 text-white border-t border-gray-600 pt-4 ">
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                            <thead class="bg-[#5D87FF] text-white"> {{-- bg-gray-100 --}}
-                                <tr>
-                                    <th class="px-4 py-2 text-left">Gambar</th>
-                                    <th class="px-4 py-2 text-left">Pengguna</th>
-                                    <th class="px-4 py-2 text-left">Email</th>
-                                    <th class="px-4 py-2 text-left">Peran</th>
-                                    <th class="px-4 py-2 text-left">Bergabung</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($users as $user)
-                                    <tr onclick="toggleDropdown(this)" class="hover:bg-gray-50 border-b">
-                                        <td class="px-4 py-2">
-                                            @if ($user->image)
-                                                <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Picture"
-                                                    class="w-10 h-10 rounded-full mr-3">
-                                            @else
-                                                <img src="{{ asset('style/src/assets/images/profile/user-1.jpg') }}"
-                                                    alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
-                                            @endif
 
-                                        </td>
-                                        <td class="px-4 py-2 ">
-                                            <span>{{ $user->name }}</span>
-                                        </td>
-                                        <td class="px-4 py-2 ">
-                                            <span>{{ $user->email }}</span>
-                                        </td>
-                                        <td class="px-4 py-2">
-                                            @foreach ($user->roles as $role)
-                                            <span class="inline-flex items-center
-                                                @if($role->name === 'admin') bg-blue-200 text-primary @elseif($role->name === 'user') bg-green-200 text-green-600 @else bg-gray-100 bg-opacity-50 text-gray-800 dark:bg-gray-700 dark:text-gray-300 @endif
-                                                text-xs font-medium px-3 py-1 rounded-full">
-                                                <span class="w-2 h-2 me-1
-                                                    @if($role->name === 'admin') bg-blue-500 @elseif($role->name === 'user') bg-green-500  @else bg-gray-500  @endif
-                                                    rounded-full"></span>
-                                                {{ ucfirst($role->name) }}
-                                            </span>
-                                            @endforeach
-                                        </td>
-                                        <td class="px-4 py-2">
-                                            {{ $user->joinDate }}
-                                        </td>
-                                    </tr>
-                                    @empty
+                        <div class="table-responsive">
+                            <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                                <thead class="bg-[#5D87FF] text-white">
                                     <tr>
-                                        <td colspan="5" class="h-64">
-                                            <div
-                                                class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
-                                                <img src="{{ asset('img/empty-data.png') }}" alt=" Tidak Ditemukan"
-                                                    class="w-64 h-64">
-                                                <p class="text-lg text-gray-600 font-medium">Tidak ada produk</p>
-                                            </div>
-                                        </td>
+                                        <th class="px-4 py-2 text-left">Gambar</th>
+                                        <th class="px-4 py-2 text-left">Pengguna</th>
+                                        <th class="px-4 py-2 text-left">Email</th>
+                                        <th class="px-4 py-2 text-left">Peran</th>
+                                        <th class="px-4 py-2 text-left">Bergabung</th>
+                                        <th class="px-4 py-2 text-left">Aksi</th>
                                     </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="mt-4">
-                        {{ $users->links() }}
+                                </thead>
+                                <tbody>
+                                    @forelse ($users as $user)
+                                        <tr class="hover:bg-gray-50 border-b">
+                                            <td class="px-4 py-2">
+                                                @if ($user->image)
+                                                    <img src="{{ asset('storage/' . $user->image) }}" alt="Profile Picture"
+                                                        class="w-10 h-10 rounded-full mr-3">
+                                                @else
+                                                    <img src="{{ asset('style/src/assets/images/profile/user-1.jpg') }} "
+                                                        alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
+                                                @endif
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                <span>{{ $user->name }}</span>
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                <span>{{ $user->email }}</span>
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                @foreach ($user->roles as $role)
+                                                <span class="inline-flex items-center
+                                                    @if($role->name === 'admin') bg-blue-200 text-primary @elseif($role->name === 'user') bg-green-200 text-green-600 @else bg-gray-100 bg-opacity-50 text-gray-800 dark:bg-gray-700 dark:text-gray-300 @endif
+                                                    text-xs font-medium px-3 py-1 rounded-full">
+                                                    <span class="w-2 h-2 me-1
+                                                        @if($role->name === 'admin') bg-blue-500 @elseif($role->name === 'user') bg-green-500  @else bg-gray-500  @endif
+                                                        rounded-full"></span>
+                                                    {{ ucfirst($role->name) }}
+                                                </span>
+                                                @endforeach
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                {{ $user->joinDate }}
+                                            </td>
+                                            <td class="px-4 py-2">
+                                                @if ($user->hasRole('admin')) <!-- Only show for admin role -->
+                                                    <button class="btn btn-warning text-white" data-bs-toggle="modal"
+                                                            data-bs-target="#changePasswordModal-{{ $user->id }}">
+                                                        Ganti Password
+                                                    </button>
+                                                @else
+                                                    <span class="text-gray-500"></span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="h-64">
+                                                <div class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
+                                                    <img src="{{ asset('img/empty-data.png') }}" alt=" Tidak Ditemukan"
+                                                        class="w-64 h-64">
+                                                    <p class="text-lg text-gray-600 font-medium">Tidak ada produk</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mt-4">
+                            {{ $users->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -195,73 +201,40 @@
             </div>
         </div>
     </div>
-@endsection
 
-
-
-<!-- Table lama -->
-{{-- <div class="overflow-x-auto bg-gray-100 rounded-lg border-2 border-[#5d85fa]">
-    <table class="min-w-full table-auto">
-        <thead class="bg-[#5d85fa] text-white">
-            <tr>
-                <th class="py-3 px-4 text-left">PENGGUNA</th>
-                <th class="py-3 px-4 text-left">PERAN PENGGUNA</th>
-                <th class="py-3 px-4 text-left">BERGABUNG</th>
-                <th class="py-3 px-4 text-left">AKSI</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($users as $user)
-                <tr class="border-b border-gray-700 hover:bg-slate-300">
-                    <td class="py-3 px-4 flex items-center">
-                        <img src="https://via.placeholder.com/40" alt="User Avatar"
-                            class="w-10 h-10 rounded-full mr-3">
-                        <span>{{ $user->name }}</span>
-                    </td>
-                    <td class="py-3 px-4">
-                        @foreach ($user->roles as $role)
-                            <span
-                                class="bg-[#5d85fa] text-white py-1 px-2 rounded-lg text-sm">{{ $role->name }}</span>
-                        @endforeach
-                    </td>
-                    <td class="py-3 px-4">
-                        {{ $user->joinDate }}
-                    </td>
-                    <td class="py-3 px-4 space-x-2">
-                        <button class="bg-red-600 text-white py-1 px-2 rounded-lg hover:bg-red-700"
-                            data-bs-toggle="modal" data-bs-target="#hapusModal{{ $user->id }}">
-                            Hapus
-                        </button>
-                    </td>
-                </tr>
-
-                <!-- Modal Hapus -->
-                <div class="modal fade" id="hapusModal{{ $user->id }}" tabindex="-1"
-                    aria-labelledby="hapusModalLabel{{ $user->id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Hapus Konfirmasi</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                Apakah Anda yakin ingin menghapus <strong>{{ $user->name }}</strong>?
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-bs-dismiss="modal">Batal</button>
-                                <form action="{{ route('admin.users.destroy', $user->id) }}"
-                                    method="POST" class="d-inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                </form>
-                            </div>
+    <!-- Modal Ganti Password -->
+    @foreach($users as $user)
+        @if($user->hasRole('admin')) <!-- Only show modal for admin users -->
+            <div class="modal fade" id="changePasswordModal-{{ $user->id }}" tabindex="-1" aria-labelledby="changePasswordModalLabel-{{ $user->id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="changePasswordModalLabel-{{ $user->id }}">Ganti Password Pengguna: {{ $user->name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('admin.users.changePassword', $user->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password Baru</label>
+                                    <input type="password" id="password" name="password" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
+                                    <input type="password" id="password_confirmation" name="password_confirmation"
+                                        class="form-control" required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            @endforeach
-        </tbody>
-    </table>
-</div> --}}
+            </div>
+        @endif
+    @endforeach
+
+@endsection
