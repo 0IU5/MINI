@@ -212,14 +212,14 @@
     <script src="{{ asset('style/src/assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('loading/loading.js') }}"></script>
     <script>
-        // Tambahkan di footer atau file JS terpisah
+        // Update the JavaScript code
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle notification click
-            document.querySelectorAll('.notification-item').forEach(item => {
-                item.addEventListener('click', function() {
+            // Update selector to match the actual class in HTML
+            document.querySelectorAll('.dropdown-item[data-order-id]').forEach(item => {
+                item.addEventListener('click', function(e) {
                     const orderId = this.dataset.orderId;
 
-                    // Mark notification as read
+                    // Fix template literal syntax
                     fetch(`/admin/notifications/mark-as-read/${orderId}`, {
                             method: 'POST',
                             headers: {
@@ -231,18 +231,24 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                // Update badge count
+                                // Remove this notification item
+                                this.remove();
+
+                                // Update notification counter
                                 const badge = document.querySelector(
                                     '#notificationDropdown .relative');
-                                const count = parseInt(badge.querySelector('span:last-child')
-                                    .textContent) - 1;
-                                if (count <= 0) {
-                                    badge.style.display = 'none';
-                                } else {
-                                    badge.querySelector('span:last-child').textContent = count;
+                                if (badge) {
+                                    const countElement = badge.querySelector('span:last-child');
+                                    const count = parseInt(countElement.textContent) - 1;
+                                    if (count <= 0) {
+                                        badge.remove();
+                                    } else {
+                                        countElement.textContent = count;
+                                    }
                                 }
                             }
-                        });
+                        })
+                        .catch(error => console.error('Error:', error));
                 });
             });
         });
