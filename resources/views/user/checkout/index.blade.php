@@ -1030,20 +1030,18 @@
         async function checkoutButton(event, el) {
             event.preventDefault();
             const form = event.target.closest('form');
-            // form.submit();
+
             const alamat = document.querySelector("input[name='alamat']:checked");
-            const cost = document.querySelector("input[name='cost']:checked"); // Sesuaikan jika berbeda
+            const cost = document.querySelector("input[name='cost']:checked");
             const name = document.querySelector("input[name='name']");
             const email = document.querySelector("input[name='email']");
             const total = document.querySelector("input[name='total']");
             const subtotal = document.querySelector("input[name='subtotal']");
             const addresses_id = document.querySelector("input[name='addresses_id']");
             const courier = document.getElementById('courier');
-            // const dropzone_file = document.getElementById('dropzone-file');
 
             el.disabled = true;
             el.textContent = 'Loading...';
-
 
             if (
                 (!alamat || !alamat.value) ||
@@ -1060,23 +1058,18 @@
                 return false;
             }
 
-            // console.log('tes')
-
             if (!snap_token) {
-
                 const formData = new FormData(form);
-                // Ubah FormData langsung menjadi objekconst formData = new FormData(form);
                 const dataInputan = {};
-                @if ($carts && count($carts) > 0)
 
+                @if ($carts && count($carts) > 0)
                     const productIdQuantity = {};
                     formData.forEach((value, key) => {
                         if (key.startsWith('product_id_quantity[')) {
-                            // Ambil ID produk dari nama input seperti 'product_id_quantity[1]'
                             const productId = key.match(/\[([^\]]+)]/)[1];
                             productIdQuantity[productId] = value;
                         } else {
-                            dataInputan[key] = value; // Tambahkan key lain selain product_id_quantity
+                            dataInputan[key] = value;
                         }
                     });
 
@@ -1084,7 +1077,7 @@
                 @else
                     formData.forEach((value, key) => {
                         if (key.endsWith('[]')) {
-                            const normalizedKey = key.slice(0, -2); // Hapus '[]'
+                            const normalizedKey = key.slice(0, -2);
                             if (!dataInputan[normalizedKey]) {
                                 dataInputan[normalizedKey] = [];
                             }
@@ -1094,7 +1087,6 @@
                         }
                     });
                 @endif
-
 
                 try {
                     const response = await fetch('/checkout', {
@@ -1106,91 +1098,54 @@
                         },
                         body: JSON.stringify(dataInputan)
                     });
+
                     const data = await response.json();
-                    console.log(data)
-                    if (data.status == 'success') {
+                    console.log(data);
+
+                    if (data.status === 'success') {
                         snap_token = data.snap_token;
 
                         snap.pay(snap_token, {
                             onSuccess: function(result) {
-                                // Tangani jika pembayaran success
-                                showAlert('success', 'Pembayaran berhasil!')
-                                // console.log(result)
-                                const order_id = result.order_id
-                                @if (config('app.debug'))
-                                    window.location.href = "{{ route('user.orders.index') }}";
-                                @else
-                                    if (order_id) {
-                                        window.location.href = "{{ route('user.orders.show', '') }}/" +
-                                            order_id;
-                                    } else {
-                                        window.location.href = "{{ route('user.orders.index') }}";
-                                    }
-                                @endif
+                                showAlert('success', 'Pembayaran berhasil!');
+                                redirectToOrder(result.order_id);
                             },
                             onPending: function(result) {
-                                // Tangani jika pembayaran pending
-                                showAlert('warning', 'Pembayaran sedang dalam proses!')
-                                // console.log(result)
-                                const order_id = result.order_id
-                                @if (config('app.debug'))
-                                    window.location.href = "{{ route('user.orders.index') }}";
-                                @else
-                                    if (order_id) {
-                                        window.location.href = "{{ route('user.orders.show', '') }}/" +
-                                            order_id;
-                                    } else {
-                                        window.location.href = "{{ route('user.orders.index') }}";
-                                    }
-                                @endif
+                                showAlert('warning', 'Pembayaran sedang dalam proses!');
+                                redirectToOrder(result.order_id);
                             },
                             onError: function(result) {
-                                // Tangani jika pembayaran gagal
-                                showAlert('error', 'Pembayaran gagal!')
-                                // console.log(result)
-                                const order_id = result.order_id
-                                @if (config('app.debug'))
-                                    window.location.href = "{{ route('user.orders.index') }}";
-                                @else
-                                    if (order_id) {
-                                        window.location.href = "{{ route('user.orders.show', '') }}/" +
-                                            order_id;
-                                    } else {
-                                        window.location.href = "{{ route('user.orders.index') }}";
-                                    }
-                                @endif
+                                showAlert('error', 'Pembayaran gagal!');
+                                redirectToOrder(result.order_id);
+                            },
+                            onClose: function() {
+                                showAlert('warning', 'Metode pembayaran ditutup sebelum dipilih.');
+                                redirectToOrder();
                             }
                         });
                     } else {
                         return false;
                     }
                 } catch (e) {
-                    console.log(e)
-
+                    console.log(e);
                 }
             } else {
-                snap.pay(snap_token)
-                name.disabled = true;
-                email.disabled = true;
-                courier.disabled = true;
-                vocher_input.disabled = true;
-                document.querySelectorAll("input[name='alamat']").forEach(input => {
-                    input.disabled = true;
-                });
-                document.querySelectorAll("input[name='cost']").forEach(input => {
-                    input.disabled = true;
-                });
-                document.getElementById("tambah_alamat").disabled = true;
-                document.getElementById("checkVoucherButton").disabled = true;
-                cost.disabled = true
+                snap.pay(snap_token);
             }
-
 
             el.disabled = false;
             el.textContent = "Pay Now";
+        }
 
+        function redirectToOrder(order_id = '') {
+            if (order_id) {
+                window.location.href = "{{ route('user.orders.show', '') }}/" + order_id;
+            } else {
+                window.location.href = "{{ route('user.orders.index') }}";
+            }
         }
     </script>
+
 
 </body>
 
