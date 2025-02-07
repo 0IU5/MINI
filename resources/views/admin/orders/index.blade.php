@@ -225,63 +225,348 @@
                     </script>
 
 
-                    <div class="table-responsive">
-                        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
-                            <thead class="bg-[#5D87FF] text-white"> {{-- bg-gray-100 --}}
-                                <tr>
-                                    <th style="width: 5%;" class="px-4 py-2 text-left whitespace-nowrap">No</th>
-                                    <th style="width: 10%;" class="px-4 py-2 text-left whitespace-nowrap">Pelanggan</th>
-                                    <th style="width: 15%;" class="px-4 py-2 text-left ">Produk</th>
-                                    <th style="width: 15%;" class="px-4 py-2 text-left whitespace-nowrap">Total</th>
-                                    <th style="width: 15%;" class="px-4 py-2 text-left whitespace-nowrap">Status Pesanan
-                                    </th>
-                                    <th style="width: 15%;" class="px-4 py-2 text-left whitespace-nowrap">Status
-                                        Pembayaran</th>
-                                    <th style="width: 15%;" class="px-4 py-2 text-left whitespace-nowrap">Dibuat</th>
-                                    <th style="width: 10%;" class="px-4 py-2 text-left whitespace-nowrap">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($orders as $order)
-                                    <tr class="hover:bg-gray-100 border-b ">
-                                        <td class="px-4 py-2">
-                                            {{ $loop->iteration ?? '-' }}
-                                        </td>
-                                        <td class="px-4 py-2 whitespace-nowrap">
-                                            {{ $order->user->name }}
-                                        </td>
-                                        <td class="px-4 py-2 ">
-                                            @if ($order->productOrders->count() > 2)
-                                                <ul class="list-disc">
-                                                    @foreach ($order->productOrders->take(2) as $productOrder)
-                                                        <li class="flex justify-between items-center">
-                                                            <span>{{ $productOrder->product->name_product }}</span>
+                    <div x-data="{ openTab: 1 }">
+                        <!-- Tombol Filter -->
+                        <div class="mb-2 bg-white shadow-lg rounded-lg p-2 text-md">
+                            <button x-on:click="openTab = 1"
+                                :class="openTab === 1 ? 'border-b-2 border-blue-600 text-blue-700' :
+                                    'border-b-2 border-transparent text-gray-700'"
+                                class="py-2 px-4">
+                                Semua
+                            </button>
+                            <button x-on:click="openTab = 2"
+                                :class="openTab === 2 ? 'border-b-2 border-blue-600 text-blue-700' :
+                                    'border-b-2 border-transparent text-gray-700'"
+                                class="py-2 px-4">
+                                Menunggu
+                            </button>
+                            <button x-on:click="openTab = 3"
+                                :class="openTab === 3 ? 'border-b-2 border-blue-600 text-blue-700' :
+                                    'border-b-2 border-transparent text-gray-700'"
+                                class="py-2 px-4">
+                                Dikemas
+                            </button>
+                            <button x-on:click="openTab = 4"
+                                :class="openTab === 4 ? 'border-b-2 border-blue-600 text-blue-700' :
+                                    'border-b-2 border-transparent text-gray-700'"
+                                class="py-2 px-4">
+                                Dikirim
+                            </button>
+                            <button x-on:click="openTab = 5"
+                                :class="openTab === 5 ? 'border-b-2 border-blue-600 text-blue-700' :
+                                    'border-b-2 border-transparent text-gray-700'"
+                                class="py-2 px-4">
+                                Selesai
+                            </button>
+                        </div>
+
+                        <!-- Data Order -->
+                        <div class="bg-white p-4 shadow rounded-lg overflow-x-auto">
+                            <div class="min-w-max">
+                                <!-- Semua Order -->
+                                <div x-show="openTab === 1">
+                                    <h3 class="text-lg font-bold">Semua Order</h3>
+                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
+                                        <tr class="bg-gray-200">
+                                            <th class="px-4 py-2 text-left">No</th>
+                                            <th class="px-4 py-2 text-left">Pelanggan</th>
+                                            <th class="px-4 py-2 text-left">Produk</th>
+                                            <th class="px-4 py-2 text-left">Total</th>
+                                            <th class="px-4 py-2 text-left">Status Pesanan</th>
+                                            <th class="px-4 py-2 text-left">Status Pembayaran</th>
+                                            <th class="px-4 py-2 text-left">Dibuat</th>
+                                            <th class="px-4 py-2 text-left">Aksi</th>
+                                        </tr>
+                                        @forelse ($orders as $order)
+                                            <tr class="hover:bg-gray-100 border-b ">
+                                                <td class="px-4 py-2">
+                                                    {{ $loop->iteration ?? '-' }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->user->name }}
+                                                </td>
+                                                <td class="px-4 py-2 ">
+                                                    @if ($order->productOrders->count() > 2)
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders->take(2) as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                            <span class="flex justify-center text-2xl font-bold">...</span>
+                                                        </ul>
+                                                    @else
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    Rp.
+                                                    {{ number_format($order->grand_total_amount, 0, '.', '.') }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                                            @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                                            @elseif ($order->status_order === 'processing')
+                                                                bg-yellow-200 text-yellow-600
+                                                            @elseif ($order->status_order === 'pending')
+                                                                bg-blue-200 text-blue-600
+                                                            @elseif ($order->status_order === 'shipping')
+                                                                bg-orange-200 text-orange-600
+                                                            @else
+                                                                bg-gray-200 text-gray-600 @endif">
+                                                            {{ ucfirst($order->status_order_label) }}
+                                                        </span>
+                                                    </div>
+
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                                            @if ($order->payment->status === 'failed') bg-yellow-200 text-red-600
+                                                            @elseif ($order->payment->status === 'pending')
+                                                                bg-blue-200 text-blue-600
+                                                            @elseif ($order->payment->status === 'expired')
+                                                                bg-gray-200 text-gray-600
+                                                            @elseif ($order->payment->status === 'success')
+                                                                bg-green-200 text-green-600
+                                                            @else
+                                                                bg-gray-100 text-gray-600 @endif">
+                                                            {{ ucfirst($order->payment->status) }}
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->created_at->format('d F Y') ?? 'kosong' }}
+                                                </td>
+                                                <td class="px-4 py-2">
+                                                    <div class="flex gap-2 py-10">
+                                                        <div class="relative group inline-block">
+                                                            <a href="{{ route('admin.orders.show', $order->id) }}"
+                                                                class="bg-blue-500 text-white px-3 py-2 rounded flex items-center">
+                                                                <i class="fas fa-eye text-sm"></i>
+                                                            </a>
                                                             <span
-                                                                class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
-                                                        </li>
-                                                    @endforeach
-                                                    <span class="flex justify-center text-2xl font-bold">...</span>
-                                                </ul>
-                                            @else
-                                                <ul class="list-disc">
-                                                    @foreach ($order->productOrders as $productOrder)
-                                                        <li class="flex justify-between items-center">
-                                                            <span>{{ $productOrder->product->name_product }}</span>
+                                                                class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                <span
+                                                                    class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 "></span>
+                                                                Detail
+                                                            </span>
+                                                        </div>
+                                                        <!-- Form Hapus Pesanan -->
+                                                        {{-- <div class="relative group inline-block">
+                                                        <!-- Tombol Hapus yang akan membuka modal konfirmasi -->
+                                                        <form action="{{ route('admin.orders.destroy', $order->id) }}"
+                                                            method="POST" style="display: inline;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="button"
+                                                                class="bg-red-500 text-white px-3 py-2 rounded flex items-center"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#hapusmodal{{ $order->id }}">
+                                                                <i class="fas fa-trash text-sm"></i>
+                                                            </button>
                                                             <span
-                                                                class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                            @endif
-                                        </td>
-                                        <td class="px-4 py-2 whitespace-nowrap">
-                                            Rp.
-                                            {{ number_format($order->grand_total_amount, 0, '.', '.') }}
-                                        </td>
-                                        <td class="px-4 py-2 whitespace-nowrap">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span
-                                                    class="px-3 py-1 rounded-full text-sm font-semibold
+                                                                class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                <span
+                                                                    class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                Hapus
+                                                            </span>
+                                                        </form>
+                                                    </div> --}}
+                                                        <div class="relative group inline-block">
+                                                            @if ($order->payment && $order->payment->status != 'pending')
+                                                                <!-- Form Proses -->
+                                                                <form style="display: inline;"
+                                                                    id="form-proses-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status" value="processing">
+
+                                                                    @if ($order->status_order == 'pending')
+                                                                        <button type="button"
+                                                                            class="bg-blue-400 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Proses"
+                                                                            onclick="confirmStatusUpdate('form-proses-{{ $order->id }}', 'Dikemas', 'Pesanan akan diproses dan dikemas.')">
+                                                                            <i class="fas fa-cogs text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kemas -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kemas
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Kirim -->
+                                                                <form id="form-kirim-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status" value="shipping">
+
+                                                                    @if ($order->status_order == 'processing')
+                                                                        <button type="button"
+                                                                            class="bg-orange-500 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Kirim"
+                                                                            onclick="confirmStatusUpdate('form-kirim-{{ $order->id }}', 'Dikirim', 'Pesanan akan dikirim ke alamat tujuan.')">
+                                                                            <i class="fas fa-truck text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kirim -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kirim
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Selesai -->
+                                                                <form id="form-selesai-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status" value="completed">
+
+                                                                    @if ($order->status_order == 'shipping' && $order->created_at->diffInDays(now()) >= 14)
+                                                                        <button type="button"
+                                                                            class="bg-green-500 text-white rounded flex items-center relative px-3 py-2"
+                                                                            aria-label="Selesai"
+                                                                            onclick="confirmStatusUpdate('form-selesai-{{ $order->id }}', 'Selesai', 'Pesanan ini telah selesai dan diterima oleh pelanggan.')">
+                                                                            <i class="fas fa-check-circle text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Selesai -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Selesai
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+                                                            @else
+                                                            @endif
+                                                        </div>
+
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {{-- <!-- Modal Hapus -->
+                                        <div class="modal fade" id="hapusmodal{{ $order->id }}" tabindex="-1"
+                                            aria-labelledby="hapusModalLabel{{ $order->id }}" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="hapusModalLabel{{ $order->id }}">Hapus
+                                                            Pesanan</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body" style="color: black;">
+                                                        Apakah Anda yakin ingin menghapus pesanan
+                                                        <strong>{{ $order->order }}</strong>?
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Kembali</button>
+                                                        <!-- Form untuk menghapus voucher -->
+                                                        <form action="{{ route('admin.orders.destroy', $order->id) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> --}}
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="h-64">
+                                                    <div
+                                                        class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
+                                                        <img src="{{ asset('img/empty-data.png') }}" alt=" Tidak Ditemukan"
+                                                            class="w-64 h-64">
+                                                        <p class="text-lg text-gray-600 font-medium">Tidak ada pesanan</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </table>
+                                </div>
+
+
+
+                                <!-- Menunggu -->
+                                <div x-show="openTab === 2">
+                                    <h3 class="text-lg font-bold">Order Menunggu</h3>
+                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
+                                        <tr class="bg-gray-200">
+                                            <th class="px-4 py-2 text-left">No</th>
+                                            <th class="px-4 py-2 text-left">Pelanggan</th>
+                                            <th class="px-4 py-2 text-left">Produk</th>
+                                            <th class="px-4 py-2 text-left">Total</th>
+                                            <th class="px-4 py-2 text-left">Status Pesanan</th>
+                                            <th class="px-4 py-2 text-left">Status Pembayaran</th>
+                                            <th class="px-4 py-2 text-left">Dibuat</th>
+                                            <th class="px-4 py-2 text-left">Aksi</th>
+                                        </tr>
+                                        @forelse ($orders->where('status_order', 'pending') as $order)
+                                            <tr class="hover:bg-gray-100 border-b ">
+                                                <td class="px-4 py-2">
+                                                    {{ $loop->iteration ?? '-' }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->user->name }}
+                                                </td>
+                                                <td class="px-4 py-2 ">
+                                                    @if ($order->productOrders->count() > 2)
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders->take(2) as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                            <span class="flex justify-center text-2xl font-bold">...</span>
+                                                        </ul>
+                                                    @else
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    Rp.
+                                                    {{ number_format($order->grand_total_amount, 0, '.', '.') }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
                                                         @if ($order->status_order === 'completed') bg-green-200 text-green-600
                                                         @elseif ($order->status_order === 'processing')
                                                             bg-yellow-200 text-yellow-600
@@ -291,15 +576,15 @@
                                                             bg-orange-200 text-orange-600
                                                         @else
                                                             bg-gray-200 text-gray-600 @endif">
-                                                    {{ ucfirst($order->status_order_label) }}
-                                                </span>
-                                            </div>
+                                                            {{ ucfirst($order->status_order_label) }}
+                                                        </span>
+                                                    </div>
 
-                                        </td>
-                                        <td class="px-4 py-2 whitespace-nowrap">
-                                            <div class="d-flex align-items-center gap-2">
-                                                <span
-                                                    class="px-3 py-1 rounded-full text-sm font-semibold
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
                                                         @if ($order->payment->status === 'failed') bg-yellow-200 text-red-600
                                                         @elseif ($order->payment->status === 'pending')
                                                             bg-blue-200 text-blue-600
@@ -309,31 +594,31 @@
                                                             bg-green-200 text-green-600
                                                         @else
                                                             bg-gray-100 text-gray-600 @endif">
-                                                    {{ ucfirst($order->payment->status) }}
-                                                </span>
-                                            </div>
-                                        </td>
+                                                            {{ ucfirst($order->payment->status) }}
+                                                        </span>
+                                                    </div>
+                                                </td>
 
 
-                                        <td class="px-4 py-2 whitespace-nowrap">
-                                            {{ $order->created_at->format('d F Y') ?? 'kosong' }}
-                                        </td>
-                                        <td class="px-4 py-2">
-                                            <div class="flex gap-2 py-10">
-                                                <div class="relative group inline-block">
-                                                    <a href="{{ route('admin.orders.show', $order->id) }}"
-                                                        class="bg-blue-500 text-white px-3 py-2 rounded flex items-center">
-                                                        <i class="fas fa-eye text-sm"></i>
-                                                    </a>
-                                                    <span
-                                                        class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
-                                                        <span
-                                                            class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 "></span>
-                                                        Detail
-                                                    </span>
-                                                </div>
-                                                <!-- Form Hapus Pesanan -->
-                                                {{-- <div class="relative group inline-block">
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->created_at->format('d F Y') ?? 'kosong' }}
+                                                </td>
+                                                <td class="px-4 py-2">
+                                                    <div class="flex gap-2 py-10">
+                                                        <div class="relative group inline-block">
+                                                            <a href="{{ route('admin.orders.show', $order->id) }}"
+                                                                class="bg-blue-500 text-white px-3 py-2 rounded flex items-center">
+                                                                <i class="fas fa-eye text-sm"></i>
+                                                            </a>
+                                                            <span
+                                                                class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                <span
+                                                                    class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 "></span>
+                                                                Detail
+                                                            </span>
+                                                        </div>
+                                                        <!-- Form Hapus Pesanan -->
+                                                        {{-- <div class="relative group inline-block">
                                                     <!-- Tombol Hapus yang akan membuka modal konfirmasi -->
                                                     <form action="{{ route('admin.orders.destroy', $order->id) }}"
                                                         method="POST" style="display: inline;">
@@ -353,86 +638,90 @@
                                                         </span>
                                                     </form>
                                                 </div> --}}
-                                                <div class="relative group inline-block">
-                                                    @if ($order->payment && $order->payment->status != 'pending')
-                                                        <!-- Form Proses -->
-                                                        <form style="display: inline;"
-                                                            id="form-proses-{{ $order->id }}" method="POST"
-                                                            action="{{ route('admin.order.updateStatus', $order->id) }}">
-                                                            @csrf
-                                                            <input type="hidden" name="status" value="processing">
+                                                        <div class="relative group inline-block">
+                                                            @if ($order->payment && $order->payment->status != 'pending')
+                                                                <!-- Form Proses -->
+                                                                <form style="display: inline;"
+                                                                    id="form-proses-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="processing">
 
-                                                            @if ($order->status_order == 'pending')
-                                                                <button type="button"
-                                                                    class="bg-blue-400 rounded text-white flex items-center relative px-3 py-2"
-                                                                    aria-label="Proses"
-                                                                    onclick="confirmStatusUpdate('form-proses-{{ $order->id }}', 'Dikemas', 'Pesanan akan diproses dan dikemas.')">
-                                                                    <i class="fas fa-cogs text-sm"></i>
-                                                                </button>
-                                                                <!-- Tooltip Kemas -->
-                                                                <span
-                                                                    class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
-                                                                    <span
-                                                                        class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
-                                                                    Kemas
-                                                                </span>
+                                                                    @if ($order->status_order == 'pending')
+                                                                        <button type="button"
+                                                                            class="bg-blue-400 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Proses"
+                                                                            onclick="confirmStatusUpdate('form-proses-{{ $order->id }}', 'Dikemas', 'Pesanan akan diproses dan dikemas.')">
+                                                                            <i class="fas fa-cogs text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kemas -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kemas
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Kirim -->
+                                                                <form id="form-kirim-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="shipping">
+
+                                                                    @if ($order->status_order == 'processing')
+                                                                        <button type="button"
+                                                                            class="bg-orange-500 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Kirim"
+                                                                            onclick="confirmStatusUpdate('form-kirim-{{ $order->id }}', 'Dikirim', 'Pesanan akan dikirim ke alamat tujuan.')">
+                                                                            <i class="fas fa-truck text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kirim -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kirim
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Selesai -->
+                                                                <form id="form-selesai-{{ $order->id }}"
+                                                                    method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="completed">
+
+                                                                    @if ($order->status_order == 'shipping' && $order->created_at->diffInDays(now()) >= 14)
+                                                                        <button type="button"
+                                                                            class="bg-green-500 text-white rounded flex items-center relative px-3 py-2"
+                                                                            aria-label="Selesai"
+                                                                            onclick="confirmStatusUpdate('form-selesai-{{ $order->id }}', 'Selesai', 'Pesanan ini telah selesai dan diterima oleh pelanggan.')">
+                                                                            <i class="fas fa-check-circle text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Selesai -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Selesai
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+                                                            @else
                                                             @endif
-                                                        </form>
-
-                                                        <!-- Form Kirim -->
-                                                        <form id="form-kirim-{{ $order->id }}" method="POST"
-                                                            action="{{ route('admin.order.updateStatus', $order->id) }}">
-                                                            @csrf
-                                                            <input type="hidden" name="status" value="shipping">
-
-                                                            @if ($order->status_order == 'processing')
-                                                                <button type="button"
-                                                                    class="bg-orange-500 rounded text-white flex items-center relative px-3 py-2"
-                                                                    aria-label="Kirim"
-                                                                    onclick="confirmStatusUpdate('form-kirim-{{ $order->id }}', 'Dikirim', 'Pesanan akan dikirim ke alamat tujuan.')">
-                                                                    <i class="fas fa-truck text-sm"></i>
-                                                                </button>
-                                                                <!-- Tooltip Kirim -->
-                                                                <span
-                                                                    class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
-                                                                    <span
-                                                                        class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
-                                                                    Kirim
-                                                                </span>
-                                                            @endif
-                                                        </form>
-
-                                                        <!-- Form Selesai -->
-                                                        <form id="form-selesai-{{ $order->id }}" method="POST"
-                                                            action="{{ route('admin.order.updateStatus', $order->id) }}">
-                                                            @csrf
-                                                            <input type="hidden" name="status" value="completed">
-
-                                                            @if ($order->status_order == 'shipping' && $order->created_at->diffInDays(now()) >= 14)
-                                                                <button type="button"
-                                                                    class="bg-green-500 text-white rounded flex items-center relative px-3 py-2"
-                                                                    aria-label="Selesai"
-                                                                    onclick="confirmStatusUpdate('form-selesai-{{ $order->id }}', 'Selesai', 'Pesanan ini telah selesai dan diterima oleh pelanggan.')">
-                                                                    <i class="fas fa-check-circle text-sm"></i>
-                                                                </button>
-                                                                <!-- Tooltip Selesai -->
-                                                                <span
-                                                                    class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
-                                                                    <span
-                                                                        class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
-                                                                    Selesai
-                                                                </span>
-                                                            @endif
-                                                        </form>
-                                                    @else
-                                                    @endif
-                                                </div>
+                                                        </div>
 
 
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {{-- <!-- Modal Hapus -->
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {{-- <!-- Modal Hapus -->
                                     <div class="modal fade" id="hapusmodal{{ $order->id }}" tabindex="-1"
                                         aria-labelledby="hapusModalLabel{{ $order->id }}" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -461,21 +750,778 @@
                                             </div>
                                         </div>
                                     </div> --}}
-                                @empty
-                                    <tr>
-                                        <td colspan="8" class="h-64">
-                                            <div
-                                                class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
-                                                <img src="{{ asset('img/empty-data.png') }}" alt=" Tidak Ditemukan"
-                                                    class="w-64 h-64">
-                                                <p class="text-lg text-gray-600 font-medium">Tidak ada pesanan</p>
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="h-64">
+                                                    <div
+                                                        class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
+                                                        <img src="{{ asset('img/empty-data.png') }}"
+                                                            alt=" Tidak Ditemukan" class="w-64 h-64">
+                                                        <p class="text-lg text-gray-600 font-medium">Tidak ada pesanan</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </table>
+                                </div>
+
+                                <!-- Dikemas -->
+                                <div x-show="openTab === 3">
+                                    <h3 class="text-lg font-bold">Order dikemas</h3>
+                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
+                                        <tr class="bg-gray-200">
+                                            <th class="px-4 py-2 text-left">No</th>
+                                            <th class="px-4 py-2 text-left">Pelanggan</th>
+                                            <th class="px-4 py-2 text-left">Produk</th>
+                                            <th class="px-4 py-2 text-left">Total</th>
+                                            <th class="px-4 py-2 text-left">Status Pesanan</th>
+                                            <th class="px-4 py-2 text-left">Status Pembayaran</th>
+                                            <th class="px-4 py-2 text-left">Dibuat</th>
+                                            <th class="px-4 py-2 text-left">Aksi</th>
+                                        </tr>
+                                        @forelse ($orders->where('status_order', 'processing') as $order)
+                                            <tr class="hover:bg-gray-100 border-b ">
+                                                <td class="px-4 py-2">
+                                                    {{ $loop->iteration ?? '-' }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->user->name }}
+                                                </td>
+                                                <td class="px-4 py-2 ">
+                                                    @if ($order->productOrders->count() > 2)
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders->take(2) as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                            <span class="flex justify-center text-2xl font-bold">...</span>
+                                                        </ul>
+                                                    @else
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    Rp.
+                                                    {{ number_format($order->grand_total_amount, 0, '.', '.') }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                                        @elseif ($order->status_order === 'processing')
+                                                            bg-yellow-200 text-yellow-600
+                                                        @elseif ($order->status_order === 'pending')
+                                                            bg-blue-200 text-blue-600
+                                                        @elseif ($order->status_order === 'shipping')
+                                                            bg-orange-200 text-orange-600
+                                                        @else
+                                                            bg-gray-200 text-gray-600 @endif">
+                                                            {{ ucfirst($order->status_order_label) }}
+                                                        </span>
+                                                    </div>
+
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                                        @if ($order->payment->status === 'failed') bg-yellow-200 text-red-600
+                                                        @elseif ($order->payment->status === 'pending')
+                                                            bg-blue-200 text-blue-600
+                                                        @elseif ($order->payment->status === 'expired')
+                                                            bg-gray-200 text-gray-600
+                                                        @elseif ($order->payment->status === 'success')
+                                                            bg-green-200 text-green-600
+                                                        @else
+                                                            bg-gray-100 text-gray-600 @endif">
+                                                            {{ ucfirst($order->payment->status) }}
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->created_at->format('d F Y') ?? 'kosong' }}
+                                                </td>
+                                                <td class="px-4 py-2">
+                                                    <div class="flex gap-2 py-10">
+                                                        <div class="relative group inline-block">
+                                                            <a href="{{ route('admin.orders.show', $order->id) }}"
+                                                                class="bg-blue-500 text-white px-3 py-2 rounded flex items-center">
+                                                                <i class="fas fa-eye text-sm"></i>
+                                                            </a>
+                                                            <span
+                                                                class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                <span
+                                                                    class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 "></span>
+                                                                Detail
+                                                            </span>
+                                                        </div>
+                                                        <!-- Form Hapus Pesanan -->
+                                                        {{-- <div class="relative group inline-block">
+                                                    <!-- Tombol Hapus yang akan membuka modal konfirmasi -->
+                                                    <form action="{{ route('admin.orders.destroy', $order->id) }}"
+                                                        method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button"
+                                                            class="bg-red-500 text-white px-3 py-2 rounded flex items-center"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#hapusmodal{{ $order->id }}">
+                                                            <i class="fas fa-trash text-sm"></i>
+                                                        </button>
+                                                        <span
+                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                            <span
+                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                            Hapus
+                                                        </span>
+                                                    </form>
+                                                </div> --}}
+                                                        <div class="relative group inline-block">
+                                                            @if ($order->payment && $order->payment->status != 'pending')
+                                                                <!-- Form Proses -->
+                                                                <form style="display: inline;"
+                                                                    id="form-proses-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="processing">
+
+                                                                    @if ($order->status_order == 'pending')
+                                                                        <button type="button"
+                                                                            class="bg-blue-400 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Proses"
+                                                                            onclick="confirmStatusUpdate('form-proses-{{ $order->id }}', 'Dikemas', 'Pesanan akan diproses dan dikemas.')">
+                                                                            <i class="fas fa-cogs text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kemas -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kemas
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Kirim -->
+                                                                <form id="form-kirim-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="shipping">
+
+                                                                    @if ($order->status_order == 'processing')
+                                                                        <button type="button"
+                                                                            class="bg-orange-500 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Kirim"
+                                                                            onclick="confirmStatusUpdate('form-kirim-{{ $order->id }}', 'Dikirim', 'Pesanan akan dikirim ke alamat tujuan.')">
+                                                                            <i class="fas fa-truck text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kirim -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kirim
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Selesai -->
+                                                                <form id="form-selesai-{{ $order->id }}"
+                                                                    method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="completed">
+
+                                                                    @if ($order->status_order == 'shipping' && $order->created_at->diffInDays(now()) >= 14)
+                                                                        <button type="button"
+                                                                            class="bg-green-500 text-white rounded flex items-center relative px-3 py-2"
+                                                                            aria-label="Selesai"
+                                                                            onclick="confirmStatusUpdate('form-selesai-{{ $order->id }}', 'Selesai', 'Pesanan ini telah selesai dan diterima oleh pelanggan.')">
+                                                                            <i class="fas fa-check-circle text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Selesai -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Selesai
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+                                                            @else
+                                                            @endif
+                                                        </div>
+
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {{-- <!-- Modal Hapus -->
+                                    <div class="modal fade" id="hapusmodal{{ $order->id }}" tabindex="-1"
+                                        aria-labelledby="hapusModalLabel{{ $order->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="hapusModalLabel{{ $order->id }}">Hapus
+                                                        Pesanan</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body" style="color: black;">
+                                                    Apakah Anda yakin ingin menghapus pesanan
+                                                    <strong>{{ $order->order }}</strong>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Kembali</button>
+                                                    <!-- Form untuk menghapus voucher -->
+                                                    <form action="{{ route('admin.orders.destroy', $order->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+                                        </div>
+                                    </div> --}}
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="h-64">
+                                                    <div
+                                                        class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
+                                                        <img src="{{ asset('img/empty-data.png') }}"
+                                                            alt=" Tidak Ditemukan" class="w-64 h-64">
+                                                        <p class="text-lg text-gray-600 font-medium">Tidak ada pesanan</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </table>
+                                </div>
+
+                                <!-- Dikirim -->
+                                <div x-show="openTab === 4">
+                                    <h3 class="text-lg font-bold">Order Dikirim</h3>
+                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
+                                        <tr class="bg-gray-200">
+                                            <th class="px-4 py-2 text-left">No</th>
+                                            <th class="px-4 py-2 text-left">Pelanggan</th>
+                                            <th class="px-4 py-2 text-left">Produk</th>
+                                            <th class="px-4 py-2 text-left">Total</th>
+                                            <th class="px-4 py-2 text-left">Status Pesanan</th>
+                                            <th class="px-4 py-2 text-left">Status Pembayaran</th>
+                                            <th class="px-4 py-2 text-left">Dibuat</th>
+                                            <th class="px-4 py-2 text-left">Aksi</th>
+                                        </tr>
+                                        @forelse ($orders->where('status_order', 'shipping') as $order)
+                                            <tr class="hover:bg-gray-100 border-b ">
+                                                <td class="px-4 py-2">
+                                                    {{ $loop->iteration ?? '-' }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->user->name }}
+                                                </td>
+                                                <td class="px-4 py-2 ">
+                                                    @if ($order->productOrders->count() > 2)
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders->take(2) as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                            <span class="flex justify-center text-2xl font-bold">...</span>
+                                                        </ul>
+                                                    @else
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    Rp.
+                                                    {{ number_format($order->grand_total_amount, 0, '.', '.') }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                                        @elseif ($order->status_order === 'processing')
+                                                            bg-yellow-200 text-yellow-600
+                                                        @elseif ($order->status_order === 'pending')
+                                                            bg-blue-200 text-blue-600
+                                                        @elseif ($order->status_order === 'shipping')
+                                                            bg-orange-200 text-orange-600
+                                                        @else
+                                                            bg-gray-200 text-gray-600 @endif">
+                                                            {{ ucfirst($order->status_order_label) }}
+                                                        </span>
+                                                    </div>
+
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                                        @if ($order->payment->status === 'failed') bg-yellow-200 text-red-600
+                                                        @elseif ($order->payment->status === 'pending')
+                                                            bg-blue-200 text-blue-600
+                                                        @elseif ($order->payment->status === 'expired')
+                                                            bg-gray-200 text-gray-600
+                                                        @elseif ($order->payment->status === 'success')
+                                                            bg-green-200 text-green-600
+                                                        @else
+                                                            bg-gray-100 text-gray-600 @endif">
+                                                            {{ ucfirst($order->payment->status) }}
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->created_at->format('d F Y') ?? 'kosong' }}
+                                                </td>
+                                                <td class="px-4 py-2">
+                                                    <div class="flex gap-2 py-10">
+                                                        <div class="relative group inline-block">
+                                                            <a href="{{ route('admin.orders.show', $order->id) }}"
+                                                                class="bg-blue-500 text-white px-3 py-2 rounded flex items-center">
+                                                                <i class="fas fa-eye text-sm"></i>
+                                                            </a>
+                                                            <span
+                                                                class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                <span
+                                                                    class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 "></span>
+                                                                Detail
+                                                            </span>
+                                                        </div>
+                                                        <!-- Form Hapus Pesanan -->
+                                                        {{-- <div class="relative group inline-block">
+                                                    <!-- Tombol Hapus yang akan membuka modal konfirmasi -->
+                                                    <form action="{{ route('admin.orders.destroy', $order->id) }}"
+                                                        method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button"
+                                                            class="bg-red-500 text-white px-3 py-2 rounded flex items-center"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#hapusmodal{{ $order->id }}">
+                                                            <i class="fas fa-trash text-sm"></i>
+                                                        </button>
+                                                        <span
+                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                            <span
+                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                            Hapus
+                                                        </span>
+                                                    </form>
+                                                </div> --}}
+                                                        <div class="relative group inline-block">
+                                                            @if ($order->payment && $order->payment->status != 'pending')
+                                                                <!-- Form Proses -->
+                                                                <form style="display: inline;"
+                                                                    id="form-proses-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="processing">
+
+                                                                    @if ($order->status_order == 'pending')
+                                                                        <button type="button"
+                                                                            class="bg-blue-400 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Proses"
+                                                                            onclick="confirmStatusUpdate('form-proses-{{ $order->id }}', 'Dikemas', 'Pesanan akan diproses dan dikemas.')">
+                                                                            <i class="fas fa-cogs text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kemas -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kemas
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Kirim -->
+                                                                <form id="form-kirim-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="shipping">
+
+                                                                    @if ($order->status_order == 'processing')
+                                                                        <button type="button"
+                                                                            class="bg-orange-500 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Kirim"
+                                                                            onclick="confirmStatusUpdate('form-kirim-{{ $order->id }}', 'Dikirim', 'Pesanan akan dikirim ke alamat tujuan.')">
+                                                                            <i class="fas fa-truck text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kirim -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kirim
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Selesai -->
+                                                                <form id="form-selesai-{{ $order->id }}"
+                                                                    method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="completed">
+
+                                                                    @if ($order->status_order == 'shipping' && $order->created_at->diffInDays(now()) >= 14)
+                                                                        <button type="button"
+                                                                            class="bg-green-500 text-white rounded flex items-center relative px-3 py-2"
+                                                                            aria-label="Selesai"
+                                                                            onclick="confirmStatusUpdate('form-selesai-{{ $order->id }}', 'Selesai', 'Pesanan ini telah selesai dan diterima oleh pelanggan.')">
+                                                                            <i class="fas fa-check-circle text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Selesai -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Selesai
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+                                                            @else
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {{-- <!-- Modal Hapus -->
+                                    <div class="modal fade" id="hapusmodal{{ $order->id }}" tabindex="-1"
+                                        aria-labelledby="hapusModalLabel{{ $order->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="hapusModalLabel{{ $order->id }}">Hapus
+                                                        Pesanan</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body" style="color: black;">
+                                                    Apakah Anda yakin ingin menghapus pesanan
+                                                    <strong>{{ $order->order }}</strong>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Kembali</button>
+                                                    <!-- Form untuk menghapus voucher -->
+                                                    <form action="{{ route('admin.orders.destroy', $order->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="h-64">
+                                                    <div
+                                                        class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
+                                                        <img src="{{ asset('img/empty-data.png') }}"
+                                                            alt=" Tidak Ditemukan" class="w-64 h-64">
+                                                        <p class="text-lg text-gray-600 font-medium">Tidak ada pesanan</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </table>
+                                </div>
+                                <!-- Selesai -->
+                                <div x-show="openTab === 5">
+                                    <h3 class="text-lg font-bold">Order Selesai</h3>
+                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
+                                        <tr class="bg-gray-200">
+                                            <th class="px-4 py-2 text-left">No</th>
+                                            <th class="px-4 py-2 text-left">Pelanggan</th>
+                                            <th class="px-4 py-2 text-left">Produk</th>
+                                            <th class="px-4 py-2 text-left">Total</th>
+                                            <th class="px-4 py-2 text-left">Status Pesanan</th>
+                                            <th class="px-4 py-2 text-left">Status Pembayaran</th>
+                                            <th class="px-4 py-2 text-left">Dibuat</th>
+                                            <th class="px-4 py-2 text-left">Aksi</th>
+                                        </tr>
+                                        @forelse ($orders->where('status_order', 'completed') as $order)
+                                            <tr class="hover:bg-gray-100 border-b ">
+                                                <td class="px-4 py-2">
+                                                    {{ $loop->iteration ?? '-' }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->user->name }}
+                                                </td>
+                                                <td class="px-4 py-2 ">
+                                                    @if ($order->productOrders->count() > 2)
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders->take(2) as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                            <span class="flex justify-center text-2xl font-bold">...</span>
+                                                        </ul>
+                                                    @else
+                                                        <ul class="list-disc">
+                                                            @foreach ($order->productOrders as $productOrder)
+                                                                <li class="flex justify-between items-center">
+                                                                    <span>{{ $productOrder->product->name_product }}</span>
+                                                                    <span
+                                                                        class="text-xs text-slate-700">(x{{ $productOrder->quantity }})</span>
+                                                                </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    @endif
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    Rp.
+                                                    {{ number_format($order->grand_total_amount, 0, '.', '.') }}
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                                        @elseif ($order->status_order === 'processing')
+                                                            bg-yellow-200 text-yellow-600
+                                                        @elseif ($order->status_order === 'pending')
+                                                            bg-blue-200 text-blue-600
+                                                        @elseif ($order->status_order === 'shipping')
+                                                            bg-orange-200 text-orange-600
+                                                        @else
+                                                            bg-gray-200 text-gray-600 @endif">
+                                                            {{ ucfirst($order->status_order_label) }}
+                                                        </span>
+                                                    </div>
+
+                                                </td>
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    <div class="d-flex align-items-center gap-2">
+                                                        <span
+                                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                                        @if ($order->payment->status === 'failed') bg-yellow-200 text-red-600
+                                                        @elseif ($order->payment->status === 'pending')
+                                                            bg-blue-200 text-blue-600
+                                                        @elseif ($order->payment->status === 'expired')
+                                                            bg-gray-200 text-gray-600
+                                                        @elseif ($order->payment->status === 'success')
+                                                            bg-green-200 text-green-600
+                                                        @else
+                                                            bg-gray-100 text-gray-600 @endif">
+                                                            {{ ucfirst($order->payment->status) }}
+                                                        </span>
+                                                    </div>
+                                                </td>
+
+
+                                                <td class="px-4 py-2 whitespace-nowrap">
+                                                    {{ $order->created_at->format('d F Y') ?? 'kosong' }}
+                                                </td>
+                                                <td class="px-4 py-2">
+                                                    <div class="flex gap-2 py-10">
+                                                        <div class="relative group inline-block">
+                                                            <a href="{{ route('admin.orders.show', $order->id) }}"
+                                                                class="bg-blue-500 text-white px-3 py-2 rounded flex items-center">
+                                                                <i class="fas fa-eye text-sm"></i>
+                                                            </a>
+                                                            <span
+                                                                class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                <span
+                                                                    class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45 "></span>
+                                                                Detail
+                                                            </span>
+                                                        </div>
+                                                        <!-- Form Hapus Pesanan -->
+                                                        {{-- <div class="relative group inline-block">
+                                                    <!-- Tombol Hapus yang akan membuka modal konfirmasi -->
+                                                    <form action="{{ route('admin.orders.destroy', $order->id) }}"
+                                                        method="POST" style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button"
+                                                            class="bg-red-500 text-white px-3 py-2 rounded flex items-center"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#hapusmodal{{ $order->id }}">
+                                                            <i class="fas fa-trash text-sm"></i>
+                                                        </button>
+                                                        <span
+                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                            <span
+                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                            Hapus
+                                                        </span>
+                                                    </form>
+                                                </div> --}}
+                                                        <div class="relative group inline-block">
+                                                            @if ($order->payment && $order->payment->status != 'pending')
+                                                                <!-- Form Proses -->
+                                                                <form style="display: inline;"
+                                                                    id="form-proses-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="processing">
+
+                                                                    @if ($order->status_order == 'pending')
+                                                                        <button type="button"
+                                                                            class="bg-blue-400 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Proses"
+                                                                            onclick="confirmStatusUpdate('form-proses-{{ $order->id }}', 'Dikemas', 'Pesanan akan diproses dan dikemas.')">
+                                                                            <i class="fas fa-cogs text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kemas -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kemas
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Kirim -->
+                                                                <form id="form-kirim-{{ $order->id }}" method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="shipping">
+
+                                                                    @if ($order->status_order == 'processing')
+                                                                        <button type="button"
+                                                                            class="bg-orange-500 rounded text-white flex items-center relative px-3 py-2"
+                                                                            aria-label="Kirim"
+                                                                            onclick="confirmStatusUpdate('form-kirim-{{ $order->id }}', 'Dikirim', 'Pesanan akan dikirim ke alamat tujuan.')">
+                                                                            <i class="fas fa-truck text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Kirim -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Kirim
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+
+                                                                <!-- Form Selesai -->
+                                                                <form id="form-selesai-{{ $order->id }}"
+                                                                    method="POST"
+                                                                    action="{{ route('admin.order.updateStatus', $order->id) }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="status"
+                                                                        value="completed">
+
+                                                                    @if ($order->status_order == 'shipping' && $order->created_at->diffInDays(now()) >= 14)
+                                                                        <button type="button"
+                                                                            class="bg-green-500 text-white rounded flex items-center relative px-3 py-2"
+                                                                            aria-label="Selesai"
+                                                                            onclick="confirmStatusUpdate('form-selesai-{{ $order->id }}', 'Selesai', 'Pesanan ini telah selesai dan diterima oleh pelanggan.')">
+                                                                            <i class="fas fa-check-circle text-sm"></i>
+                                                                        </button>
+                                                                        <!-- Tooltip Selesai -->
+                                                                        <span
+                                                                            class="absolute hidden group-hover:block bg-gray-800 text-white text-sm rounded px-2 py-1 mt-2 left-1/2 transform -translate-x-1/2">
+                                                                            <span
+                                                                                class="absolute bg-gray-800 h-2 w-2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rotate-45"></span>
+                                                                            Selesai
+                                                                        </span>
+                                                                    @endif
+                                                                </form>
+                                                            @else
+                                                            @endif
+                                                        </div>
+
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {{-- <!-- Modal Hapus -->
+                                    <div class="modal fade" id="hapusmodal{{ $order->id }}" tabindex="-1"
+                                        aria-labelledby="hapusModalLabel{{ $order->id }}" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="hapusModalLabel{{ $order->id }}">Hapus
+                                                        Pesanan</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body" style="color: black;">
+                                                    Apakah Anda yakin ingin menghapus pesanan
+                                                    <strong>{{ $order->order }}</strong>?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Kembali</button>
+                                                    <!-- Form untuk menghapus voucher -->
+                                                    <form action="{{ route('admin.orders.destroy', $order->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
+                                        @empty
+                                            <tr>
+                                                <td colspan="8" class="h-64">
+                                                    <div
+                                                        class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
+                                                        <img src="{{ asset('img/empty-data.png') }}"
+                                                            alt=" Tidak Ditemukan" class="w-64 h-64">
+                                                        <p class="text-lg text-gray-600 font-medium">Tidak ada pesanan</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+
                     <div class="mt-4">
                         {{ $orders->links() }}
                     </div>
