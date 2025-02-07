@@ -358,7 +358,7 @@
                 <!-- Baris kedua dengan 1 card 3 : Data Produk -->
 
                 <div class="bg-white border border-gray-300 rounded-lg p-4">
-                    <h3 class="font-semibold text-lg mb-4 bg-blue-500 text-white p-3 rounded-md">Produk yang dipesan</h3>
+                    <h3 class="font-semibold text-lg mb-4 bg-blue-500 text-white p-3 rounded-md">Produk yang dipesan ({{ $order->order_code ?? 'kosong' }})</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         @foreach ($order->productOrders as $productOrder)
                             <div class="flex items-center justify-start gap-1 mx-2">

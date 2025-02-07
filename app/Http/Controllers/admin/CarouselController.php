@@ -37,9 +37,9 @@ class CarouselController extends Controller
     {
         $request->validate([
             'title' => 'required',
-            'desktop_image' => 'required|image|mimes:jpeg,png,jpg|max:2048|dimensions:width=1920,height=600',
-            'tablet_image' => 'required|image|mimes:jpeg,png,jpg|max:2048|dimensions:width=1280,height=500',
-            'mobile_image' => 'required|image|mimes:jpeg,png,jpg|max:2048|dimensions:width=768,height=400',
+            'desktop_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'tablet_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'mobile_image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ],[
             'title.required' => 'Judul wajib diisi.',
             'desktop_image.required' => 'Gambar desktop wajib diisi.',

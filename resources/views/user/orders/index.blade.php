@@ -1,6 +1,6 @@
 @extends('layouts.user')
 @section('main')
-    
+
     <style>
         * {
             /* border: 1px solid black; */
@@ -121,15 +121,15 @@
                                     <span class="block">{{ $order->created_at->translatedFormat('d F Y') }}</span>
                                     <div class="flex">
                                         <span
-                                            class="px-3 py-1 rounded-full text-sm font-semibold 
-                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600 
-                                        @elseif ($order->status_order === 'processing') 
-                                            bg-yellow-200 text-yellow-600 
-                                        @elseif ($order->status_order === 'pending') 
-                                            bg-blue-200 text-blue-600 
-                                        @elseif ($order->status_order === 'shipping') 
+                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                        @elseif ($order->status_order === 'processing')
+                                            bg-yellow-200 text-yellow-600
+                                        @elseif ($order->status_order === 'pending')
+                                            bg-blue-200 text-blue-600
+                                        @elseif ($order->status_order === 'shipping')
                                             bg-orange-200 text-orange-600
-                                        @else 
+                                        @else
                                             bg-gray-200 text-gray-600 @endif">
                                             {{ ucfirst($order->status_order_label ) }}
                                         </span>
@@ -245,15 +245,15 @@
                                     <span class="block">{{ $order->created_at->translatedFormat('d F Y') }}</span>
                                     <div class="flex">
                                         <span
-                                            class="px-3 py-1 rounded-full text-sm font-semibold 
-                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600 
-                                        @elseif ($order->status_order === 'processing') 
-                                            bg-yellow-200 text-yellow-600 
-                                        @elseif ($order->status_order === 'pending') 
-                                            bg-blue-200 text-blue-600 
-                                        @elseif ($order->status_order === 'shipping') 
+                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                        @elseif ($order->status_order === 'processing')
+                                            bg-yellow-200 text-yellow-600
+                                        @elseif ($order->status_order === 'pending')
+                                            bg-blue-200 text-blue-600
+                                        @elseif ($order->status_order === 'shipping')
                                             bg-orange-200 text-orange-600
-                                        @else 
+                                        @else
                                             bg-gray-200 text-gray-600 @endif">
                                             {{ ucfirst($order->status_order_label) }}
                                         </span>
@@ -369,15 +369,15 @@
                                     <span class="block">{{ $order->created_at->translatedFormat('d F Y') }}</span>
                                     <div class="flex">
                                         <span
-                                            class="px-3 py-1 rounded-full text-sm font-semibold 
-                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600 
-                                        @elseif ($order->status_order === 'processing') 
-                                            bg-yellow-200 text-yellow-600 
-                                        @elseif ($order->status_order === 'pending') 
-                                            bg-blue-200 text-blue-600 
-                                        @elseif ($order->status_order === 'shipping') 
+                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                        @elseif ($order->status_order === 'processing')
+                                            bg-yellow-200 text-yellow-600
+                                        @elseif ($order->status_order === 'pending')
+                                            bg-blue-200 text-blue-600
+                                        @elseif ($order->status_order === 'shipping')
                                             bg-orange-200 text-orange-600
-                                        @else 
+                                        @else
                                             bg-gray-200 text-gray-600 @endif">
                                             {{ ucfirst($order->status_order_label) }}
                                         </span>
@@ -491,15 +491,15 @@
                                     <span class="block">{{ $order->created_at->translatedFormat('d F Y') }}</span>
                                     <div class="flex">
                                         <span
-                                            class="px-3 py-1 rounded-full text-sm font-semibold 
-                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600 
-                                        @elseif ($order->status_order === 'processing') 
-                                            bg-yellow-200 text-yellow-600 
-                                        @elseif ($order->status_order === 'pending') 
-                                            bg-blue-200 text-blue-600 
-                                        @elseif ($order->status_order === 'shipping') 
+                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                        @elseif ($order->status_order === 'processing')
+                                            bg-yellow-200 text-yellow-600
+                                        @elseif ($order->status_order === 'pending')
+                                            bg-blue-200 text-blue-600
+                                        @elseif ($order->status_order === 'shipping')
                                             bg-orange-200 text-orange-600
-                                        @else 
+                                        @else
                                             bg-gray-200 text-gray-600 @endif">
                                             {{ ucfirst($order->status_order_label) }}
                                         </span>
@@ -614,15 +614,15 @@
                                     <span class="block">{{ $order->created_at->translatedFormat('d F Y') }}</span>
                                     <div class="flex">
                                         <span
-                                            class="px-3 py-1 rounded-full text-sm font-semibold 
-                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600 
-                                        @elseif ($order->status_order === 'processing') 
-                                            bg-yellow-200 text-yellow-600 
-                                        @elseif ($order->status_order === 'pending') 
-                                            bg-blue-200 text-blue-600 
-                                        @elseif ($order->status_order === 'shipping') 
+                                            class="px-3 py-1 rounded-full text-sm font-semibold
+                                        @if ($order->status_order === 'completed') bg-green-200 text-green-600
+                                        @elseif ($order->status_order === 'processing')
+                                            bg-yellow-200 text-yellow-600
+                                        @elseif ($order->status_order === 'pending')
+                                            bg-blue-200 text-blue-600
+                                        @elseif ($order->status_order === 'shipping')
                                             bg-orange-200 text-orange-600
-                                        @else 
+                                        @else
                                             bg-gray-200 text-gray-600 @endif">
                                             {{ ucfirst($order->status_order_label) }}
                                         </span>

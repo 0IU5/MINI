@@ -222,7 +222,7 @@
                 <a href="{{ route('landing-page') }}" class="text-center block mb-10 w-full">
                     <img src="{{ asset('img/logo&text.svg') }}" alt="logo" class="w-32 mr-2 mx-auto">
                 </a>
-                <form method="GET" action="{{ route('page.product') }}">
+                <form action="{{ route('page.product') }}" method="GET">
                     <div class="ps-3">
                         <h1 class="font-semibold text-xl text-blue-700 mb-5">Kategori</h1>
 
@@ -333,14 +333,11 @@
                             Terapkan
                         </button>
                     </div>
-                </form>
-
 
             </div>
         </div>
         <div class="px-5">
             <div class=" flex w-full justify-between gap-5 mb-5 sticky top-0 z-10 bg-white py-3 md:pe-5">
-
                 <div
                     class="py-2 rounded-[20px] hidden gap-4 items-center md:w-auto hidden xl:gap-10 items-center xl:flex">
                     <div class="hidden md:flex gap-10">
@@ -363,7 +360,8 @@
                     </div>
                 </div>
 
-                <form action="{{ route('page.product') }}" method="GET"
+
+                <div
                     class=" gap-2 flex-1 md:flex-none hidden gap-1 bg-gray-100 rounded-full items-center xl:flex py-2 px-5">
                     <input type="text" name="search" value="{{ request()->get('search') }}"
                         class=" outline-none text-sm w-full text-slate-800 md:w-80 bg-transparent"
@@ -381,6 +379,7 @@
                             </g>
                         </svg>
                     </button>
+                </div>
                 </form>
 
                 <div class="flex gap-1 items-center cursor-pointer">
@@ -413,7 +412,7 @@
                                 id="cartCountItem"> 0</span>
                         </span>
                     </div>
-                    
+
                     <!-- Notifikasi Icon dan Dropdown -->
                     @auth
                         @if (!auth()->user()->hasRole('admin'))
