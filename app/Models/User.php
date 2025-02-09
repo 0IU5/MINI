@@ -54,10 +54,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Address::class);
     }
-    public function order()
+    public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'user_id', 'id');
     }
+
 
     // Relasi dengan Review
     public function reviews()
@@ -82,7 +83,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(UsedPromoCode::class);
     }
-    
+
     public function userNotification()
     {
         return $this->hasMany(UserOrderNotification::class, 'order_id', 'id');

@@ -46,6 +46,7 @@
     <div id="loader">
         <img src="{{ asset('img/logo2.png') }}" alt="Loading...">
     </div>
+
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
@@ -70,16 +71,15 @@
                             <li class="nav-item dropdown me-3">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="notificationDropdown"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <!-- SVG for Notification Icon -->
                                     <i class="fa-regular fa-bell"></i>
 
-                                    @if ($unreadNotifications->count() > 0)
+                                    @if ($totalNotifications > 0)
                                         <span class="relative flex h-4 w-4 -translate-y-2 -translate-x-1">
                                             <span
                                                 class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                                             <span
                                                 class="relative inline-flex rounded-full h-4 w-4 bg-red-500 text-white text-[10px] flex items-center justify-center">
-                                                {{ $unreadNotifications->count() }}
+                                                {{ $totalNotifications }}
                                             </span>
                                         </span>
                                     @endif
@@ -87,50 +87,76 @@
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up rounded-lg shadow-lg bg-white border border-gray-200 w-96"
                                     aria-labelledby="notificationDropdown">
                                     <div class="notification-list max-h-80 overflow-y-auto p-4">
-                                        @forelse($unreadNotifications as $notification)
-                                            <a href="{{ route('admin.orders.show', $notification->order->id) }}"
-                                                class="dropdown-item border-b last:border-0 py-3 px-2 hover:bg-gray-100 rounded-lg transition-all duration-200"
-                                                data-order-id="{{ $notification->order_id }}">
-                                                <div class="d-flex align-items-center gap-3">
-                                                    <div class="flex-shrink-0">
-                                                        <!-- Icon or Avatar for the User (optional) -->
-                                                        <i class="fa-solid fa-user-circle text-2xl text-gray-500"></i>
-                                                    </div>
-                                                    <div class="flex-grow">
-                                                        <h6 class="mb-1 text-sm font-medium text-gray-800">
-                                                            {{ $notification->order->user->name }}</h6>
-                                                        <p class="mb-1 text-xs text-gray-600">
-                                                            @if ($notification->order->productOrders->count() > 1)
-                                                                {{ $notification->order->productOrders->first()->product->name_product }}
-                                                                <span class="text-secondary text-gray-600"
-                                                                    style="font-size: 0.85em;">dan lainnya</span>
-                                                            @else
-                                                                {{ $notification->order->productOrders->first()->product->name_product }}
-                                                            @endif
-                                                        </p>
-                                                        <p class="text-xs text-gray-500">
-                                                            {{ $notification->created_at->diffForHumans() }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        @empty
+                                        @if ($allNotifications->isNotEmpty())
+                                            @foreach ($allNotifications as $notification)
+                                                <form
+                                                    action="{{ $notification->type === 'order' ? route('admin.notifications.mark-as-read', $notification->id) : route('admin.stock-notifications.mark-as-read', $notification->id) }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <a href="{{ $notification->type === 'order' ? route('admin.orders.show', $notification->order->id) : route('admin.products.show', $notification->product->slug) }}"
+                                                        class="dropdown-item border-b last:border-0 py-3 px-2 hover:bg-gray-100 rounded-lg transition-all duration-200"
+                                                        data-notification-id="{{ $notification->id }}"
+                                                        data-notification-type="{{ $notification->type }}">
+                                                        <div class="d-flex align-items-center gap-3">
+                                                            <div class="flex-shrink-0">
+                                                                @if ($notification->type === 'order')
+                                                                    <i
+                                                                        class="fa-solid fa-shopping-cart text-2xl text-blue-500"></i>
+                                                                @else
+                                                                    <i
+                                                                        class="fa-solid fa-box text-2xl {{ $notification->notification_type === 'out_of_stock' ? 'text-red-500' : 'text-yellow-500' }}"></i>
+                                                                @endif
+                                                            </div>
+                                                            <div class="flex-grow">
+                                                                <h6 class="mb-1 text-sm font-medium text-gray-800">
+                                                                    @if ($notification->type === 'order')
+                                                                        {{ $notification->order->user->name }}
+                                                                    @else
+                                                                        {{ $notification->message }}
+                                                                    @endif
+                                                                </h6>
+                                                                @if ($notification->type === 'order')
+                                                                    <p class="mb-1 text-xs text-gray-600">
+                                                                        @if ($notification->order->productOrders->count() > 1)
+                                                                            {{ $notification->order->productOrders->first()->product->name_product }}
+                                                                            <span class="text-secondary text-gray-600"
+                                                                                style="font-size: 0.85em;">dan
+                                                                                lainnya</span>
+                                                                        @else
+                                                                            {{ $notification->order->productOrders->first()->product->name_product }}
+                                                                        @endif
+                                                                    </p>
+                                                                @endif
+                                                                <p class="text-xs text-gray-500">
+                                                                    {{ $notification->created_at->diffForHumans() }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </form>
+                                            @endforeach
+                                        @else
                                             <div class="dropdown-item px-4 py-2">
-                                                <p class="mb-0 text-muted text-center">Tidak ada orderan baru</p>
+                                                <p class="mb-0 text-muted text-center">Tidak ada notifikasi</p>
                                             </div>
-                                        @endforelse
+                                        @endif
                                     </div>
 
-                                    <!-- Link "Tandai Semua Sudah Dibaca" -->
-                                    <div class="px-4 py-3 border-t border-gray-100 bg-gray-50 text-center">
-                                        <form action="{{ route('admin.notifications.mark-all-as-read') }}"
-                                            method="POST">
-                                            @csrf
-                                            <button type="submit"
-                                                class="text-xs text-blue-500 hover:text-blue-700 font-medium">Tandai
-                                                Semua Sudah Dibaca</button>
-                                        </form>
-                                    </div>
+                                    <!-- Footer Actions -->
+                                    @if ($allNotifications->isNotEmpty())
+                                        <div class="px-4 py-3 border-t border-gray-100 bg-gray-50">
+                                            <div class="flex justify-center">
+                                                <form action="{{ route('admin.notifications.mark-all-as-read') }}"
+                                                    method="POST">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="text-xs text-blue-500 hover:text-blue-700 font-medium">
+                                                        Tandai Semua Dibaca
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
                             </li>
 
@@ -211,46 +237,76 @@
     <script src="{{ asset('style/src/assets/libs/simplebar/dist/simplebar.js') }}"></script>
     <script src="{{ asset('style/src/assets/js/dashboard.js') }}"></script>
     <script src="{{ asset('loading/loading.js') }}"></script>
-    <script>
-        // Update the JavaScript code
-        document.addEventListener('DOMContentLoaded', function() {
-            // Update selector to match the actual class in HTML
-            document.querySelectorAll('.dropdown-item[data-order-id]').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    const orderId = this.dataset.orderId;
 
-                    // Fix template literal syntax
-                    fetch(`/admin/notifications/mark-as-read/${orderId}`, {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.dropdown-item[data-notification-id]').forEach(item => {
+                item.addEventListener('click', async function(e) {
+                    e.preventDefault();
+
+                    const form = this.closest('form');
+                    const detailUrl = this.getAttribute('href');
+
+                    try {
+                        // Submit form using fetch
+                        const response = await fetch(form.action, {
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector(
                                     'meta[name="csrf-token"]').content,
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Remove this notification item
-                                this.remove();
+                                'Accept': 'application/json'
+                            },
+                            body: new FormData(form)
+                        });
 
-                                // Update notification counter
-                                const badge = document.querySelector(
-                                    '#notificationDropdown .relative');
-                                if (badge) {
-                                    const countElement = badge.querySelector('span:last-child');
-                                    const count = parseInt(countElement.textContent) - 1;
-                                    if (count <= 0) {
-                                        badge.remove();
-                                    } else {
-                                        countElement.textContent = count;
-                                    }
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+
+                        // Remove the notification item
+                        form.remove();
+
+                        // Update badge counter
+                        updateNotificationCount();
+
+                        // Check if there are any notifications left
+                        const remainingNotifications = document.querySelectorAll(
+                            '.dropdown-item[data-notification-id]');
+                        if (remainingNotifications.length === 0) {
+                            const notificationList = document.querySelector(
+                                '.notification-list');
+                            if (notificationList) {
+                                notificationList.innerHTML = `
+                            <div class="dropdown-item px-4 py-2">
+                                <p class="mb-0 text-muted text-center">Tidak ada notifikasi</p>
+                            </div>
+                        `;
+
+                                // Remove footer action
+                                const footerAction = document.querySelector(
+                                    '.px-4.py-3.border-t');
+                                if (footerAction) {
+                                    footerAction.remove();
                                 }
                             }
-                        })
-                        .catch(error => console.error('Error:', error));
+                        }
+
+                        // Navigate to detail page
+                        window.location.href = detailUrl;
+
+                    } catch (error) {
+                        console.error('Error:', error);
+                        window.location.href = detailUrl;
+                    }
                 });
             });
+
+            function updateNotificationCount() {
+                const badge = document.querySelector('#notificationDropdown .relative');
+                if (badge) {
+                    badge.remove(); // Langsung hapus badge
+                }
+            }
         });
     </script>
 

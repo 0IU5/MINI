@@ -40,6 +40,15 @@
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Kolom Keterangan Produk (Card 1) dengan lebar 70% -->
                     <div class="bg-white p-4 rounded-lg  border lg:col-span-2">
+                        <h4 class="text-sm text-slate-600 italic text-right">
+                            <span class="not-italic font-semibold">Dibuat:</span>
+                            {{ $product->created_at->translatedFormat('d F Y') }}
+                        </h4>
+                        <h4 class="text-sm text-slate-600 italic text-right">
+                            <span class="not-italic font-semibold">Diperbarui:</span>
+                            {{ $product->updated_at->translatedFormat('d F Y') }}
+                        </h4>
+
                         <!-- Nama Produk -->
                         <h3 class="text-2xl font-extrabold text-gray-800 mb-4">{{ $product->name_product ?? '-' }}</h3>
 
@@ -77,23 +86,25 @@
                                     <!-- Lingkaran warna -->
                                     <div
                                         class="w-4 h-4 rounded-full mr-2 
-                                    {{ $product->stock_product == 0
-                                        ? 'bg-gray-500'
-                                        : ($product->stock_product <= 10
-                                            ? 'bg-red-600'
-                                            : ($product->stock_product <= 50
-                                                ? 'bg-yellow-500'
-                                                : 'bg-green-500')) }}">
+                                        {{ $product->stock_product == 0
+                                            ? 'bg-gray-500'
+                                            : ($product->stock_product <= 5 ? 'bg-red-600' : ($product->stock_product <= 10 ? 'bg-yellow-500' : 'bg-green-500')) }}">
                                     </div>
+
                                     <!-- Jumlah stok -->
                                     <div class="text-sm font-medium text-gray-700">
                                         <span class="font-semibold">
                                             {{ $product->stock_product == 0 ? 'Habis' : $product->stock_product . ' unit' }}
                                         </span>
-                                    </div>
 
+                                        <!-- Pesan "Stok Menipis" jika stok kurang dari 5 -->
+                                        @if ($product->stock_product > 0 && $product->stock_product < 5)
+                                            <span class="text-red-600 font-semibold ml-2">Stok Menipis!</span>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
+
 
                             <!-- Kategori Column -->
                             <div class="flex-col w-1/3">
@@ -119,62 +130,6 @@
                             <div class="text-xs font-semibold text-gray-500 mb-1">Deskripsi</div>
                             <div class="flex border justify-start items-center w-full rounded-md p-3">
                                 <p class="text-sm text-gray-700">{!! nl2br(e($product->description_product)) !!}</p>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- Kolom Waktu Create dan Update (Card 2) dengan lebar 30% -->
-                    <div
-                        class="h-96 bg-gradient-to-r from-blue-800 to-blue-400 p-4 rounded-lg shadow-sm border lg:col-span-1 flex flex-col">
-                        <h3 class="text-lg font-semibold my-1 text-white">Informasi</h3>
-                        <div class="text-sm text-white">
-                            <h4 class="font-semibold text-gray-200 my-2">Status Stok</h4>
-                            <div
-                                class="bg-white shadow-md rounded-md p-3  flex justify-between items-center gap-2 text-sm font-medium text-gray-700">
-                                <!-- Card 1 - Merah -->
-                                <div class="flex items-center">
-                                    <div class="w-5 h-5 rounded-full bg-red-600 mr-2"></div>
-                                    <span class="text-sm font-semibold text-red-600">Sedikit</span>
-                                </div>
-
-                                <!-- Card 2 - Kuning -->
-                                <div class="flex items-center">
-                                    <div class="w-5 h-5 rounded-full bg-yellow-500 mr-2"></div>
-                                    <span class="text-sm font-semibold text-yellow-500">Cukup</span>
-                                </div>
-
-                                <!-- Card 3 - Hijau -->
-                                <div class="flex items-center">
-                                    <div class="w-5 h-5 rounded-full bg-green-500 mr-2"></div>
-                                    <span class="text-sm font-semibold text-green-500">Aman</span>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="text-sm text-white">
-                            <h4 class="font-semibold text-gray-200 my-2">Waktu</h4>
-                            <div class="flex gap-4">
-                                <!-- Card Dibuat -->
-                                <div class="bg-white shadow-md rounded-md p-3 w-full sm:w-auto">
-                                    <div class="text-xs font-semibold text-gray-500 mb-1">Dibuat</div>
-                                    <div class="text-sm font-medium text-gray-700">
-                                        <span
-                                            class="font-semibold">{{ $product->created_at->translatedFormat('d F Y') }}</span>
-                                    </div>
-                                </div>
-
-                                <!-- Card Diupdate -->
-                                <div class="bg-white shadow-md rounded-md p-3 w-full sm:w-auto">
-                                    <div class="text-xs font-semibold text-gray-500 mb-1">Diperbarui</div>
-                                    <div class="text-sm font-medium text-gray-700">
-                                        <span
-                                            class="font-semibold">{{ $product->updated_at->translatedFormat('d F Y') }}</span>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
