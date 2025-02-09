@@ -3,15 +3,16 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AdminNotificationController;
+use App\Http\Controllers\ProductStockNotificationController;
 use App\Http\Controllers\admin\UserController as AdminUserController;
 use App\Http\Controllers\admin\BrandController as AdminBrandController;
 use App\Http\Controllers\admin\OrderController as AdminOrderController;
 use App\Http\Controllers\admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\admin\ProductController as AdminProductController;
+use App\Http\Controllers\admin\CarouselController as AdminCarouselController;
 use App\Http\Controllers\admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\admin\DiscountController as AdminDiscountController;
 use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\admin\CarouselController as AdminCarouselController;
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
@@ -20,6 +21,15 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
 
     Route::post('/notifications/mark-all-as-read', [AdminNotificationController::class, 'markAllAsRead'])
         ->name('admin.notifications.mark-all-as-read');
+
+    Route::post('admin/stock-notifications/mark-all-as-read', [ProductStockNotificationController::class, 'markAllAsRead'])
+        ->name('admin.stock-notifications.mark-all-as-read');
+
+    Route::post('/notifications/mark-as-read/{id}', [AdminNotificationController::class, 'markAsRead'])
+        ->name('admin.notifications.mark-as-read');
+
+    Route::post('/admin/stock-notifications/{id}/mark-as-read', [AdminNotificationController::class, 'markStockAsRead'])
+        ->name('admin.stock-notifications.mark-as-read');
 
     Route::resource('dashboard', AdminDashboardController::class);
 

@@ -51,12 +51,14 @@
                             <div class="flex justify-between items-center mb-4">
                                 <div class="d-flex align-items-center">
                                     <!-- Pencarian -->
-                                    <input type="text" name="search" class="form-control me-2 border-lg border-[#5d85fa]" placeholder="Cari"
+                                    <input type="text" name="search"
+                                        class="form-control me-2 border-lg border-[#5d85fa]" placeholder="Cari"
                                         value="{{ request('search') }}" style="width: 200px;">
                                     <button type="submit" class="btn btn-primary">Cari</button>
                                 </div>
                                 <div class="flex items-center gap-4">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambahmodal">
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#tambahmodal">
                                         + Tambah Vocher
                                     </button>
                                 </div>
@@ -64,24 +66,38 @@
 
                             <div class="grid grid-cols-3 gap-3 text-white border-t border-gray-600 pt-4 mb-4">
                                 <div>
-                                    <select name="price_discount" class="bg-[#5d85fa] text-white border border-gray-600 rounded-lg py-2 px-3 w-full" onchange="this.form.submit()">
+                                    <select name="price_discount"
+                                        class="bg-[#5d85fa] text-white border border-gray-600 rounded-lg py-2 px-3 w-full"
+                                        onchange="this.form.submit()">
                                         <option value="">Diskon</option>
-                                        <option value="asc" {{ request('price_discount') == 'asc' ? 'selected' : '' }}>Terendah ke Tertinggi</option>
-                                        <option value="desc" {{ request('price_discount') == 'desc' ? 'selected' : '' }}>Tertinggi ke Terendah</option>
+                                        <option value="asc" {{ request('price_discount') == 'asc' ? 'selected' : '' }}>
+                                            Terendah ke Tertinggi</option>
+                                        <option value="desc" {{ request('price_discount') == 'desc' ? 'selected' : '' }}>
+                                            Tertinggi ke Terendah</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <select name="kuantitas" class="bg-[#5d85fa] text-white border border-gray-600 rounded-lg py-2 px-3 w-full" onchange="this.form.submit()">
+                                    <select name="kuantitas"
+                                        class="bg-[#5d85fa] text-white border border-gray-600 rounded-lg py-2 px-3 w-full"
+                                        onchange="this.form.submit()">
                                         <option value="">Kuantitas</option>
-                                        <option value="asc" {{ request('kuantitas') == 'asc' ? 'selected' : '' }}>Sedikit Ke Terbanyak</option>
-                                        <option value="desc" {{ request('kuantitas') == 'desc' ? 'selected' : '' }}>Terbanyak Ke Sedikit</option>
+                                        <option value="asc" {{ request('kuantitas') == 'asc' ? 'selected' : '' }}>Sedikit
+                                            Ke Terbanyak</option>
+                                        <option value="desc" {{ request('kuantitas') == 'desc' ? 'selected' : '' }}>
+                                            Terbanyak Ke Sedikit</option>
                                     </select>
                                 </div>
                                 <div>
-                                    <select name="minimal_pembelian" class="bg-[#5d85fa] text-white border border-gray-600 rounded-lg py-2 px-3 w-full" onchange="this.form.submit()">
+                                    <select name="minimal_pembelian"
+                                        class="bg-[#5d85fa] text-white border border-gray-600 rounded-lg py-2 px-3 w-full"
+                                        onchange="this.form.submit()">
                                         <option value="">Minimal Pembelian</option>
-                                        <option value="asc" {{ request('minimal_pembelian') == 'asc' ? 'selected' : '' }}>Terendah ke Tertinggi</option>
-                                        <option value="desc" {{ request('minimal_pembelian') == 'desc' ? 'selected' : '' }}>Tertinggi ke Terendah</option>
+                                        <option value="asc"
+                                            {{ request('minimal_pembelian') == 'asc' ? 'selected' : '' }}>Terendah ke
+                                            Tertinggi</option>
+                                        <option value="desc"
+                                            {{ request('minimal_pembelian') == 'desc' ? 'selected' : '' }}>Tertinggi ke
+                                            Terendah</option>
                                     </select>
                                 </div>
                             </div>
@@ -195,36 +211,47 @@
                                                 <!-- Modal Body -->
                                                 <div class="modal-body">
                                                     <div class="title w-full flex justify-center items-center">
-                                                        <p class="text-xl font-bold mb-2"><span
-                                                                class="text-blue-400 ">Pengguna</span> kode voucher</p>
+                                                        <p class="text-xl font-bold mb-2 text-center">
+                                                            <span class="text-blue-400">Pengguna</span> kode voucher
+                                                        </p>
                                                     </div>
                                                     @if ($code->users->count() > 0)
                                                         <div
-                                                            class="grid grid-cols-1 sm:grid-cols-2 gap-4 p-3 max-h-96 overflow-y-auto">
+                                                            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 p-3 max-h-96 overflow-y-auto">
                                                             @foreach ($code->users as $user)
                                                                 <div
-                                                                    class="flex items-center p-3 border rounded-lg shadow-sm bg-gray-50">
+                                                                    class="flex items-center p-3 border rounded-lg shadow-sm bg-gray-50 space-x-4">
                                                                     <!-- User Avatar -->
-                                                                    @if ($user->image)
-                                                                        <img src="{{ asset('storage/' . $user->image) }}"
-                                                                            alt="Profile Picture"
-                                                                            class="rounded-full w-16 h-16 mr-4">
-                                                                    @else
-                                                                        <img src="{{ asset('style/src/assets/images/profile/user-1.jpg') }}"
-                                                                            alt="User Avatar"
-                                                                            class="rounded-full w-14 h-14 mr-4">
-                                                                    @endif
+                                                                    <div class="flex-shrink-0">
+                                                                        @if ($user->image)
+                                                                            <img src="{{ asset('storage/' . $user->image) }}"
+                                                                                alt="Profile Picture"
+                                                                                class="rounded-full w-14 h-14 sm:w-16 sm:h-16">
+                                                                        @else
+                                                                            <img src="{{ asset('style/src/assets/images/profile/user-1.jpg') }}"
+                                                                                alt="User Avatar"
+                                                                                class="rounded-full w-14 h-14 sm:w-16 sm:h-16">
+                                                                        @endif
+                                                                    </div>
                                                                     <!-- User Details -->
-                                                                    <div>
-                                                                        <h6 class="font-bold text-lg mb-1">
-                                                                            {{ $user->name }}</h6>
-                                                                        <p class="text-sm text-gray-600 mb-1">
+                                                                    <div class="flex-1 min-w-0">
+                                                                        <h6
+                                                                            class="font-bold text-sm sm:text-base truncate">
+                                                                            {{ $user->name }}
+                                                                        </h6>
+                                                                        <p
+                                                                            class="text-xs sm:text-sm text-gray-600 truncate">
                                                                             <strong>Email:</strong> {{ $user->email }}
                                                                         </p>
-                                                                        <p class="text-sm text-gray-600">
+                                                                        <p class="text-xs sm:text-sm text-gray-600">
                                                                             <strong>Waktu Klaim:</strong>
                                                                             {{ $user->pivot->created_at->locale('id')->isoFormat('D MMM YYYY, HH:mm') }}
                                                                         </p>
+                                                                        <!-- Link Detail Pesanan -->
+                                                                        <a href="{{ route('admin.orders.show', $user->orders->first()->id ?? '#') }}"
+                                                                            class="text-blue-500 text-xs sm:text-sm font-semibold hover:underline">
+                                                                            Detail Pesanan
+                                                                        </a>
                                                                     </div>
                                                                 </div>
                                                             @endforeach
@@ -238,6 +265,7 @@
                                                         </div>
                                                     @endif
                                                 </div>
+
 
 
 
@@ -326,7 +354,8 @@
                             <!-- Kode Voucher -->
                             <div class="mb-3">
                                 <label for="code{{ $code->id }}" class="form-label">Kode Voucher</label>
-                                <input type="text" name="code" class="form-control" value="{{ $code->code }}" id="code{{ $code->id }}">
+                                <input type="text" name="code" class="form-control" value="{{ $code->code }}"
+                                    id="code{{ $code->id }}">
                                 @if (old('code_id') == $code->id)
                                     @error('code')
                                         <div class="text-danger mt-1">{{ $message }}</div>
@@ -352,7 +381,8 @@
                             <!-- Kuantitas -->
                             <div class="mb-3">
                                 <label for="quantity{{ $code->id }}" class="form-label">Kuantitas</label>
-                                <input type="number" name="quantity" class="form-control" value="{{ $code->quantity }}" id="quantity{{ $code->id }}">
+                                <input type="number" name="quantity" class="form-control"
+                                    value="{{ $code->quantity }}" id="quantity{{ $code->id }}">
                                 @if (old('code_id') == $code->id)
                                     @error('quantity')
                                         <div class="text-danger mt-1">{{ $message }}</div>
@@ -362,7 +392,8 @@
 
                             <!-- Minimal Pembelian -->
                             <div class="mb-3">
-                                <label for="minimum_purchase{{ $code->id }}" class="form-label">Minimal Pembelian</label>
+                                <label for="minimum_purchase{{ $code->id }}" class="form-label">Minimal
+                                    Pembelian</label>
                                 <div class="input-group">
                                     <span class="input-group-text">Rp</span>
                                     <input type="number" name="minimum_purchase" class="form-control"
@@ -418,7 +449,8 @@
                             <div class="input-group">
                                 <span class="input-group-text">Rp</span>
                                 <input type="number" name="discount_amount" class="form-control" id="discount_amount"
-                                    placeholder="Jumlah Diskon" value="{{ !old('code_id') ? old('discount_amount') : '' }}">
+                                    placeholder="Jumlah Diskon"
+                                    value="{{ !old('code_id') ? old('discount_amount') : '' }}">
                             </div>
                             @if (!old('code_id'))
                                 @error('discount_amount')
@@ -445,7 +477,8 @@
                             <div class="input-group">
                                 <span class="input-group-text">Rp</span>
                                 <input type="number" name="minimum_purchase" class="form-control" id="minimum_purchase"
-                                    placeholder="Minimal Pembelian" value="{{ !old('code_id') ? old('minimum_purchase') : '' }}">
+                                    placeholder="Minimal Pembelian"
+                                    value="{{ !old('code_id') ? old('minimum_purchase') : '' }}">
                             </div>
                             @if (!old('code_id'))
                                 @error('minimum_purchase')

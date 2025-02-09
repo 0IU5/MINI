@@ -4,23 +4,48 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\OrderNotification;
+use App\Models\ProductStockNotification;
 
 class AdminNotificationController extends Controller
 {
-    public function markAsRead($orderId)
+    public function markAsRead($id)
     {
-        OrderNotification::where('order_id', $orderId)
-            ->update(['is_read' => true]);
+        $notification = OrderNotification::find($id);
+        if ($notification) {
+            $notification->update(['is_read' => true]);
+        }
 
-        return response()->json(['success' => true]);
+        if (request()->ajax()) {
+            return response()->json(['success' => true]);
+        }
+        return back();
+    }
+
+    public function markStockAsRead($id)
+    {
+        $notification = ProductStockNotification::find($id);
+        if ($notification) {
+            $notification->update(['is_read' => true]);
+        }
+
+        if (request()->ajax()) {
+            return response()->json(['success' => true]);
+        }
+        return back();
     }
 
     public function markAllAsRead()
     {
-        // Menandai semua notifikasi yang belum dibaca pada order terkait
-        OrderNotification::where('is_read', false)
-            ->update(['is_read' => true]);
+        // Menandai semua notifikasi order yang belum dibaca
+        OrderNotification::where('is_read', false)->update(['is_read' => true]);
 
-        return redirect()->back();
+        // Menandai semua notifikasi stok yang belum dibaca
+        ProductStockNotification::where('is_read', false)->update(['is_read' => true]);
+
+        if (request()->ajax()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()->back()->with('success', 'Semua notifikasi telah ditandai sebagai dibaca');
     }
 }
