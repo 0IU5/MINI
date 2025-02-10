@@ -139,6 +139,48 @@
                                 </a>
                             </div>
                         </div>
+                        <!-- Ulasan Produk -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
+                            @forelse ($reviews as $review)
+                                <article class="p-6 text-base bg-white rounded-lg border border-gray-200">
+                                    <footer class="flex justify-between items-center mb-2">
+                                        <div class="flex items-center">
+                                            <div class="flex items-center mr-3 gap-3 text-sm text-gray-900 font-semibold">
+                                                @if ($review->user && $review->user->image)
+                                                    <img src="{{ asset('storage/' . $review->user->image) }}"
+                                                        alt="Profile Picture" class="mr-2 w-8 h-8 rounded-full">
+                                                @else
+                                                    <img src="{{ asset('style/src/assets/images/profile/user-1.jpg') }}"
+                                                        alt="Default Profile Picture" class="mr-2 w-8 h-8 rounded-full">
+                                                @endif
+                                                <div>
+                                                    {{ $review->user->name ?? 'Pengguna Tidak Diketahui' }}
+                                                    <div class="flex items-center space-x-1 mb-2">
+                                                        @for ($i = 0; $i < 5; $i++)
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                                class="w-4 h-4 {{ $i < ($review->rating ?? 0) ? 'text-yellow-400' : 'text-gray-300' }}"
+                                                                viewBox="0 0 24 24" stroke="none">
+                                                                <path
+                                                                    d="M12 17.75l-6.16 3.24a1 1 0 0 1-1.45-1.05l1.17-7.23L1.31 8.7a1 1 0 0 1 .56-1.72l7.29-.61L12 .25l3.03 6.12 7.29.61a1 1 0 0 1 .56 1.72l-4.74 4.24 1.17 7.23a1 1 0 0 1-1.45 1.05L12 17.75z">
+                                                                </path>
+                                                            </svg>
+                                                        @endfor
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm text-gray-600">
+                                                <time datetime="{{ $review->created_at }}">
+                                                    {{ $review->created_at->diffForHumans() }}
+                                                </time>
+                                            </p>
+                                        </div>
+                                    </footer>
+                                    <p class="text-gray-500">{{ $review->comment }}</p>
+                                </article>
+                            @empty
+                                <p class="text-gray-600">Tidak ada komentar</p>
+                            @endforelse
+                        </div>
                     </div>
                 </div>
             </div>
