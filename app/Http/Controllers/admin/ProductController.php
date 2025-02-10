@@ -158,10 +158,8 @@ class ProductController extends Controller
         // Menambahkan data tambahan ke dalam produk
         $product->average_rating = $ratings->average_rating ?? 0;
         $product->reviews_count = $ratings->reviews_count ?? 0;
-
         return view('admin.products.show', compact('product', 'reviews'));
     }
-
 
 
     /**
