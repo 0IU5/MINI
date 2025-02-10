@@ -1518,8 +1518,9 @@
 
 
                     <div class="mt-4">
-                        {{ $orders->links() }}
+                        {{ $orders->appends(request()->query())->links() }}
                     </div>
+
                 </div>
             </div>
         </div>

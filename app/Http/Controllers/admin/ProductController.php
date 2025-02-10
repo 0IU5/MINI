@@ -74,7 +74,7 @@ class ProductController extends Controller
             ->when($request->input('end_date'), function ($query, $end_date) {
                 $query->whereDate('created_at', '<=', $end_date);
             })
-            ->paginate(5);
+            ->paginate(1);
 
         return view('admin.products.index', compact('products', 'categories', 'brands'));
     }
@@ -158,9 +158,9 @@ class ProductController extends Controller
         // Menambahkan data tambahan ke dalam produk
         $product->average_rating = $ratings->average_rating ?? 0;
         $product->reviews_count = $ratings->reviews_count ?? 0;
-
         return view('admin.products.show', compact('product', 'reviews'));
     }
+
 
     /**
      * Update the specified resource in storage.

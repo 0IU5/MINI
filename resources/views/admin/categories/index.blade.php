@@ -249,7 +249,7 @@
                                             value="{{ request('search') }}" style="width: 200px;">
                                         <button type="submit" class="btn btn-primary">Cari</button>
                                     </div>
-                                </form>
+
                             </div>
                             <div class="flex items-center gap-4">
                                 <button type="button" class="btn btn-primary " data-bs-toggle="modal"
@@ -257,8 +257,8 @@
                                     + Tambah kategori
                                 </button>
                                 <!-- Filter Sort By Date -->
-                                <form id="filterForm" action="{{ route('admin.categories.index') }}" method="GET"
-                                    class="d-inline-block">
+
+
                                     <div class="d-flex align-items-center">
                                         <select name="sort_order"
                                             class="bg-[#5d85fa] text-white border border-gray-600 rounded-lg py-2 px-3 w-full"
@@ -390,7 +390,7 @@
                         </table>
                     </div>
                     <div class="mt-4">
-                        {{ $categories->links() }}
+                        {{ $categories->appends(request()->query())->links() }}
                     </div>
                 </div>
             </div>

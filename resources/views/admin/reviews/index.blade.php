@@ -220,8 +220,9 @@
                             </tbody>
                         </table>
                         <div class="mt-4">
-                            {{ $reviews->links() }}
+                            {{ $reviews->appends(request()->query())->links() }}
                         </div>
+
                     </div>
 
                     <!-- Modal -->

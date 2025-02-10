@@ -359,10 +359,10 @@
                     </table>
                 </div>
 
-                <!-- Pagination -->
                 <div class="mt-4">
-                    {{ $products->links() }}
+                    {{ $products->appends(request()->query())->links() }}
                 </div>
+
             </div>
         </div>
     </div>

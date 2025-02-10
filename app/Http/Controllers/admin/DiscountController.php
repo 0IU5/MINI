@@ -39,7 +39,7 @@ class DiscountController extends Controller
         }
 
         // Ambil data dengan pagination (misalnya 5 data per halaman)
-        $codes = $query->paginate(5);
+        $codes = $query->paginate(1);
 
         // Kirim data ke view
         return view('admin.discount.index', compact('codes'));

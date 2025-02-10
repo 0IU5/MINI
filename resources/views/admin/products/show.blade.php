@@ -41,17 +41,11 @@
                     <div class="grid grid-cols-1 gap-6">
                         <!-- Kolom Keterangan Produk dengan lebar penuh -->
                         <div class="bg-white p-6 rounded-lg border w-full">
-                            {{-- <h4 class="text-sm text-slate-600 italic text-right">
-                                <span class="not-italic font-semibold">Dibuat:</span>
-                                {{ $product->created_at->translatedFormat('d F Y') }}
-                            </h4>
-                            <h4 class="text-sm text-slate-600 italic text-right">
-                                <span class="not-italic font-semibold">Diperbarui:</span>
-                                {{ $product->updated_at->translatedFormat('d F Y') }}
-                            </h4> --}}
 
                             <!-- Nama Produk -->
-                            <h3 class="text-3xl font-extrabold text-gray-800 mb-4">{{ $product->name_product ?? '-' }}</h3>
+                            <h3 class="text-3xl font-extrabold text-gray-800 mb-4">
+                                {{ $product->name_product ?? '-' }}
+                            </h3>
 
                             <!-- Rating dan Reviews -->
                             <div class="flex items-center space-x-2 mb-4">
@@ -73,27 +67,26 @@
 
                             <!-- Harga Produk -->
                             <div class="flex items-center space-x-2 mb-2">
-                                <span class="text-xl font-semibold text-gray-800">Harga</span>
-                                <span class="text-xl font-medium text-gray-700">:</span>
+                                <span class="text-xl font-semibold text-gray-800">Harga:</span>
                                 <span class="text-2xl font-bold text-blue-500">Rp
                                     {{ number_format($product->price_product, 0, ',', '.') }}</span>
                             </div>
 
-                            <!-- Kategori, Brand, Stok -->
+                            <!-- Informasi Produk: Stok, Kategori, Brand -->
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
-                                <!-- Stok -->
+                                <!-- Stok Produk -->
                                 <div>
                                     <div class="text-sm font-semibold text-gray-500 mb-1">Stok</div>
                                     <div class="flex border rounded-md p-3 items-center">
                                         <div
                                             class="w-5 h-5 rounded-full mr-2 
-                            {{ $product->stock_product == 0
-                                ? 'bg-gray-500'
-                                : ($product->stock_product <= 5
-                                    ? 'bg-red-600'
-                                    : ($product->stock_product <= 10
-                                        ? 'bg-yellow-500'
-                                        : 'bg-green-500')) }}">
+                                            {{ $product->stock_product == 0
+                                                ? 'bg-gray-500'
+                                                : ($product->stock_product <= 5
+                                                    ? 'bg-red-600'
+                                                    : ($product->stock_product <= 10
+                                                        ? 'bg-yellow-500'
+                                                        : 'bg-green-500')) }}">
                                         </div>
                                         <span class="text-lg font-semibold text-gray-700">
                                             {{ $product->stock_product == 0 ? 'Habis' : $product->stock_product . ' unit' }}
@@ -104,7 +97,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Kategori -->
+                                <!-- Kategori Produk -->
                                 <div>
                                     <div class="text-sm font-semibold text-gray-500 mb-1">Kategori</div>
                                     <div class="border rounded-md p-3 text-center">
@@ -113,7 +106,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Brand -->
+                                <!-- Brand Produk -->
                                 <div>
                                     <div class="text-sm font-semibold text-gray-500 mb-1">Brand</div>
                                     <div class="border rounded-md p-3 text-center">
@@ -130,7 +123,6 @@
                                     <p class="text-lg text-gray-700">{!! nl2br(e($product->description_product)) !!}</p>
                                 </div>
                             </div>
-
                             <!-- Tombol Kembali -->
                             <div class="mt-4 text-start">
                                 <a href="{{ route('admin.products.index') }}"
@@ -183,6 +175,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
