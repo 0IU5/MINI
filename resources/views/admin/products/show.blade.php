@@ -37,110 +37,110 @@
                 </div>
 
                 <!-- Gambar dan Detail Produk -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Kolom Keterangan Produk (Card 1) dengan lebar 70% -->
-                    <div class="bg-white p-4 rounded-lg  border lg:col-span-2">
-                        <h4 class="text-sm text-slate-600 italic text-right">
-                            <span class="not-italic font-semibold">Dibuat:</span>
-                            {{ $product->created_at->translatedFormat('d F Y') }}
-                        </h4>
-                        <h4 class="text-sm text-slate-600 italic text-right">
-                            <span class="not-italic font-semibold">Diperbarui:</span>
-                            {{ $product->updated_at->translatedFormat('d F Y') }}
-                        </h4>
+                <div class="container mx-auto px-4">
+                    <div class="grid grid-cols-1 gap-6">
+                        <!-- Kolom Keterangan Produk dengan lebar penuh -->
+                        <div class="bg-white p-6 rounded-lg border w-full">
+                            {{-- <h4 class="text-sm text-slate-600 italic text-right">
+                                <span class="not-italic font-semibold">Dibuat:</span>
+                                {{ $product->created_at->translatedFormat('d F Y') }}
+                            </h4>
+                            <h4 class="text-sm text-slate-600 italic text-right">
+                                <span class="not-italic font-semibold">Diperbarui:</span>
+                                {{ $product->updated_at->translatedFormat('d F Y') }}
+                            </h4> --}}
 
-                        <!-- Nama Produk -->
-                        <h3 class="text-2xl font-extrabold text-gray-800 mb-4">{{ $product->name_product ?? '-' }}</h3>
+                            <!-- Nama Produk -->
+                            <h3 class="text-3xl font-extrabold text-gray-800 mb-4">{{ $product->name_product ?? '-' }}</h3>
 
-                        <!-- Rating dan Reviews -->
-                        <div class="flex items-center space-x-2 mb-4">
-                            <!-- Bintang Rating -->
-                            <div class="flex items-center space-x-1">
-                                @for ($i = 0; $i < 5; $i++)
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                                        class="w-5 h-5 {{ $i < round($product->average_rating) ? 'text-yellow-400' : 'text-gray-300' }}"
-                                        viewBox="0 0 24 24" stroke="none">
-                                        <path
-                                            d="M12 17.75l-6.16 3.24a1 1 0 0 1-1.45-1.05l1.17-7.23L1.31 8.7a1 1 0 0 1 .56-1.72l7.29-.61L12 .25l3.03 6.12 7.29.61a1 1 0 0 1 .56 1.72l-4.74 4.24 1.17 7.23a1 1 0 0 1-1.45 1.05L12 17.75z">
-                                        </path>
-                                    </svg>
-                                @endfor
+                            <!-- Rating dan Reviews -->
+                            <div class="flex items-center space-x-2 mb-4">
+                                <!-- Bintang Rating -->
+                                <div class="flex items-center space-x-1">
+                                    @for ($i = 0; $i < 5; $i++)
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                            class="w-6 h-6 {{ $i < round($product->average_rating) ? 'text-yellow-400' : 'text-gray-300' }}"
+                                            viewBox="0 0 24 24" stroke="none">
+                                            <path
+                                                d="M12 17.75l-6.16 3.24a1 1 0 0 1-1.45-1.05l1.17-7.23L1.31 8.7a1 1 0 0 1 .56-1.72l7.29-.61L12 .25l3.03 6.12 7.29.61a1 1 0 0 1 .56 1.72l-4.74 4.24 1.17 7.23a1 1 0 0 1-1.45 1.05L12 17.75z">
+                                            </path>
+                                        </svg>
+                                    @endfor
+                                </div>
+                                <!-- Total Reviews -->
+                                <span class="text-lg text-slate-600">{{ $product->reviews_count ?? 0 }} reviews</span>
                             </div>
-                            <!-- Total Reviews -->
-                            <span class="text-sm text-slate-600">{{ $product->reviews_count ?? 0 }} reviews</span>
-                        </div>
-                        <!-- Harga Produk -->
-                        <div class="flex items-center space-x-2 mb-2">
-                            <span class="text-lg font-semibold text-gray-800">Harga</span>
-                            <span class="text-lg font-medium text-gray-700">:</span>
-                            <span class="text-xl font-bold text-blue-500">Rp
-                                {{ number_format($product->price_product, 0, ',', '.') }}</span>
-                        </div>
 
-                        <!-- Kategori Brand Stok-->
-                        <div class="flex space-x-8 mb-2">
-                            <!-- Stok Column -->
-                            <div class="flex-col w-1/3 mb-4">
-                                <div class="text-xs font-semibold text-gray-500 mb-1">Stok</div>
-                                <div class="flex border justify-start items-center w-full rounded-md p-3">
-                                    <!-- Lingkaran warna -->
-                                    <div
-                                        class="w-4 h-4 rounded-full mr-2 
-                                        {{ $product->stock_product == 0
-                                            ? 'bg-gray-500'
-                                            : ($product->stock_product <= 5 ? 'bg-red-600' : ($product->stock_product <= 10 ? 'bg-yellow-500' : 'bg-green-500')) }}">
-                                    </div>
+                            <!-- Harga Produk -->
+                            <div class="flex items-center space-x-2 mb-2">
+                                <span class="text-xl font-semibold text-gray-800">Harga</span>
+                                <span class="text-xl font-medium text-gray-700">:</span>
+                                <span class="text-2xl font-bold text-blue-500">Rp
+                                    {{ number_format($product->price_product, 0, ',', '.') }}</span>
+                            </div>
 
-                                    <!-- Jumlah stok -->
-                                    <div class="text-sm font-medium text-gray-700">
-                                        <span class="font-semibold">
+                            <!-- Kategori, Brand, Stok -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
+                                <!-- Stok -->
+                                <div>
+                                    <div class="text-sm font-semibold text-gray-500 mb-1">Stok</div>
+                                    <div class="flex border rounded-md p-3 items-center">
+                                        <div
+                                            class="w-5 h-5 rounded-full mr-2 
+                            {{ $product->stock_product == 0
+                                ? 'bg-gray-500'
+                                : ($product->stock_product <= 5
+                                    ? 'bg-red-600'
+                                    : ($product->stock_product <= 10
+                                        ? 'bg-yellow-500'
+                                        : 'bg-green-500')) }}">
+                                        </div>
+                                        <span class="text-lg font-semibold text-gray-700">
                                             {{ $product->stock_product == 0 ? 'Habis' : $product->stock_product . ' unit' }}
                                         </span>
-
-                                        <!-- Pesan "Stok Menipis" jika stok kurang dari 5 -->
                                         @if ($product->stock_product > 0 && $product->stock_product < 5)
                                             <span class="text-red-600 font-semibold ml-2">Stok Menipis!</span>
                                         @endif
                                     </div>
                                 </div>
-                            </div>
 
+                                <!-- Kategori -->
+                                <div>
+                                    <div class="text-sm font-semibold text-gray-500 mb-1">Kategori</div>
+                                    <div class="border rounded-md p-3 text-center">
+                                        <span
+                                            class="text-lg font-medium text-gray-700">{{ $product->category->name_category }}</span>
+                                    </div>
+                                </div>
 
-                            <!-- Kategori Column -->
-                            <div class="flex-col w-1/3">
-                                <div class="text-xs font-semibold text-gray-500 mb-1">Kategori</div>
-                                <div class="flex border justify-center items-center w-full rounded-md p-3">
-                                    <span
-                                        class="text-sm font-medium text-gray-700">{{ $product->category->name_category }}</span>
+                                <!-- Brand -->
+                                <div>
+                                    <div class="text-sm font-semibold text-gray-500 mb-1">Brand</div>
+                                    <div class="border rounded-md p-3 text-center">
+                                        <span
+                                            class="text-lg font-medium text-gray-700">{{ $product->brand->name_brand }}</span>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Brand Column -->
-                            <div class="flex-col w-1/3">
-                                <div class="text-xs font-semibold text-gray-500 mb-1">Brand</div>
-                                <div class="flex border justify-center items-center w-full rounded-md p-3">
-                                    <span
-                                        class="text-sm font-medium text-gray-700">{{ $product->brand->name_brand }}</span>
+                            <!-- Deskripsi Produk -->
+                            <div>
+                                <div class="text-sm font-semibold text-gray-500 mb-1">Deskripsi</div>
+                                <div class="border rounded-md p-4">
+                                    <p class="text-lg text-gray-700">{!! nl2br(e($product->description_product)) !!}</p>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Deskripsi Produk -->
-                        <div class="flex-col mb-2">
-                            <div class="text-xs font-semibold text-gray-500 mb-1">Deskripsi</div>
-                            <div class="flex border justify-start items-center w-full rounded-md p-3">
-                                <p class="text-sm text-gray-700">{!! nl2br(e($product->description_product)) !!}</p>
+                            <!-- Tombol Kembali -->
+                            <div class="mt-4 text-start">
+                                <a href="{{ route('admin.products.index') }}"
+                                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow-md">
+                                    Kembali
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Tombol Kembali -->
-            <div class="mt-6 text-start">
-                <a href="{{ route('admin.products.index') }}"
-                    class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded shadow-md">
-                    Kembali
-                </a>
             </div>
         </div>
     </div>

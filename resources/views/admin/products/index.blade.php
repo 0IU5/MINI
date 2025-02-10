@@ -59,8 +59,8 @@
                             <div class="w-full md:w-auto">
                                 <div class="flex items-center w-full">
                                     <input type="text" name="search"
-                                        class="form-control me-2 border-lg border-[#5d85fa] w-full"
-                                        placeholder="Cari" value="{{ request('search') }}">
+                                        class="form-control me-2 border-lg border-[#5d85fa] w-full" placeholder="Cari"
+                                        value="{{ request('search') }}">
                                     <button type="submit"
                                         class="btn btn-primary md:mt-0 md:ml-2 px-4 py-2 md:w-auto">Cari</button>
                                 </div>
@@ -260,8 +260,13 @@
                             @forelse ($products as $product)
                                 <tr class="hover:bg-gray-50 cursor-pointer border-b">
                                     <td class="px-6 py-6 flex items-center">
-                                        <img src="{{ asset('storage/' . $product->image_product) }}"
-                                            alt="{{ $product->name_product }}" class="w-8 h-8 rounded-full mr-3">
+                                        @if ($product->image_product)
+                                            <img src="{{ asset('storage/' . $product->image_product) }}"
+                                                alt="{{ $product->name_product }}" class="w-8 h-8 rounded-full mr-3">
+                                        @else
+                                            <img src="{{ asset('img/laptop.jpg') }}" alt="default"
+                                                class="w-8 h-8 rounded-full mr-3">
+                                        @endif
                                         <span>{{ $product->name_product }}</span>
                                     </td>
                                     <td class="px-6 py-5">{{ $product->category->name_category ?? '-' }}</td>
