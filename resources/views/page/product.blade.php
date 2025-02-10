@@ -332,6 +332,12 @@
                             class="bg-blue-500 text-white px-3 text-xs py-2 block w-auto rounded-md w-full my-3">
                             Terapkan
                         </button>
+
+                        <!-- Tombol Reset Filter -->
+                        <a href="{{ route('page.product') }}"
+                            class="bg-gray-300 text-black px-3 text-xs py-2 block w-auto rounded-md w-full text-center">
+                            Reset Filter
+                        </a>
                     </div>
 
             </div>
@@ -661,7 +667,7 @@
                 </div>
             </div>
 
-            <div class="flex justify-start items-center mt-4 ">
+            {{-- <div class="flex justify-start items-center mt-4 ">
                 <form method="GET" action="{{ route('page.product') }}"
                     class="flex justify-start items-center gap-4">
 
@@ -692,7 +698,7 @@
                     </div>
 
                 </form>
-            </div>
+            </div> --}}
 
             @if ($products->isEmpty())
                 <div class="flex flex-col items-center justify-center gap-4 py-10">
