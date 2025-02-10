@@ -24,7 +24,7 @@ class BrandController extends Controller
             }
             return $query->orderBy('created_at', 'desc');
         })
-        ->paginate(5); // Menggunakan paginate dengan 10 item per halaman
+        ->paginate(1); // Menggunakan paginate dengan 10 item per halaman
 
     return view('admin.brands.index', compact('brands'));
 }

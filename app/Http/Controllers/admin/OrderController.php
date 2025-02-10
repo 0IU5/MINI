@@ -100,7 +100,7 @@ class OrderController extends Controller
         }
 
         // Mengambil hasil dengan pagination
-        $orders = $ordersQuery->paginate(5);
+        $orders = $ordersQuery->paginate(1);
 
         // Mapping status order ke dalam bahasa Indonesia
         $statusMapping = [

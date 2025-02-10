@@ -48,14 +48,14 @@
                         <div class="flex justify-between items-center mb-4">
                             <div>
                                 <!-- Pencarian -->
-                                <form action="{{ route('admin.users.index') }}" method="GET" class="d-inline-block">
+                                <form id="filterForm" action="{{ route('admin.users.index') }}" method="GET" class="d-inline-block">
                                     <div class="d-flex align-items-center">
                                         <input type="text" name="search"
                                             class="form-control me-2 border-lg border-[#5d85fa]" placeholder="Cari Nama Pengguna"
                                             value="{{ request('search') }}" style="width: 200px;">
                                         <button type="submit" class="btn btn-primary">Cari</button>
                                     </div>
-                                </form>
+                                
                             </div>
                             <div class="flex items-center gap-4">
                                 <button class="btn btn-primary text-white py-2 px-4 rounded-lg" data-bs-toggle="modal"
@@ -63,7 +63,7 @@
                                     + Tambahkan admin baru
                                 </button>
                                 <!-- Filter Kategori -->
-                                <form id="filterForm" action="{{ route('admin.users.index') }}" method="GET">
+
                                     <div class="d-flex align-items-center">
                                         <select name="role" id="role"
                                             class="bg-[#5d85fa] text-white border border-gray-600 rounded-lg py-2 px-3 w-full"
@@ -154,8 +154,9 @@
                         </div>
 
                         <div class="mt-4">
-                            {{ $users->links() }}
+                            {{ $users->appends(request()->query())->links() }}
                         </div>
+
                     </div>
                 </div>
             </div>

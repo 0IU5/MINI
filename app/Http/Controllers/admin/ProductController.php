@@ -74,7 +74,7 @@ class ProductController extends Controller
             ->when($request->input('end_date'), function ($query, $end_date) {
                 $query->whereDate('created_at', '<=', $end_date);
             })
-            ->paginate(5);
+            ->paginate(1);
 
         return view('admin.products.index', compact('products', 'categories', 'brands'));
     }

@@ -47,7 +47,7 @@
             <div class="card w-full">
                 <div class="card-body p-4">
                     <div>
-                        <form action="{{ route('admin.discount.index') }}" method="GET">
+                        <form id="filterForm" action="{{ route('admin.discount.index') }}" method="GET">
                             <div class="flex justify-between items-center mb-4">
                                 <div class="d-flex align-items-center">
                                     <!-- Pencarian -->
@@ -324,8 +324,9 @@
                         </table>
                         <!-- Pagination Links -->
                         <div class="mt-4">
-                            {{ $codes->links() }}
+                            {{ $codes->appends(request()->query())->links() }}
                         </div>
+
                     </div>
                 </div>
             </div>
