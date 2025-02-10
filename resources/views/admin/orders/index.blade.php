@@ -261,12 +261,11 @@
                         </div>
 
                         <!-- Data Order -->
-                        <div class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                        <div class="bg-white p-4 shadow rounded-lg overflow-x-auto">
                             <div class="min-w-max">
                                 <!-- Semua Order -->
                                 <div x-show="openTab === 1">
-                                    <h3 class="text-lg font-bold">Semua Order</h3>
-                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
+                                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
                                         <tr class="bg-[#5D87FF] text-white">
                                             <th class="px-4 py-2 text-left">No</th>
                                             <th class="px-4 py-2 text-left">Pelanggan</th>
@@ -515,9 +514,8 @@
 
                                 <!-- Menunggu -->
                                 <div x-show="openTab === 2">
-                                    <h3 class="text-lg font-bold">Order Menunggu</h3>
-                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
-                                        <tr class="bg-gray-200">
+                                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                                        <tr class="bg-[#5D87FF] text-white">
                                             <th class="px-4 py-2 text-left">No</th>
                                             <th class="px-4 py-2 text-left">Pelanggan</th>
                                             <th class="px-4 py-2 text-left">Produk</th>
@@ -767,9 +765,8 @@
 
                                 <!-- Dikemas -->
                                 <div x-show="openTab === 3">
-                                    <h3 class="text-lg font-bold">Order dikemas</h3>
-                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
-                                        <tr class="bg-gray-200">
+                                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                                        <tr class="bg-[#5D87FF] text-white">
                                             <th class="px-4 py-2 text-left">No</th>
                                             <th class="px-4 py-2 text-left">Pelanggan</th>
                                             <th class="px-4 py-2 text-left">Produk</th>
@@ -1019,9 +1016,8 @@
 
                                 <!-- Dikirim -->
                                 <div x-show="openTab === 4">
-                                    <h3 class="text-lg font-bold">Order Dikirim</h3>
-                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
-                                        <tr class="bg-gray-200">
+                                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                                        <tr class="bg-[#5D87FF] text-white">
                                             <th class="px-4 py-2 text-left">No</th>
                                             <th class="px-4 py-2 text-left">Pelanggan</th>
                                             <th class="px-4 py-2 text-left">Produk</th>
@@ -1268,9 +1264,8 @@
                                 </div>
                                 <!-- Selesai -->
                                 <div x-show="openTab === 5">
-                                    <h3 class="text-lg font-bold">Order Selesai</h3>
-                                    <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
-                                        <tr class="bg-gray-200">
+                                    <table class="min-w-full bg-white rounded-lg overflow-hidden">
+                                        <tr class="bg-[#5D87FF] text-white">
                                             <th class="px-4 py-2 text-left">No</th>
                                             <th class="px-4 py-2 text-left">Pelanggan</th>
                                             <th class="px-4 py-2 text-left">Produk</th>
