@@ -135,52 +135,14 @@
                         <span class="hide-menu">Pengguna</span>
                     </a>
                 </li>
-                <div class="">
-                    <button id="settingMenuToggle"
-                        class="w-full flex items-center justify-between {{ request()->routeIs('admin.carousel.index') 
-                            ? 'text-white bg-[#5D87FF] hover:bg-[#5D87FF]'
-                            : 'text-[#2A3547] hover:bg-[rgba(219,234,254,0.5)]' }} hover:text-[#5D87FF] space-x-2 my-2 p-[10px] rounded-md  group">
-                        <div class="flex items-center">
-                            <span
-                                style="color: {{ request()->routeIs('admin.carousel.index')  
-                                    ? '#ffffff'
-                                    : '' }};"
-                                class="hove">
-                                <i class="fa-solid fa-gear"></i>
-                            </span>
-
-                            <span class="ml-4">Pengaturan</span>
-                        </div>
-                        <svg id="settingMenuChevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                            viewBox="0 0 24 24"
-                            style="fill: {{ request()->routeIs('admin.carousel.index') 
-                                ? '#ffffff'
-                                : ' ' }}; 
-                                    transition: transform 0.3s; 
-                                    transform: {{ request()->routeIs('admin.carousel.index')
-                                        ? 'rotate(180deg)'
-                                        : 'rotate(0deg)' }};"
-                            class="group-hover:fill-[#5D87FF]">
-                            <path d="M16.293 9.293 12 13.586 7.707 9.293l-1.414 1.414L12 16.414l5.707-5.707z">
-                            </path>
-                        </svg>
-                    </button>
-
-                    <div id="settingSubMenu"
-                        class="{{ request()->routeIs('admin.carousel.index')
-                            ? ''
-                            : 'hidden' }} pl-4 space-y-2 mt-2">
-                        <a href="{{ route('admin.carousel.index') }}"
-                            class="block text-sm  p-2 {{ request()->routeIs('admin.carousel.index')
-                                ? 'text-[#5D87FF] font-semibold  bg-[rgba(219,234,254,0.5)] rounded-md'
-                                : 'text-gray-700 hover:text-[#5D87FF]' }}">
-                            <span>
-                                <i class="fa-regular fa-circle"></i>
-                            </span>
-
-                            <span class="ml-4">Banner</span>
-                        </a>
-                    </div>
+                <li class="sidebar-item my-2">
+                    <a class="sidebar-link " href="{{ route('admin.carousel.index') }}" aria-expanded="false">
+                        <span>
+                            <i class="fa-solid fa-image"></i>
+                        </span>
+                        <span class="hide-menu">Banner</span>
+                    </a>
+                </li>
                 </div>   
             </ul>
         </nav>

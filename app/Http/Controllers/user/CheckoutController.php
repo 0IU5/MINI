@@ -228,7 +228,7 @@ class CheckoutController extends Controller
 
         Payment::create([
             'order_id' => $order->id,
-            'status' => 'pending',
+            'status' => 'success',
         ]);
 
         return response()->json(['status' => 'success', 'snap_token' => $snapToken]);
