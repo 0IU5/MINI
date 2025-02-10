@@ -41,17 +41,11 @@
                     <div class="grid grid-cols-1 gap-6">
                         <!-- Kolom Keterangan Produk dengan lebar penuh -->
                         <div class="bg-white p-6 rounded-lg border w-full">
-                            {{-- <h4 class="text-sm text-slate-600 italic text-right">
-                                <span class="not-italic font-semibold">Dibuat:</span>
-                                {{ $product->created_at->translatedFormat('d F Y') }}
-                            </h4>
-                            <h4 class="text-sm text-slate-600 italic text-right">
-                                <span class="not-italic font-semibold">Diperbarui:</span>
-                                {{ $product->updated_at->translatedFormat('d F Y') }}
-                            </h4> --}}
 
                             <!-- Nama Produk -->
-                            <h3 class="text-3xl font-extrabold text-gray-800 mb-4">{{ $product->name_product ?? '-' }}</h3>
+                            <h3 class="text-3xl font-extrabold text-gray-800 mb-4">
+                                {{ $product->name_product ?? '-' }}
+                            </h3>
 
                             <!-- Rating dan Reviews -->
                             <div class="flex items-center space-x-2 mb-4">
@@ -73,27 +67,26 @@
 
                             <!-- Harga Produk -->
                             <div class="flex items-center space-x-2 mb-2">
-                                <span class="text-xl font-semibold text-gray-800">Harga</span>
-                                <span class="text-xl font-medium text-gray-700">:</span>
+                                <span class="text-xl font-semibold text-gray-800">Harga:</span>
                                 <span class="text-2xl font-bold text-blue-500">Rp
                                     {{ number_format($product->price_product, 0, ',', '.') }}</span>
                             </div>
 
-                            <!-- Kategori, Brand, Stok -->
+                            <!-- Informasi Produk: Stok, Kategori, Brand -->
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-2">
-                                <!-- Stok -->
+                                <!-- Stok Produk -->
                                 <div>
                                     <div class="text-sm font-semibold text-gray-500 mb-1">Stok</div>
                                     <div class="flex border rounded-md p-3 items-center">
                                         <div
                                             class="w-5 h-5 rounded-full mr-2 
-                            {{ $product->stock_product == 0
-                                ? 'bg-gray-500'
-                                : ($product->stock_product <= 5
-                                    ? 'bg-red-600'
-                                    : ($product->stock_product <= 10
-                                        ? 'bg-yellow-500'
-                                        : 'bg-green-500')) }}">
+                                            {{ $product->stock_product == 0
+                                                ? 'bg-gray-500'
+                                                : ($product->stock_product <= 5
+                                                    ? 'bg-red-600'
+                                                    : ($product->stock_product <= 10
+                                                        ? 'bg-yellow-500'
+                                                        : 'bg-green-500')) }}">
                                         </div>
                                         <span class="text-lg font-semibold text-gray-700">
                                             {{ $product->stock_product == 0 ? 'Habis' : $product->stock_product . ' unit' }}
@@ -104,7 +97,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Kategori -->
+                                <!-- Kategori Produk -->
                                 <div>
                                     <div class="text-sm font-semibold text-gray-500 mb-1">Kategori</div>
                                     <div class="border rounded-md p-3 text-center">
@@ -113,7 +106,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Brand -->
+                                <!-- Brand Produk -->
                                 <div>
                                     <div class="text-sm font-semibold text-gray-500 mb-1">Brand</div>
                                     <div class="border rounded-md p-3 text-center">
@@ -130,7 +123,6 @@
                                     <p class="text-lg text-gray-700">{!! nl2br(e($product->description_product)) !!}</p>
                                 </div>
                             </div>
-
                             <!-- Tombol Kembali -->
                             <div class="mt-4 text-start">
                                 <a href="{{ route('admin.products.index') }}"
@@ -139,8 +131,51 @@
                                 </a>
                             </div>
                         </div>
+                        <!-- Ulasan Produk -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
+                            @forelse ($reviews as $review)
+                                <article class="p-6 text-base bg-white rounded-lg border border-gray-200">
+                                    <footer class="flex justify-between items-center mb-2">
+                                        <div class="flex items-center">
+                                            <div class="flex items-center mr-3 gap-3 text-sm text-gray-900 font-semibold">
+                                                @if ($review->user && $review->user->image)
+                                                    <img src="{{ asset('storage/' . $review->user->image) }}"
+                                                        alt="Profile Picture" class="mr-2 w-8 h-8 rounded-full">
+                                                @else
+                                                    <img src="{{ asset('style/src/assets/images/profile/user-1.jpg') }}"
+                                                        alt="Default Profile Picture" class="mr-2 w-8 h-8 rounded-full">
+                                                @endif
+                                                <div>
+                                                    {{ $review->user->name ?? 'Pengguna Tidak Diketahui' }}
+                                                    <div class="flex items-center space-x-1 mb-2">
+                                                        @for ($i = 0; $i < 5; $i++)
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                                                class="w-4 h-4 {{ $i < ($review->rating ?? 0) ? 'text-yellow-400' : 'text-gray-300' }}"
+                                                                viewBox="0 0 24 24" stroke="none">
+                                                                <path
+                                                                    d="M12 17.75l-6.16 3.24a1 1 0 0 1-1.45-1.05l1.17-7.23L1.31 8.7a1 1 0 0 1 .56-1.72l7.29-.61L12 .25l3.03 6.12 7.29.61a1 1 0 0 1 .56 1.72l-4.74 4.24 1.17 7.23a1 1 0 0 1-1.45 1.05L12 17.75z">
+                                                                </path>
+                                                            </svg>
+                                                        @endfor
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm text-gray-600">
+                                                <time datetime="{{ $review->created_at }}">
+                                                    {{ $review->created_at->diffForHumans() }}
+                                                </time>
+                                            </p>
+                                        </div>
+                                    </footer>
+                                    <p class="text-gray-500">{{ $review->comment }}</p>
+                                </article>
+                            @empty
+                                <p class="text-gray-600">Tidak ada komentar</p>
+                            @endforelse
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

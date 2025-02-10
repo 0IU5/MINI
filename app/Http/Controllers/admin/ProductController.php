@@ -144,19 +144,24 @@ class ProductController extends Controller
      */
     public function show($slug)
     {
-        // Mengambil produk dengan relasi category dan brand
+        // Mengambil produk dengan relasi category, brand, dan reviews
         $product = Product::with(['category', 'brand'])->where('slug', $slug)->firstOrFail();
 
-        // Menghitung rata-rata rating dan jumlah ulasan untuk produk
-        $averageRating = Review::where('product_id', $product->id)->avg('rating');
-        $reviewsCount = Review::where('product_id', $product->id)->count();
+        // Mengambil semua review dengan user yang terkait
+        $reviews = Review::with('user')->where('product_id', $product->id)->latest()->get();
 
-        // Menyisipkan data tambahan ke dalam objek produk
-        $product->average_rating = $averageRating;
-        $product->reviews_count = $reviewsCount;
+        // Menghitung rata-rata rating dan jumlah ulasan dengan lebih efisien
+        $ratings = Review::where('product_id', $product->id)
+            ->selectRaw('AVG(rating) as average_rating, COUNT(*) as reviews_count')
+            ->first();
 
-        return view('admin.products.show', compact('product'));
+        // Menambahkan data tambahan ke dalam produk
+        $product->average_rating = $ratings->average_rating ?? 0;
+        $product->reviews_count = $ratings->reviews_count ?? 0;
+
+        return view('admin.products.show', compact('product', 'reviews'));
     }
+
 
 
     /**
