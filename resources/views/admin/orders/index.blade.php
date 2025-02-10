@@ -261,13 +261,13 @@
                         </div>
 
                         <!-- Data Order -->
-                        <div class="bg-white p-4 shadow rounded-lg overflow-x-auto">
+                        <div class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
                             <div class="min-w-max">
                                 <!-- Semua Order -->
                                 <div x-show="openTab === 1">
                                     <h3 class="text-lg font-bold">Semua Order</h3>
                                     <table class="w-full max-w-full border-collapse border border-gray-300 mt-2">
-                                        <tr class="bg-gray-200">
+                                        <tr class="bg-[#5D87FF] text-white">
                                             <th class="px-4 py-2 text-left">No</th>
                                             <th class="px-4 py-2 text-left">Pelanggan</th>
                                             <th class="px-4 py-2 text-left">Produk</th>

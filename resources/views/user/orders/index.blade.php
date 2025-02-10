@@ -6,51 +6,48 @@
             /* border: 1px solid black; */
         }
     </style>
-    <nav class="flex mb-2" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse ml-[-30px]">
+    <nav class="flex flex-wrap items-center justify-between mb-4" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
             <li class="flex items-center">
                 <a href="{{ route('landing-page') }}"
-                    class="flex justify-center  items-end gap-1  bg-white shadow-sm text-slate-800 w-auto py-1.5 px-2 rounded-md">
+                    class="flex items-center gap-1 bg-white shadow-sm text-slate-800 py-1.5 px-3 rounded-md">
                     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                        </g>
-                        <g id="SVGRepo_iconCarrier">
-                            <path
-                                d="M6.49996 7C7.96131 5.53865 9.5935 4.41899 10.6975 3.74088C11.5021 3.24665 12.4978 3.24665 13.3024 3.74088C14.4064 4.41899 16.0386 5.53865 17.5 7C20.6683 10.1684 20.5 12 20.5 15C20.5 16.4098 20.3895 17.5988 20.2725 18.4632C20.1493 19.3726 19.3561 20 18.4384 20H17C15.8954 20 15 19.1046 15 18V16C15 15.2043 14.6839 14.4413 14.1213 13.8787C13.5587 13.3161 12.7956 13 12 13C11.2043 13 10.4413 13.3161 9.87864 13.8787C9.31603 14.4413 8.99996 15.2043 8.99996 16V18C8.99996 19.1046 8.10453 20 6.99996 20H5.56152C4.64378 20 3.85061 19.3726 3.72745 18.4631C3.61039 17.5988 3.49997 16.4098 3.49997 15C3.49997 12 3.33157 10.1684 6.49996 7Z"
-                                stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </g>
+                        <path
+                            d="M6.5 7C7.96 5.54 9.59 4.42 10.7 3.74C11.5 3.25 12.5 3.25 13.3 3.74C14.4 4.42 16.04 5.54 17.5 7C20.67 10.17 20.5 12 20.5 15C20.5 16.41 20.39 17.6 20.27 18.46C20.15 19.37 19.36 20 18.44 20H17C15.9 20 15 19.1 15 18V16C15 15.2 14.68 14.44 14.12 13.88C13.56 13.32 12.8 13 12 13C11.2 13 10.44 13.32 9.88 13.88C9.32 14.44 9 15.2 9 16V18C9 19.1 8.1 20 7 20H5.56C4.64 20 3.85 19.37 3.73 18.46C3.61 17.6 3.5 16.41 3.5 15C3.5 12 3.33 10.17 6.5 7Z"
+                            stroke="#1C274C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
-                    <span class="font-semibold text-xs"> Beranda</span>
+                    <span class="font-semibold text-xs">Beranda</span>
                 </a>
             </li>
-            <li>
-                <div class="flex items-center">
-                    <svg class=" h-4 w-4 text-gray-400 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                            d="m9 5 7 7-7 7" />
-                    </svg>
-                    <div
-                        class="flex justify-center ml-2 items-end gap-1  bg-white shadow-sm text-slate-800 w-auto py-2 px-2 rounded-md">
-                        <span class="font-semibold text-xs">Akun</span>
-                    </div>
-                </div>
+
+            <li class="flex items-center">
+                <svg class="h-4 w-4 text-gray-400 rtl:rotate-180 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                        d="m9 5 7 7-7 7" />
+                </svg>
+                <span class="bg-white shadow-sm text-slate-800 py-2 px-3 rounded-md font-semibold text-xs">Akun</span>
             </li>
-            <li>
-                <div class="flex items-center">
-                    <svg class=" h-4 w-4 text-gray-400 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                        width="24" height="24" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
-                            d="m9 5 7 7-7 7" />
-                    </svg>
-                    <a href="{{ route('user.orders.index') }}"
-                        class="flex justify-center ml-2 items-end gap-1  bg-white shadow-sm text-slate-800 w-auto py-2 px-2 rounded-md">
-                        <span class="font-semibold text-xs">Pesanan</span>
-                    </a>
-                </div>
+
+            <li class="flex items-center">
+                <svg class="h-4 w-4 text-gray-400 rtl:rotate-180 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+                        d="m9 5 7 7-7 7" />
+                </svg>
+                <a href="{{ route('user.orders.index') }}"
+                    class="bg-white shadow-sm text-slate-800 py-2 px-3 rounded-md font-semibold text-xs">Pesanan</a>
             </li>
         </ol>
+
+        <form method="GET" action="{{ route('user.orders.index') }}" class="flex items-center gap-2">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari kode pesanan..."
+                class="px-3 py-2 border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            <button type="submit"
+                class="px-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600 transition">
+                Cari
+            </button>
+        </form>
     </nav>
 
     <div class="flex flex-col justify-center items-start bg-white py-3 px-4 rounded-lg mb-1 shadow-sm">
@@ -131,7 +128,7 @@
                                             bg-orange-200 text-orange-600
                                         @else
                                             bg-gray-200 text-gray-600 @endif">
-                                            {{ ucfirst($order->status_order_label ) }}
+                                            {{ ucfirst($order->status_order_label) }}
                                         </span>
 
                                     </div>
@@ -229,7 +226,9 @@
                                 class="bg-white shadow-sm rounded-lg p-4 text-center flex flex-col justify-center items-center">
                                 <img src="{{ asset('img/empty-data.png') }}" alt="Produk Tidak Ditemukan"
                                     class="w-64 h-64">
-                                <p class="text-lg text-gray-600 font-medium">Tidak ada pesanan</p>
+                                <p class="text-lg text-gray-600 font-medium">
+                                    {{ request('search') ? 'Kode pesanan tidak ditemukan' : 'Tidak ada pesanan' }}
+                                </p>
                             </div>
                         @endforelse
                     </div>

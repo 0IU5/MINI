@@ -20,8 +20,14 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
+        // Ambil parameter pencarian dari input
+        $search = $request->input('search');
+
         // Ambil data pesanan milik user yang sedang login
         $userOrders = Order::where('user_id', Auth::id())
+            ->when($search, function ($query) use ($search) {
+                return $query->where('order_code', 'LIKE', "%$search%");
+            })
             ->with('productOrders.product.reviews', 'addresses')
             ->get();
 
@@ -39,7 +45,7 @@ class OrderController extends Controller
         }
 
         // Kirim data pesanan dan tampilkan view untuk user
-        return view('user.orders.index', compact('userOrders'));
+        return view('user.orders.index', compact('userOrders', 'search'));
     }
 
 
@@ -112,7 +118,7 @@ class OrderController extends Controller
         // Tambahkan properti baru untuk status dalam bahasa Indonesia
         $order->status_order_label = $statusMapping[$order->status_order] ?? 'Tidak Diketahui';
 
-        return view('user.orders.show', compact('order','clientKey'));
+        return view('user.orders.show', compact('order', 'clientKey'));
     }
 
     public function addRiview(Request $request)
@@ -122,7 +128,7 @@ class OrderController extends Controller
             'product_id' => 'required|exists:products,id',
             'rating' => 'required|in:1,2,3,4,5',
             'comment' => 'required|string|max:500',
-        ],[
+        ], [
             'rating.required' => 'Rating wajib diisi',
             'comment.required' => 'Komentar wajib diisi',
         ]);
