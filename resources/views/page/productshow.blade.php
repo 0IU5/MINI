@@ -607,10 +607,9 @@
                             </button>
                         </div>
                     </form> --}}
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
                         @forelse ($reviews as $review)
-                            <!-- Use $reviews instead of $product->reviews -->
-                            <article class="p-6 text-base bg-white rounded-lg border border-gray-200 ">
+                            <article class="p-6 text-base bg-white rounded-lg border border-gray-200 overflow-hidden">
                                 <footer class="flex justify-between items-center mb-2">
                                     <div class="flex items-center">
                                         <div class="flex items-center mr-3 gap-3 text-sm text-gray-900 font-semibold">
@@ -644,14 +643,41 @@
                                         </p>
                                     </div>
                                 </footer>
-                                <p class="text-gray-500">
-                                    {{ $review->comment }}
-                                </p>
+
+                                <!-- Bagian komentar dengan efek "Selengkapnya" -->
+                                <div x-data="{ expanded: false }" class="block">
+                                    <p class="text-gray-500">
+                                        @if (strlen($review->comment) > 100)
+                                            <span x-show="!expanded" x-cloak>{{ Str::limit($review->comment, 100) }}...</span>
+                                            <span x-show="expanded" x-cloak>{{ $review->comment }}</span>
+                                            <button @click="expanded = !expanded" class="text-blue-500 text-sm">
+                                                <span x-show="!expanded">Selengkapnya</span>
+                                                <span x-show="expanded">Tutup</span>
+                                            </button>
+                                        @else
+                                            {{ $review->comment }}
+                                        @endif
+                                    </p>
+                                </div>
                             </article>
                         @empty
-                            <p>Tidak ada komentar</p>
+                            <p class="text-gray-600">Tidak ada komentar</p>
                         @endforelse
                     </div>
+
+                    <!-- Tambahkan Alpine.js jika belum ada -->
+                    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js" defer></script>
+
+                    <!-- CSS untuk menghindari overflow -->
+                    <style>
+                        article {
+                            overflow: hidden; /* Mencegah overflow */
+                        }
+
+                        .text-gray-500 {
+                            word-wrap: break-word; /* Memastikan kata panjang terputus */
+                        }
+                    </style>
 
                     <div class="mt-10">
                         <h3 class="text-xl font-semibold mb-4">Produk Terkait</h3>
